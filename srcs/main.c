@@ -1,0 +1,79 @@
+#include "sh21.h"
+
+static int		argument_needed_21sh(char *option, char *name)
+{
+	char		*arg;
+	
+	arg = ft_strjoin(name, ": ");
+	arg = ft_strrejoin(arg, option);
+	errno(ERR_OPTIONS, ERR_BTIN_ARG, arg);
+	free(arg);
+	exit(ERR_OPTIONS);
+}
+
+static int		invalid_option_21sh(char *option, char *name)
+{
+	char		*arg;
+	
+	arg = ft_strjoin(name, ": ");
+	arg = ft_strrejoin(arg, option);
+	errno(ERR_OPTIONS, ERR_OPT_BTIN_INVALID, arg);
+	free(arg);
+	exit(ERR_OPTIONS);
+}
+
+int				check_c_option(int argc, char **argv)
+{
+	int			i;
+	int			j;
+	int			tmp;
+
+	i = 0;
+	tmp = 0;
+	if (argc == 1 || (argc > 1 && argv[1][0] != '-'))
+		return (0);
+	while (argv[++i] && argv[i][0] == '-')
+	{
+		j = 0;
+		if (!argv[i][1])
+			return (invalid_option_21sh(argv[i], argv[0]));
+		while (argv[i][++j] == 'c' && argv[i][j])
+			tmp = i;
+		if (argv[i][j] == '-' && !argv[i][j + 1])
+			break ;
+		if (j > 0 && (!(argv[i][j] == 'c' || argv[i][j] == '\0')))
+			return (invalid_option_21sh(&argv[i][j], argv[0]));	
+	}
+	if (tmp > 0 && !argv[i])
+		return (argument_needed_21sh("-c", argv[0]));
+	return ((tmp > 0) ? noninteractive_shell(argc, &argv[i]) : 0);
+}
+
+int				noninteractive_shell(int argc, char **argv)
+{
+	char		*cmd;
+	int			i;
+	int			j;
+
+	i = variables_search(g_rdovar, &j, "NONINTERACTIVE_MODE");
+	g_rdovar[i][j] = '1';
+	cmd = ft_strdup(argv[0]);
+	g_prompt.prompt_func = NULL;
+	lexparser(cmd);
+	i = variables_search(g_rdovar, &j, "?=");
+	exit(ft_atoi(&g_rdovar[i][j]));
+}
+
+int				main(int argc, char **argv)
+{
+	g_arrsize = VAR_BUFFER;
+	prepare_environ();
+	prepare_readonly();
+	prepare_local();
+	check_c_option(argc, argv);
+	g_prompt.prompt_func = main_prompt;
+	init_hist_buff();
+	init_readline();
+	interactive_shell();
+	return (0);
+}
