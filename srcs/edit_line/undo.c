@@ -67,7 +67,7 @@ void			action_pull(t_action_stack **start, int *num)
 		clean_cmd();
 		i = -1;
 		while ((*start)->cmd_b[++i])
-			add_char((*start)->cmd_b[i], 'u');
+			add_char((*start)->cmd_b[i], 0);
 		while (g_readline.pos != (*start)->pos_b)
 			key_left_proc();
 		*start = (*start)->next;

@@ -15,8 +15,8 @@ int		posx_for_newline(int nl_pos)
 	}
 	if (nl_pos > 0)
 		len -= 1;
-	else
-		len += g_prompt.prompt_len + 1;
+	else if (nl_pos == 0 && g_readline.cmd[nl_pos] != '\n')
+        len += g_prompt.prompt_len + 1;
 	if (len >= g_winsize.ws_col)
 		len = len % g_winsize.ws_col;
 	return (len);
@@ -33,7 +33,8 @@ int		return_cursor_to_position(int pos_old,
 	{
 		while (g_readline.pos != pos_old)
 		{
-			front_move_char_left(g_readline.pos_x);
+			if (front_move_char_left(g_readline.pos_x))
+				return (incorrect_seq());
 			g_readline.pos--;
 		}
 	}
@@ -41,7 +42,8 @@ int		return_cursor_to_position(int pos_old,
 	{
 		while (g_readline.pos != pos_old)
 		{
-			front_move_char_right(g_readline.pos_x);
+			if (front_move_char_right(g_readline.pos_x))
+				return (incorrect_seq());
 			g_readline.pos++;
 		}
 	}
@@ -58,11 +60,14 @@ int		front_move_char_right(int pos_x)
 		g_readline.pos_x = 0;
 		g_readline.pos_y++;
 	}
-	else if (pos_x < g_winsize.ws_col - 1 && g_readline.cmd[g_readline.pos] != '\n')
+	else if (pos_x >= 0 && pos_x < g_winsize.ws_col - 1 &&
+			g_readline.cmd[g_readline.pos] != '\n')
 	{
 		put_termcap("nd");
 		g_readline.pos_x++;
 	}
+	else
+		return (1);
 	return (0);
 }
 
@@ -88,6 +93,8 @@ int		front_move_char_left(int pos_x)
 		put_termcap("le");
 		g_readline.pos_x--;
 	}
+	else
+		return (1);
 	return (0);
 }
 

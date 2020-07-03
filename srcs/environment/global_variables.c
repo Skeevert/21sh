@@ -68,13 +68,15 @@ int		prepare_local(void)
 
 int		var_exit_status(int status)
 {
-    char            *tmp;
+	char			*tmp;
+	char			*final;
 
-    tmp = ft_itoa(status);
-    ft_bzero(&g_rdovar[0][2], EXIT_STATUS_LEN - 2);
-   	ft_strcpy(&g_rdovar[0][2], tmp);
-    free(tmp);
-    return (0);
+	tmp = ft_itoa(status);
+	final = ft_strjoin("?=", tmp);
+	free(g_rdovar[0]);
+	g_rdovar[0] = final;
+	free(tmp);
+	return (0);
 }
 
 char	**init_exec_environ(void)

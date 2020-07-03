@@ -1,21 +1,18 @@
 #include "sh21.h"
 #include "edit_line.h"
 
+/*
+** Jump to word start
+*/
+
 int		escb_jump_word_left(void)
 {
 	int		i;
 	int		pos_old;
 
 	if (g_readline.pos == 1 || g_readline.pos == 2)
-	{
-		pos_old = g_readline.pos;
-		front_move_char_left(g_readline.pos_x);
-		g_readline.pos--;
-		(pos_old == 2) ? front_move_char_left(g_readline.pos_x) : 0;
-		(pos_old == 2) ? g_readline.pos-- : 0;
-		return (0);
-	}
-	else if (g_readline.pos == 0)
+		return (word_left_onetwo_chars());
+	else if (g_readline.pos <= 0)
 		return (incorrect_seq());
 	i = g_readline.pos - 1;
 	while (i > 0 && g_readline.cmd[i - 1] && g_readline.cmd[i])
@@ -30,16 +27,42 @@ int		escb_jump_word_left(void)
 	return (0);
 }
 
+/*
+** help to work whit position in start
+*/
+
+int		word_left_onetwo_chars(void)
+{
+	int		pos_old;
+
+	pos_old = g_readline.pos;
+	if (front_move_char_left(g_readline.pos_x))
+		return (incorrect_seq());
+	g_readline.pos--;
+	if (pos_old == 2)
+	{
+		if (front_move_char_left(g_readline.pos_x))
+				return (incorrect_seq());
+		g_readline.pos--;
+	}
+	return (0);
+}
+
+/*
+** Jump to word end
+*/
+
 int		escf_jump_word_right(void)
 {
 	int		i;
 	int		pos_old;
 
-	if (g_readline.pos == g_readline.cmd_len)
+	if (g_readline.pos == g_readline.cmd_len || g_readline.pos < 0)
 		return (incorrect_seq());
 	else if (g_readline.pos == g_readline.cmd_len - 1)
 	{
-		front_move_char_right(g_readline.pos_x);
+		if (front_move_char_right(g_readline.pos_x))
+			return (incorrect_seq());
 		return (0);
 	}
 	i = g_readline.pos + 1;

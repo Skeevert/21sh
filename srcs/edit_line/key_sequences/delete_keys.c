@@ -5,26 +5,26 @@ int		backspace_process(void)
 {
 	char	*cmd_end;
 	int		len_cmd_end;
+	char	*save_paste;
 
-	if (g_readline.pos > 0)
-	{
-		undo(0);
-		cmd_end = g_readline.cmd + g_readline.pos;
-		len_cmd_end = ft_strlen(cmd_end);
-		if (g_readline.cmd[g_readline.pos - 1] == '\n')
-			return (backspace_newline(cmd_end, len_cmd_end));
-		ft_strcpy(g_readline.cmd + g_readline.pos - 1, cmd_end);
-		ft_bzero(g_readline.cmd + g_readline.pos - 1 + len_cmd_end,
-			g_readline.cmd_buff_len - g_readline.cmd_len);
-		g_readline.cmd_len--;
-		key_left_proc();
-		setjmp_cursor(&g_readline.pos, &g_readline.pos_x,
-			&g_readline.pos_y, 1);
-		put_termcap("cd");
-		front_insert_till_end(g_readline.pos_y + 1);
-	}
-	else
-		return (incorrect_seq());
+	if (g_readline.pos <= 0)
+        return (incorrect_seq());
+	undo(0);
+	save_paste = ft_strndup(g_readline.cmd + g_readline.pos - 1, 1);
+	ctrlp_paste(0, save_paste);
+	cmd_end = g_readline.cmd + g_readline.pos;
+	len_cmd_end = ft_strlen(cmd_end);
+	if (g_readline.cmd[g_readline.pos - 1] == '\n')
+		return (backspace_newline(cmd_end, len_cmd_end));
+	ft_strcpy(g_readline.cmd + g_readline.pos - 1, cmd_end);
+	ft_bzero(g_readline.cmd + g_readline.pos - 1 + len_cmd_end,
+		g_readline.cmd_buff_len - g_readline.cmd_len);
+	g_readline.cmd_len--;
+	key_left_proc();
+	setjmp_cursor(&g_readline.pos, &g_readline.pos_x,
+		&g_readline.pos_y, 1);
+	put_termcap("cd");
+	front_insert_till_end(g_readline.pos_y + 1);
 	return (0);
 }
 

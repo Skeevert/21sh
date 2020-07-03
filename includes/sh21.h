@@ -6,7 +6,7 @@
 /*   By: vladlenaskubis <vladlenaskubis@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:49 by sschmele          #+#    #+#             */
-/*   Updated: 2020/04/07 17:28:49 by vladlenasku      ###   ########.fr       */
+/*   Updated: 2020/07/02 18:26:39 by vladlenasku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ typedef struct		s_prompt
 }					t_prompt;
 
 /*
-** @hist is an array with commands (not separated by \n but
+** @cmd is an array with commands (not separated by \n but
 ** separated as they came to lexparser)
 ** @len is the number of lines (commands) in the history
 ** @last is counter of the last command saved in the history
-** @start is a counter from which command from history file we start to
-** fill out buffer - not to rewrite the whole buffer to the file but to add
-** We need all
+** @count is a line in cmd-array we are standing on after up or
+** down key-sequences. After pressing "\n" counter is always
+** @last + 1
 */
 
 typedef struct		s_history
@@ -158,7 +158,6 @@ int					variables_search(char **arr, int *j, char *name);
 
 int					signals_define(int from);
 void				signal_ctrl_c_readline(int sig);
-void				signal_ctrl_c_parser(int sig);
 void				signal_screen(int sig);
 
 /*

@@ -41,6 +41,6 @@ char		*ft_itoa(int n)
 		a *= 10;
 		len++;
 	}
-	str = (char*)ft_xmalloc(len + 1);
+	str = (char*)ft_xmalloc(len + 2);
 	return (ft_itoa_2(res, str, a, n));
 }

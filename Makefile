@@ -4,6 +4,7 @@ FLAGS = -Wall #-Werror -Wextra
 FLAGS += -g
 
 EDIT_LINE = 		edit_line/line_edition_start.c \
+			edit_line/line_edition_utils.c \
 			edit_line/prompts.c \
 			edit_line/terminal_and_termcap.c \
 			edit_line/sequence_route.c \

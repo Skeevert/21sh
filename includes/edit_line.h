@@ -17,6 +17,7 @@
 # define CMD_SIZE		100
 # define NEW_LINE_SY	0x1
 # define NEW_LINE_TE	0x2
+# define PROMPTLEN_ZERO	0x4
 
 /*
 ** @t_readline is for the whole readline part:
@@ -72,9 +73,16 @@ struct termios				g_tty;
 
 int							interactive_shell(void);
 int							readline_beg(void);
+int							readline(void);
+
+/*
+** File line_edition_utils.c
+*/
+
 void						init_readline(void);
 void						bzero_readline(void);
-int							readline(void);
+void						init_wind_size(void);
+void						realloc_readline_cmd(void);
 
 /*
 ** File sequence_route.c
@@ -94,6 +102,7 @@ int							main_prompt(void);
 int							heredoc_prompt(void);
 int							other_prompt(void);
 int							route_exit(void);
+int							prompt_len_by_winsize(int len);
 
 /*
 ** File terminal_and_termcap.c
@@ -174,6 +183,7 @@ int							key_down_proc(void);
 */
 
 int							escb_jump_word_left(void);
+int							word_left_onetwo_chars(void);
 int							escf_jump_word_right(void);
 char						*save_word(int *i, char *cmd, int pos);
 char						*save_end(int pos_back);
@@ -195,7 +205,7 @@ int             			jump_up(void);
 int             			jump_down(void);
 int							ctrlae_jump_home_end(char c);
 int							ctrlp_paste(int mode, char *yank);
-int							paste_insert(char *paste_str, int len_paste);
+int							paste_insert(char *paste_str);
 
 /*
 ** File history_proc.c

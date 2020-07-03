@@ -14,6 +14,7 @@ int		destruct_globals(void)
 	ft_arrdel(g_env);
 	ft_arrdel(g_rdovar);
 	ft_arrdel(g_lovar);
+	//ft_gnl(GNL_CLEAN, NULL); - Сережа не забудь
 	return (0);
 }
 

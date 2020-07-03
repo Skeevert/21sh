@@ -13,6 +13,8 @@ int		add_char(char c, int flag)
 	if (flag == 'u')
 		undo(0);
 	g_readline.cmd_len++;
+	if (g_readline.cmd_len + 1 < 0 || g_readline.cmd_buff_len + 1 < 0)
+        return (EXIT);
 	insert_char(c);
 	return (0);
 }
@@ -47,26 +49,24 @@ int		insert_char(char c)
 
 int		front_insert_char(char c, int pos_x)
 {
+	write(STDOUT_FILENO, &c, 1);
 	if (c == '\n')
-	{
-		write(STDOUT_FILENO, &c, 1);
 		return (front_insert_newline(&g_readline.pos_x, &g_readline.pos_y,
 			&g_readline.str_num, &g_readline.flag));
-	}
 	if (g_readline.pos_x == g_winsize.ws_col - 1)
 	{
-		write(STDOUT_FILENO, &c, 1);
 		put_termcap("sf");
 		g_readline.pos_x = 0;
 		g_readline.pos_y++;
 		g_readline.flag |= NEW_LINE_TE;
 		return (0);
 	}
-	write(STDOUT_FILENO, &c, 1);
 	if (g_readline.pos_x == 0 && !(g_readline.flag & NEW_LINE_SY))
 		g_readline.str_num++;
 	else if (g_readline.pos_x == 0 && (g_readline.flag & NEW_LINE_SY))
 		g_readline.flag &= ~(NEW_LINE_SY);
+	if (g_readline.flag & PROMPTLEN_ZERO)
+        g_readline.flag &= ~(PROMPTLEN_ZERO);
 	g_readline.pos_x++;
 	return (0);
 }
@@ -92,7 +92,8 @@ int		front_insert_till_end(int str_num_print)
 	int		pos_x_back;
 	int		pos_y_back;
 
-	if (g_readline.pos_x == 0 && g_readline.cmd[g_readline.pos != '\n'])
+	if (g_readline.pos > 0 && g_readline.pos_x == 0 &&
+			g_readline.cmd[g_readline.pos - 1] != '\n')
 		g_readline.str_num = str_num_print - 1;
 	else
 		g_readline.str_num = str_num_print;

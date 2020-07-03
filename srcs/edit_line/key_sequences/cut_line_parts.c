@@ -5,7 +5,7 @@ int		ctrlk_cut_till_end(void)
 {
 	char	*save_paste;
 
-	if (g_readline.pos == g_readline.cmd_len)
+	if (g_readline.pos < 0 || g_readline.pos == g_readline.cmd_len)
 		return (incorrect_seq());
 	undo(0);
 	save_paste = ft_strdup(g_readline.cmd + g_readline.pos);
@@ -23,7 +23,7 @@ int		ctrlu_cut_till_beg(void)
 	int		len_cmd_end;
 	char	*save_paste;
 
-	if (g_readline.pos == 0)
+	if (g_readline.pos <= 0)
 		return (incorrect_seq());
 	undo(0);
 	pos_old = g_readline.pos;
@@ -31,7 +31,10 @@ int		ctrlu_cut_till_beg(void)
 		key_left_proc();
 	setjmp_cursor(&g_readline.pos,
 		&g_readline.pos_x, &g_readline.pos_y, 1);
-	save_paste = ft_strndup(g_readline.cmd, pos_old);
+	save_paste = (pos_old == g_readline.cmd_len) ?
+		ft_strdup(g_readline.cmd + g_readline.pos) :
+		ft_strndup(g_readline.cmd + g_readline.pos, pos_old - g_readline.pos);
+	// save_paste = ft_strndup(g_readline.cmd, pos_old);
 	ctrlp_paste(0, save_paste);
 	cmd_end = g_readline.cmd + pos_old;
 	len_cmd_end = ft_strlen(cmd_end);
@@ -54,7 +57,9 @@ int		ctrlw_cut_till_word_beg(void)
 	pos_old = g_readline.pos;
 	if (escb_jump_word_left())
 		return (0);
-	save_paste = ft_strndup(g_readline.cmd + g_readline.pos, pos_old);
+	save_paste = (pos_old >= g_readline.cmd_len) ?
+		ft_strdup(g_readline.cmd + g_readline.pos) :
+		ft_strndup(g_readline.cmd + g_readline.pos, pos_old - g_readline.pos);
 	ctrlp_paste(0, save_paste);
 	cmd_end = g_readline.cmd + pos_old;
 	len_cmd_end = ft_strlen(cmd_end);
@@ -80,7 +85,9 @@ int		escd_cut_till_word_end(void)
 	if (escf_jump_word_right())
 		return (0);
 	undo(0);
-	save_paste = ft_strndup(g_readline.cmd + pos_old, g_readline.pos);
+	save_paste = (g_readline.pos == g_readline.cmd_len) ?
+		ft_strdup(g_readline.cmd + pos_old) :
+		ft_strndup(g_readline.cmd + pos_old, g_readline.pos - pos_old);
 	ctrlp_paste(0, save_paste);
 	cmd_end = g_readline.cmd + g_readline.pos;
 	len_cmd_end = ft_strlen(cmd_end);

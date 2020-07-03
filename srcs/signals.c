@@ -13,7 +13,7 @@ int					signals_define(int from)
 	}
 	else if (from == 2)
 	{
-		signal(SIGINT, signal_ctrl_c_parser);
+		signal(SIGINT, signal_ctrl_c_readline);
 		signal(SIGTSTP, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGCONT, SIG_IGN);
@@ -27,23 +27,24 @@ void				signal_ctrl_c_readline(int sig)
 	g_prompt.prompt_func = main_prompt;
 	g_prompt.prompt_func();
 	bzero_readline();
-	signal(SIGINT, signal_ctrl_c_readline);
-}
-
-void				signal_ctrl_c_parser(int sig)
-{
-	signal(SIGINT, signal_ctrl_c_parser);
 }
 
 void				signal_screen(int sig)
 {
-	setjmp_cursor(&g_readline.pos, &g_readline.pos_x, &g_readline.pos_y, 1);
-	return_cursor_to_position(0, 'l');
-	put_cursor("ch", 0, 0);
+	int				i;
+
+    put_cursor("ch", 0, 0);
 	put_termcap("cd");
-	ioctl(1, TIOCGWINSZ, &g_winsize);
-	g_prompt.prompt_func();
-	if (g_prompt.prompt_len >= g_winsize.ws_col)
-		g_readline.pos_x = g_prompt.prompt_len % g_winsize.ws_col;
-	front_insert_till_end(g_readline.pos_y + 1);
+	init_wind_size();
+    g_readline.pos = 0;
+    g_readline.pos_x = g_prompt.prompt_len;
+    g_readline.pos_y = 0;
+    g_readline.str_num = 1;
+    g_prompt.prompt_func();
+    i = -1;
+    while (g_readline.cmd[++i])
+    {
+        g_readline.pos++;
+        front_insert_char(g_readline.cmd[i], g_readline.pos_x);
+    }
 }

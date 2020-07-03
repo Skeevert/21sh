@@ -1,6 +1,10 @@
 #include "sh21.h"
 #include "edit_line.h"
 
+/*
+** Set ctrl + arrow up
+*/
+
 int		jump_up(void)
 {
 	int				pos_x_goal;
@@ -29,6 +33,10 @@ int		jump_up(void)
 	return (0);
 }
 
+/*
+** Set ctrl + arrow dowp
+*/
+
 int		jump_down(void)
 {
 	int				pos_x_goal;
@@ -56,6 +64,10 @@ int		jump_down(void)
 	return (0);
 }
 
+/*
+** Change keys to home and end
+*/
+
 int		ctrlae_jump_home_end(char c)
 {
 	int				pos_old;
@@ -76,16 +88,12 @@ int		ctrlae_jump_home_end(char c)
 int		ctrlp_paste(int mode, char *yank)
 {
 	static char		*paste_str;
-	static int		len_paste;
 
 	if (mode == 0)
 	{
 		(paste_str) ? free(paste_str) : 0;
 		if (yank)
-		{
 			paste_str = yank;
-			len_paste = ft_strlen(paste_str);
-		}
 		else
 			paste_str = NULL;
 	}
@@ -93,14 +101,14 @@ int		ctrlp_paste(int mode, char *yank)
 	{
 		if (paste_str == NULL)
 			return (incorrect_seq());
-		paste_insert(paste_str, len_paste);
+		paste_insert(paste_str);
 	}
 	else if (mode == 2)
 		(paste_str) ? free(paste_str) : 0;
 	return (0);
 }
 
-int		paste_insert(char *paste_str, int len_paste)
+int		paste_insert(char *paste_str)
 {
 	char			*save;
 	int				i;
@@ -108,7 +116,8 @@ int		paste_insert(char *paste_str, int len_paste)
 	if (g_readline.pos < g_readline.cmd_len && g_readline.cmd[g_readline.pos])
 	{
 		save = ft_strdup(g_readline.cmd + g_readline.pos);
-		ft_bzero(g_readline.cmd + g_readline.pos, g_readline.cmd_buff_len - g_readline.pos);
+		ft_bzero(g_readline.cmd + g_readline.pos,
+			g_readline.cmd_buff_len - g_readline.pos);
 	}
 	else
 		save = NULL;
@@ -116,7 +125,7 @@ int		paste_insert(char *paste_str, int len_paste)
 	put_termcap("cd");
 	i = -1;
 	while (paste_str[++i])
-		add_char(paste_str[i], 'u');
+		add_char(paste_str[i], 0);
 	if (save)
 		ft_strcpy(g_readline.cmd + g_readline.pos, save);
 	front_insert_till_end(g_readline.pos_y + 1);
