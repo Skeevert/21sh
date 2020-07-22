@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/26 17:37:46 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 13:42:54 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 22:07:57 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int				btin_exit(t_ltree *pos)
 {
 	int	exit_status;
 
-	if (pos->ar_c == 1)
+	if (pos->ar_c == 1 || pos->ar_c == 0)
 		exit_status = 0;
 	else if (pos->ar_c > 2 && !argument_check(pos))
 	{
-		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
+		ft_putendl_fd("21sh: exit: too many arguments", STDERR_FILENO);
 		return (1);
 	}
 	else
@@ -49,7 +49,7 @@ int				btin_exit(t_ltree *pos)
 			exit_status = ft_atoi(pos->ar_v[1]);
 		else
 		{
-			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+			ft_putstr_fd("21sh: exit: ", STDERR_FILENO);
 			ft_putstr_fd(pos->ar_v[1], STDERR_FILENO);
 			ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 			exit_status = 2;
