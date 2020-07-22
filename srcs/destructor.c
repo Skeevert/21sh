@@ -5,16 +5,14 @@ int		destruct_globals(void)
 	int		i;
 	int		j;
 	
-	i = variables_search(g_rdovar, &j, "NONINTERACTIVE_MODE");
-	if (g_rdovar[i][j] == '0')
+	i = variables_search(g_envi, &j, "NONINTERACTIVE_MODE");
+	if (g_envi[i][j] == '0')
 	{
 		ft_arrdel(g_hist.cmd);
 		ctrlp_paste(2, NULL);
 	}
-	ft_arrdel(g_env);
-	ft_arrdel(g_rdovar);
-	ft_arrdel(g_lovar);
-	//ft_gnl(GNL_CLEAN, NULL); - Сережа не забудь
+	ft_arrdel(g_envi);
+	ft_gnl(GNL_CLEAN, NULL);
 	return (0);
 }
 

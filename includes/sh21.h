@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:49 by sschmele          #+#    #+#             */
-/*   Updated: 2020/07/22 13:16:37 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 13:47:36 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@
 # include <fcntl.h>
 # include <stdlib.h>
 
-# include <stdio.h> //DELETE
-
 # include "errors_management.h"
 # include "libft.h"
 # include "help_lib.h"
@@ -42,12 +40,10 @@
 # include "edit_line.h"
 # include "builtins.h"
 
-# include "ft_printf.h" //If not used, delete
-
 # define 			MAX_HISTORY 500
 # define			MAXDIRLEN 256
 # define			EXIT_STATUS_LEN 10
-# define 			VAR_BUFFER 50
+# define 			VAR_BUFFER 120
 # define			EXIT 21
 
 /*
@@ -151,7 +147,7 @@ int					noninteractive_shell(char **argv);
 int					check_c_option(int argc, char **argv);
 
 /*
-** File global_variables.c
+** File global_vars_proc.c
 */
 
 char				*find_env_value(char *str);
@@ -161,7 +157,7 @@ int					add_new_env(char *name);
 int					change_env_value(char *new_val, int i);
 
 /*
-** File global_vars_proc.c
+** File global_variables.c
 */
 
 int					create_env(void);

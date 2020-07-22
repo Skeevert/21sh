@@ -1,147 +1,136 @@
 #include "sh21.h"
 
 /*
-** Environmental shell variables - are dinamic, exist within the session,
-** the function save_environment_variables saves the parent process
-** environ to e-bash @g_env.
-**
-** Can be changed by assignment (HOME=aaa)
-** or export (export HOME=aaa)
-** and a new line added by export-builtin (export FOO=bar)
+** Changing shell (global) environment variable by its index
+** @new_val should be a NAME=VALUE string
+** In the function we copy the first flag-bit, free the old
+** NAME=VALUE string, allocate memory for the new string + the first
+** bit and copy the string
 */
 
-int					save_environment_variable(int num)
+int		change_env_value(char *new_val, int i)
 {
-	extern char		**environ;
-	int				i;
+	char	bit;
 
-	i = 0;
-	while (environ[i])
-	{
-		if (num >= g_var_size || num + 1 >= g_var_size)
-		{
-			g_envi = ft_realloc_array(&g_envi, g_var_size, g_var_size * 2);
-			g_var_size *= 2;
-		}
-		g_envi[num] = (char*)ft_xmalloc(((ft_strlen(environ[i]) + 2) * (sizeof(char))));
-		ft_strcpy(g_envi[num] + 1, environ[i]);
-		g_envi[num][0] |= ENV_VIS;
-		g_envi[num][0] |= SET_VIS;
-		num++;
-		i++;
-	}
-	return (num);
-}
-
-/*
-** Shell readonly variables - always static, array @g_rdovar
-**
-** Can be only read by the user and corrected only within e-bash program
-*/
-
-char				*ft_add_rdovar(char *first, char *scnd, int flag)
-{
-	char	*res;
-
-	res = (char*)ft_xmalloc((ft_strlen(first) + ft_strlen(scnd) + 2) * (sizeof(char)));
-	ft_strcpy(res + 1, first);
-	if (scnd)
-		ft_strcpy(res + ft_strlen(first) + 1, scnd);
-	if (flag != 2)
-		res[0] |= READONLY;
-	if (flag != 1)
-		res[0] |= SET_VIS;
-	return (res);
-}
-
-int					save_readonly_variable(int num)
-{
-	char	*tmp;
-
-	g_envi[num++] = ft_add_rdovar("?=0", NULL, 1);
-	g_envi[num++] = ft_add_rdovar("0=21sh", NULL, 1);
-	g_envi[num++] = ft_add_rdovar("NONINTERACTIVE_MODE=0", NULL, 1);
-	tmp = getcwd(NULL, MAXDIR);
-	g_envi[num++] = ft_add_rdovar("21SH=", tmp, 0);
-	free(tmp);
-	tmp = ft_itoa(getuid());
-	g_envi[num++] = ft_add_rdovar("UID=", tmp, 0);
-	free(tmp);
-	tmp = ft_itoa(geteuid());
-	g_envi[num++] = ft_add_rdovar("EUID=", tmp, 0);
-	free(tmp);
-	tmp = ft_itoa(getppid());
-	g_envi[num++] = ft_add_rdovar("PPID=", tmp, 0);
-	free(tmp);
-	tmp = ft_itoa(getpid());
-    g_envi[num++] = ft_add_rdovar("$=", tmp, 1);
-    free(tmp);
-	return (num);
-}
-
-/*
-** Shell working variables - always static, array @g_shvar
-**
-** Can be changed by assignment (HISTFILE=5), can NOT be added
-** If there is an export variable (export HISTFILE=5)
-** the variable starts to be visible in @g_env (by env command)
-*/
-
-int					save_shell_variable(int num)
-{
-	char			*tmp;
-
-	g_envi[num++] = ft_add_rdovar("HISTFILE=", NULL, 2);
-	tmp = ft_itoa(MAX_HISTBUF);
-	g_envi[num++] = ft_add_rdovar("HISTSIZE=", tmp, 2);
-	free(tmp);
-	tmp = ft_itoa(MAX_HISTFILE);
-	g_envi[num++] = ft_add_rdovar("HISTFILESIZE=", tmp, 2);
-	free(tmp);
-	g_envi[num++] = ft_add_rdovar("FCEDIT=vim", NULL, 2);
-	return (num);
-}
-
-/*
-** Shell local variables - dinamic, exist within the session
-** @g_lovar in e-bash
-** 
-** Can be added and changed by assignment (fuu=bar)
-** And if already exists in @g_lovar and
-** is used in export (export fuu=bbb),
-** the variable starts to be visible in @g_env (by env command)
-*/
-
-int					create_env(void)
-{
-	int		num;
-	char	*tmp;
-
-	g_envi = (char **)ft_xmalloc(ENV_BUFFER * sizeof(char*));
-	num = save_readonly_variable(0);
-	num = save_shell_variable(num);
-	num = save_environment_variable(num);
-	change_pwd_value((tmp = getcwd(NULL, MAXDIR)));
-	change_oldpwd_value(tmp);
-	free(tmp);
-	// int i = -1;
-	// while (g_envi[++i])
-	// 	printf("%s\n", g_envi[i] + 1);
+	if (g_envi[i] == NULL)
+		return (-1);
+	bit = g_envi[i][0];
+	free(g_envi[i]);
+	g_envi[i] = (char *)ft_xmalloc(ft_strlen(new_val) + 2);
+	g_envi[i][0] = bit;
+	ft_strcpy(g_envi[i] + 1, new_val);
 	return (0);
 }
 
-int                 exit_status_variables(int status)
-{
-    char            *tmp;
-	char			*final;
-	int				i;
-	int				j;
+/*
+** Adding a variable to a shell (global) environment
+** @name should be a NAME=VALUE string
+** In the function we go through all the environment list counting
+** its size and add a string after the last variable
+** All the new variables become visible by builtin "set"
+** If the variable needs other flags, the function returns its
+** index, so the function-customer can add bit-flags by the index
+*/
 
-    tmp = ft_itoa(status);
-	i = find_in_variable(&j, "?");
-	final = ft_strjoin("?=", tmp);
-	change_env_value(final, i);
-	free(final);
-    free(tmp);
-    return (0);
+int		add_new_env(char *name)
+{
+	int		i;
+
+	i = 0;
+	while (g_envi[i])
+		i++;
+	if (i >= g_var_size)
+	{
+		g_envi = ft_realloc_array(&g_envi, g_var_size, g_var_size * 2);
+		g_var_size *= 2;
+	}
+	g_envi[i] = (char *)ft_xmalloc(ft_strlen(name) + 2);
+	ft_strcpy(g_envi[i] + 1, name);
+	g_envi[i][0] |= SET_VIS;
+	return (i);
+}
+
+/*
+** Function needed only for parser to add visible in "env" command
+** variables to the local envaronment for each command in the shell
+** The @arr coming should be a pointer to an allocated memory
+** If there is nothing in the array coming, @size should be 0 and
+** in the *arr should be a NULL-string
+** Otherwise size should be as the number of
+** printable (not empty) lines
+*/
+
+int		form_local_envir(char ***arr, int size)
+{
+	int		i;
+	int		j;
+	char	**tmp;
+
+	i = -1;
+	j = 0;
+	tmp = *arr;
+	while (g_envi[++i])
+		if (g_envi[i][0] & ENV_VIS)
+			j++;
+	tmp = ft_realloc_array(arr, size, size + j + 1);	
+	i = 0;
+	while (g_envi[i])
+	{
+		if (g_envi[i][0] && (g_envi[i][0] & ENV_VIS))
+		{
+			tmp[size] = ft_strdup(g_envi[i] + 1);
+			size++;
+		}
+		i++;
+	}
+	*arr = tmp;
+	return (0);
+}
+
+/*
+** Goes through the array of shell environment variables and
+** changes the @j-index coming (points to the beginning of VALUE)
+** and returns an index of the NAME=VALUE variable
+** If the @name is not found, program returns -1
+*/
+
+int		find_in_variable(int *j, char *name)
+{
+	int			i;
+	int			tmp;
+	int			len_name; 
+
+	i = 0;
+	len_name = ft_strlen(name);
+	while (g_envi[i])
+	{
+		tmp = ft_strchri(g_envi[i] + 1, '=');
+		if (ft_strncmp(g_envi[i] + 1, name, len_name) == 0 &&
+				(tmp == len_name))
+		{
+			*j = tmp + 2;
+			return (i);
+		}
+		i++;
+	}
+	return (-1);
+}
+
+/*
+** The function-shell for the find_in_variable function
+** Returns a pointer to the beginning of the VALUE
+** @str is a name that is searched in the shell
+** global environment
+*/
+
+char	*find_env_value(char *str)
+{
+	int		i;
+	int		j;
+
+	j = 0;
+	i = find_in_variable(&j, str);
+	if (i == -1)
+		return (NULL);
+	return (&g_envi[i][j]);
 }
