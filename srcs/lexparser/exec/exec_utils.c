@@ -15,7 +15,7 @@
 int		exec_clean(char **path, t_ltree *pos, int exit_status)
 {
 	if ((exit_status == -2) && (pos->flags) != ERR_CMDEXEC)
-		errno(ERR_CMDNOTFOUND, ERR_CMDNOTFOUND, *pos->ar_v);
+		errno(ERR_CMDNOTFOUND, ERR_NOCMD, *pos->ar_v);
 	else if (exit_status == -1)
 		errno(ERR_PIPE, ERR_PIPE, *pos->ar_v);
 	if (path && *path)
