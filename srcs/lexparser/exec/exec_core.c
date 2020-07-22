@@ -33,7 +33,7 @@ int		fork_and_exec(t_ltree *pos, char *path, pid_t *child_pid)
 			exit(-1);
 	}
 	else if (*child_pid < 0)
-		return (exec_clean(&path, pos, -1));
+		return (exec_clean(&path, pos, -2));
 	wait(child_pid);
 	return (0);
 }

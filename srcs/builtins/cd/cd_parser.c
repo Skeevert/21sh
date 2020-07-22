@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/26 23:19:10 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 22:20:50 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 23:14:20 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_cd_env(char *path, t_ltree *pos)
 
 	name = path ? ft_strdup("OLDPWD") : ft_strdup("HOME");
 	if (name)
-		i = variable_search(&j, name);
+		i = find_in_variables(pos->envir, &j, name);
 	if (path && i == -1)
 	{
 		free(name);
