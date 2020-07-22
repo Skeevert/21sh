@@ -46,10 +46,10 @@ int				check_c_option(int argc, char **argv)
 	}
 	if (tmp > 0 && !argv[i])
 		return (argument_needed_21sh("-c", argv[0]));
-	return ((tmp > 0) ? noninteractive_shell(argc, &argv[i]) : 0);
+	return ((tmp > 0) ? noninteractive_shell(&argv[i]) : 0);
 }
 
-int				noninteractive_shell(int argc, char **argv)
+int				noninteractive_shell(char **argv)
 {
 	char		*cmd;
 	int			i;

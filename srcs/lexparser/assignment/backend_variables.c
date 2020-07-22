@@ -2,35 +2,38 @@
 #include "lexparser.h"
 
 /*
-** Is used in lexparser to execute the assignment command "VARIABLE=VALUE"
-** Checks all the arrays if such variable exists and if not found - 
-** adds the variable to @g_lovar (local shell variables that exist only
-** within the session)
-** @g_rdovar can not be changed by the user, therefore if the variable
+** Is used in parser to execute the assignment command "VARIABLE=VALUE"
+** Checks the array if such variable exists and if not found - 
+** adds the variable to @g_envi
+** READONLY can not be changed by the user, therefore if the variable
 ** is one of the rdonly shell variables - there is an error
 */
 
 int			find_assignment_in_vars(char *sub, size_t var,
 				size_t eq, size_t val)
 {
-	int			li;
-	int			sy;
-	char		*find;
+	int		li;
+	int		sy;
+	char	*find;
+	char	*new_var;
 
-	li = -1;
-	sy = -1;
-	find = ft_strndup(sub + var, eq - var);
-	if ((li = variables_search(g_rdovar, &sy, find)) != -1)
-		return (ERR_OUT);
-	if ((li = variables_search(g_env, &sy, find)) != -1)
-		return (change_global_variable(find, ft_strndup(sub + var,
-			val - var + 1),	&g_env[li]));
-	else if ((li = variables_search(g_lovar, &sy, find)) != -1)
-		return (change_global_variable(find, ft_strndup(sub + var,
-			val - var + 1), &g_lovar[li]));
-	free(find);
 	find = ft_strndup(sub + var, val - var + 1);
-	add_local(find); //TODO доделать
+	new_var = ft_parsing_str(find);
+	free(find);
+	find = ft_strndup(sub + var, eq - var);
+	if ((li = find_in_variable(&sy, find)) != -1)
+	{
+		if (g_envi[li][0] & READONLY) //посмотреть с Сережей тест: unset HOME ; HOME=/ ; echo $HOME
+			g_envi[li][0] |= ENV_VIS;
+		else
+			change_env_value(new_var, li);	
+	}
+	else
+		add_new_env(new_var);
+	free(new_var);
+	free(find);
+	if (li != -1 && g_envi[li][0] & READONLY)
+		return (ERR_OUT);
 	return (0);
 }
 
@@ -48,9 +51,9 @@ int			assignment_in_curv_var(t_ltree *sub, char **line,
 	j = oper - *line;
 	*line = ft_strrejoin(*line, buf);
 	if ((j = find_assignment_in_vars(*line, 0, j, ft_strlen(*line))) ==
-		(ERR_OUT)) //TODO check
+		(ERR_OUT))
 		sub->err = ft_strndup(*line, ft_strchri(*line, '='));
-	free (*line);
+	free(*line);
 	insert_str_in_loc_strs(sub, &buf, i, TEXT);
 	return (sub->err_i |= j);
 }
@@ -58,7 +61,7 @@ int			assignment_in_curv_var(t_ltree *sub, char **line,
 int			ft_colon_check(int *len, char **line, char **oper, size_t *j)
 {
 	*len = ft_strlen(*line);
-	if ((*j = ft_strchri(*line, ':')) != -1)
+	if ((*j = ft_strchri(*line, ':')) != (size_t)-1)
 	{
 		ft_memmove(&(line[0][*j]), &(line[0][*j + 1]), *len - *j);
 		line[0][--(*len)] = '\0';

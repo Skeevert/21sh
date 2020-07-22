@@ -1,42 +1,67 @@
-#include <sh21.h>
-#include <builtins.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_parser.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/26 23:19:10 by rbednar           #+#    #+#             */
+/*   Updated: 2020/06/03 18:14:39 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int		ft_cd_env(char *path, char **env, t_cd *flags)
+#include "minishell.h"
+#include "builtin.h"
+
+int		ft_cd_env(char *path, t_ltree *pos)
 {
 	char	*name;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
 	name = path ? ft_strdup("OLDPWD") : ft_strdup("HOME");
-	i = variables_search(env, &j, name);
-	if (path && i < 0)
+	if (name)
+		i = find_in_variables(pos->envir, &j, name);
+	if (path && i == (size_t)-1)
 	{
 		free(name);
-		return ((ft_error(NULL, 6)));
+		return (ft_error(NULL, CD_OLDPWD_NS));
 	}
 	free(name);
-	if (path)
-		ft_putendl(env[i] + j);
-	name = ft_strdup(env[i] + j);
-	return ((ft_change_path(name, env, flags)));
+	if (path != NULL)
+		ft_putendl_fd((pos->envir)[i] + j, STDOUT_FILENO);
+	if (i == (size_t)-1)
+		name = ft_parsing_str(pos->envir, "~");
+	else
+		name = ft_strdup((pos->envir)[i] + j);
+	return (ft_change_path(&name, pos));
 }
 
-int		ft_cd_pars(char *path, char **env, t_cd *flags)
+int		ft_cd_pars(char *path, t_ltree *pos)
 {
-	struct stat buff;
+	t_stat	buf;
+	char	*new_path;
 
-	if (ft_strcmp(path, "-") == 0 || !path)
-		return ((ft_cd_env(path, env, flags)));
-	//if (stat(path, &buff) < 0)
-	//{
-	//    if (ft_check_cdpath(ft_strjoin("/", path), env))
-	//        return (ft_error(path, 4));
-	//}
-	if (stat(path, &buff) < 0)
-		return (ft_error(path, 2));
-	else if (!S_ISDIR(buff.st_mode))
-		return (ft_error(path, 4));
+	if (path == NULL || ft_strcmp(path, "-") == 0)
+		return (ft_cd_env(path, pos));
+	if (stat(path, &buf) < 0)
+		return (ft_error(path, CD_N_FILE_DIR));
+	else if (!S_ISDIR(buf.st_mode))
+		return (ft_error(path, CD_NOT_DIR));
 	else
-		return (ft_change_path(ft_new_path(path, env), env, flags));
+	{
+		new_path = ft_new_path(path, pos->envir);
+		return (ft_change_path(&new_path, pos));
+	}
+	return (0);
+}
+
+int		ft_valid_cd(t_ltree *pos, int i)
+{
+	if (pos->ar_v[i] && pos->ar_v[i + 1])
+	{
+		ft_error(NULL, CD_MANY_ARGS);
+		return (1);
+	}
 	return (0);
 }

@@ -1,39 +1,39 @@
 #include "sh21.h"
 #include "builtins.h"
 
-static int	unset_from_array(char **arr, t_ltree *pos, int i)
+static void		error_unset(char *find)
 {
-	if (i == 0)
-	{
-		free(arr[i]);
-		arr[0] = NULL;
-		return (0);
-	}
-	free(arr[i]);
-	arr[i] = arr[i + 1];
-	i++;
-	while (arr[i])
-	{
-		arr[i] = arr[i + 1];
-		i++;
-	}
-	return (0);
+	char	*error;
+
+	error = ft_strjoin("unset: ", find);
+	errno(ERR_VAR_RDONLY, ERR_VAR_RDONLY, error);
+	free (error);
 }
 
-int			btin_unset(t_ltree *pos)
+int				btin_unset(t_ltree *pos)
 {
-	int		unused;
-	int		j;
 	int		i;
+	int		tmp;
+	int		j;
+	char	*find;
 
-	i = 1;
-	while (i < pos->ar_c)
+	i = 0;
+	while (++i < pos->ar_c)
 	{
-		if ((j = variables_search(g_env, &unused, pos->ar_v[i])) != -1)
-			unset_from_array(g_env, pos, j);
-		if ((j = variables_search(g_lovar, &unused, pos->ar_v[i])) != -1)	
-			unset_from_array(g_lovar, pos, j);
-		i++;
+		if ((tmp = ft_strchri(pos->ar_v[i], '=')) >= 0)
+			find = ft_strndup(pos->ar_v[i], tmp);
+		else
+			find = ft_strdup(pos->ar_v[i]);
+		if ((j = find_in_variable(&tmp, find)) < 0)
+		{
+			free(find);
+			continue ;
+		}
+		if (g_envi[j][0] && (g_envi[j][0] & READONLY))
+			error_unset(find);
+		else
+			ft_arrshift(g_envi + j + 1, g_var_size - j, -1);
+		free(find);
 	}
 	return (0);	
 }

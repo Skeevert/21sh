@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh21.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vladlenaskubis <vladlenaskubis@student.    +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:49 by sschmele          #+#    #+#             */
-/*   Updated: 2020/07/02 18:26:39 by vladlenasku      ###   ########.fr       */
+/*   Updated: 2020/07/22 13:16:37 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <signal.h>
-# include <curses.h>
 # include <term.h>
 # include <termios.h>
 # include <sys/ioctl.h>
@@ -51,6 +50,20 @@
 # define 			VAR_BUFFER 50
 # define			EXIT 21
 
+/*
+** Flags for shell_variables
+*/
+
+# define			ENV_VIS		0x1
+# define			SET_VIS		0x2
+# define			READONLY 	0x4
+
+/*
+** MAXDIR according to POSIX:  _POSIX_PATH_MAX
+*/
+
+# define			MAXDIR 256
+
 typedef struct		s_prompt
 {
 	int				(*prompt_func)(void);
@@ -80,7 +93,9 @@ typedef struct		s_history
 ** @SQUOTE is "'", @OPAREN is "(", @CPAREN is ")", @OBRACKET is "["
 ** @CBRACKET is "]", @OBRACE is "{", CBRACE is "}", @DOLLAR is "$",
 ** @TILDA is "~", @PIPE is "|", @GTHAN is ">", @LTHAN is "<",
-** @AST is "*", @EQUAL = "=", @ENTER is "\n", @COMENT is "#"
+** @AST is "*", @EQUAL = "=", @ENTER is "\n", @COMENT is "#",
+** @BANG is "!", @COLON is ":",
+** @GLUE is " " in DQUOTS, @TEXT is quoted symbol, @END_T is end of line
 */
 
 enum				e_techline
@@ -107,20 +122,24 @@ enum				e_techline
 	EQUAL,
 	ENTER,
 	COMENT,
+	BANG,
+	COLON,
 	GLUE,
 	TEXT,
-	END_T
+	END_T,
+	SQUOTE_ANSI,
 };
 
 /*
-** @g_env - global variable with (char **environ) parameters
-** @g_sh_var - shell variables
+** @g_envi - global variable with all the shell variables
+** @g_var_size is the length of the @g_envi buffer
+** @g_prompt is the function and the prompt valid
+** @g_hist is the structure with the history valid for
+** the shell session
 */
 
-char				**g_env;
-char				**g_rdovar;
-char				**g_lovar;
-int					g_arrsize;
+char				**g_envi;
+int					g_var_size;
 t_prompt			g_prompt;
 t_history			g_hist;
 
@@ -128,29 +147,28 @@ t_history			g_hist;
 ** File main.c
 */
 
-int					noninteractive_shell(int argc, char **argv);
+int					noninteractive_shell(char **argv);
 int					check_c_option(int argc, char **argv);
 
 /*
 ** File global_variables.c
 */
 
-int					prepare_environ(void);
-int					prepare_readonly(void);
-int					prepare_local(void);
-int                 var_exit_status(int status);
-char				**init_exec_environ(void);
+char				*find_env_value(char *str);
+int					find_in_variable(int *j, char *name);
+int					form_local_envir(char ***arr, int size);
+int					add_new_env(char *name);
+int					change_env_value(char *new_val, int i);
 
 /*
 ** File global_vars_proc.c
 */
 
-int					add_environ(char *add);
-int					add_local(char *add);
-int					add_environ_exec(char ***array, char **add);
-int					change_global_variable(char *find, char *insert,
-						char **array);
-int					variables_search(char **arr, int *j, char *name);
+int					create_env(void);
+int					save_environment_variable(int num);
+int					save_shell_variable(int num);
+int					exit_status_variables(int status);
+int					save_readonly_variable(int num);
 
 /*
 ** File signals.c

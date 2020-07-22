@@ -1,77 +1,89 @@
-#include "sh21.h"
-#include "builtins.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/26 18:39:16 by rbednar           #+#    #+#             */
+/*   Updated: 2020/05/29 18:27:28 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	ft_change_curpath(char *path, t_cd *flags)
+#include "minishell.h"
+#include "builtin.h"
+
+void	cd_free(char **cd_cur)
 {
-	free(flags->curpath);
-	if (!path)
-		flags->curpath = NULL;
+	if (*cd_cur)
+	{
+		free(*cd_cur);
+		*cd_cur = NULL;
+	}
+}
+
+void	ft_values(t_ltree *pos, char **cd_cur)
+{
+	size_t	i;
+	size_t	j;
+
+	i = find_in_variables(pos->envir, &j, "PWD");
+	if (i == (size_t)-1)
+		*cd_cur = getcwd(NULL, 0);
 	else
-		flags->curpath = ft_strdup(path);
+		*cd_cur = ft_strdup(pos->envir[i] + j);
 }
 
-char	*ft_cut_name(char *name)
+void	ft_change_curpath(char *path, char **cd_cur)
 {
-	char    *tmp;
-	int		i;
-
-	i = ft_strlen(name) - 1;
-	printf("name = %s\n", name);
-	while (name[i] && name[i] != '/')
-		i--;
-	i++;
-	tmp = ft_strdup(name + i);
-	printf("tmp = %s\n", tmp);
-	return (tmp);
+	free(*cd_cur);
+	if (!path)
+		*cd_cur = NULL;
+	else
+		*cd_cur = ft_strdup(path);
 }
 
-int		ft_error(char *name, int en)
+int		ft_error(char *name, int err)
 {
-    char	*tmp;
-    char	*new_name;
+	char	*tmp;
 
 	tmp = ft_strdup("cd: ");
-	if (name) 
+	if (name)
 		tmp = ft_strrejoin(tmp, name);
-	//ft_putstr_fd("cd", 2);
-	if (en == 1)
+	if (err == 1)
 		tmp = ft_strrejoin(tmp, ": string not in pwd");
-	else if (en == 2)
+	else if (err == 2)
 		tmp = ft_strrejoin(tmp, ": no such file or directory");
-	else if (en == 3)
+	else if (err == 3)
 		tmp = ft_strrejoin(tmp, ": permission denied");
-	else if (en == 4)
+	else if (err == 4)
 		tmp = ft_strrejoin(tmp, ": not a directory");
-	else if (en == 5)
+	else if (err == 5)
 		tmp = ft_strrejoin(tmp, "too many arguments");
-	else if (en == 6)
+	else if (err == 6)
 		tmp = ft_strrejoin(tmp, "OLDPWD not set");
-	errno(ERR_VARIABLE, ERR_VAR_CD, tmp);
+	error_management(VARIABLE_ERROR | (ERR_CD << 9), tmp);
 	free(tmp);
-	free(new_name);
-    return (1);
+	return (1);
 }
 
-int         btin_cd(t_ltree *pos)
+int		btin_cd(t_ltree *pos)
 {
-	int     i;
-	t_cd    *flags;
+	char	*cd_cur;
+	char	*arg;
 
-	flags = ft_xmalloc(sizeof(t_cd *));
-	i = ft_cd_flags(pos->ar_v, flags);
-	if (ft_valid_cd(pos->ar_v, i))
+	ft_values(pos, &cd_cur);
+	if (ft_valid_cd(pos, 1))
 	{
-		free(flags->curpath);
-		free(flags);
+		cd_free(&cd_cur);
 		return (1);
 	}
-	if (ft_cd_pars(pos->ar_v[i], g_env, flags))
+	arg = pos->ar_v[1] ? pos->ar_v[1] : NULL;
+	if (ft_cd_pars(arg, pos))
 	{
-		free(flags->curpath);
-		free(flags);
+		cd_free(&cd_cur);
 		return (1);
 	}
-	free(flags->curpath);
-	free(flags);
+	cd_free(&cd_cur);
 	return (0);
 }

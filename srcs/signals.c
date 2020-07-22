@@ -23,6 +23,7 @@ int					signals_define(int from)
 
 void				signal_ctrl_c_readline(int sig)
 {
+	sig = sig ? sig : sig;
 	ft_putchar_fd('\n', 1);
 	g_prompt.prompt_func = main_prompt;
 	g_prompt.prompt_func();
@@ -33,6 +34,7 @@ void				signal_screen(int sig)
 {
 	int				i;
 
+	sig = sig ? sig : sig;
     put_cursor("ch", 0, 0);
 	put_termcap("cd");
 	init_wind_size();
@@ -40,7 +42,7 @@ void				signal_screen(int sig)
     g_readline.pos_x = g_prompt.prompt_len;
     g_readline.pos_y = 0;
     g_readline.str_num = 1;
-    g_prompt.prompt_func();
+    g_prompt.prompt_func(); //проверить заход, чтобы позиция х приравнялась
     i = -1;
     while (g_readline.cmd[++i])
     {

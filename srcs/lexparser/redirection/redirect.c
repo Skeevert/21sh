@@ -19,12 +19,12 @@ int			ft_null_redir(t_ltree *pos, size_t i, long long num)
 
 int			ft_error_redir(t_ltree *final)
 {
-	if ((final->flags >> 16 & 0x1FFF) == ERR_NOACCESS)
-		errno(ERR_SYNTAX, ERR_NOACCESS, final->err);
-	else if ((final->flags >> 16 & 0x1FFF) == ERR_FD)
-		errno(ERR_SYNTAX, ERR_FD, final->err);
-	else if ((final->flags >> 16 & 0x1FFF) == ERR_NOFILEDIR)
-		errno(ERR_SYNTAX, ERR_NOFILEDIR, final->err);
+	if ((final->flags >> 16 & 0x1FFF) == ERR_NO_ACC)
+		error_handler((ERR_SYNTAX | (ERR_NO_ACC << 9)), final->err);
+	else if ((final->flags >> 16 & 0x1FFF) == ERR_BAD_FD)
+		error_handler((ERR_SYNTAX | (ERR_BAD_FD << 9)), final->err);
+	else if ((final->flags >> 16 & 0x1FFF) == ERR_NO_FILE)
+		error_handler((ERR_SYNTAX | (ERR_NO_FILE << 9)), final->err);
 	else if ((final->flags >> 16 & 0x1FFF) & ERR_REDIR)
 	{
 		final->err = ft_find_token_sep(&final->l_cmd[final->err_i]);
@@ -32,9 +32,9 @@ int			ft_error_redir(t_ltree *final)
 		if (final->err_i < final->end ||
 			(final->err_i == final->end &&
 			final->l_tline.line[final->end] != END_T))
-			errno(ERR_SYNTAX, ERR_REDIR, final->err);
+			error_handler((ERR_SYNTAX | (ERR_REDIR << 9)), final->err);
 		else if (final->l_tline.line[final->end] == END_T)
-			errno(ERR_SYNTAX, ERR_REDIR, "newline");
+			error_handler((ERR_SYNTAX | (ERR_REDIR << 9)), "newline");
 	}
 	return (0);
 }
@@ -88,8 +88,8 @@ char		*ft_word_to_redir(size_t *i, t_ltree *final, int rew_ff)
 		while (*i < final->end && final->l_tline.line[*i] == SPACE)
 			(*i)++;
 		start = *i;
-		while (*i < final->end && final->l_tline.line[*i] != SPACE)
-			size++ && (*i)++;
+		while (*i < final->end && final->l_tline.line[*i] != SPACE && (*i)++)
+			size++;
 	}
 	else if (rew_ff == REW)
 		ft_word_to_redir_rew(i, final, &size, &start);
@@ -105,7 +105,8 @@ char		*ft_word_to_redir(size_t *i, t_ltree *final, int rew_ff)
 int			ft_word_to_redir_rew(size_t *i, t_ltree *final,
 			long long *size, size_t *start)
 {
-	*i -= 1;
+	if (*i > 0)
+		*i -= 1;
 	while (*i >= final->start && final->l_tline.line[*i] == WORD_P)
 	{
 		if (!(ft_isdigit(final->l_cmd[*i])))

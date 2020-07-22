@@ -18,29 +18,8 @@ int		lexparser(char *line)
 	return (0);
 }
 
-// static int			castrated_parser(void)
-// {
-// 	char 	**argv_fc;
-// 	int		i;
-// 	size_t	len;
-
-// 	argv_fc = ft_strsplit(g_cmd, ' ');
-// 	i = 0;
-// 	while (argv_fc[i])
-// 		i++;
-// 	len = ft_strlen(argv_fc[i - 1]);
-// 	argv_fc[i - 1][len - 1] = '\0';
-// 	if (ft_strcmp(argv_fc[0], "fc") == 0)
-// 		btin_fc(i, argv_fc, g_env);
-// 	if (ft_strcmp(argv_fc[0], "history") == 0)
-// 		btin_history();
-// 	ft_arrdel(argv_fc);
-// 	return (0);
-// }
-
 int		pars_lex_exec(int tmp)
 {
-	// castrated_parser(); //TODO delete
 	if (g_prompt.prompt_func != heredoc_prompt)
 		if (nullify(&g_techline.line, g_cmd_size) == EXIT)
 		{
@@ -50,33 +29,6 @@ int		pars_lex_exec(int tmp)
 	ft_slice_fg();
 	destruct_parser();
 	return (0);
-}
-
-/*
-** Function to check if find char is in use or just text
-*/
-
-char	get_tech_num(char check)
-{
-	char	*base;
-	int		i;
-
-	base = " \\;&\"\'()[]{}$~|><*=\n#\t";
-	i = 0;
-	while (base[i])
-	{
-		if (base[i] == check)
-		{
-			if (i == 21)
-				return (2);
-			else			
-				return (i + 2);
-		}
-		i++;
-	}
-	if (check == EOF)
-		return (EOF);
-	return (1);
 }
 
 int		ft_get_techline(char *cmd, t_tech *result)

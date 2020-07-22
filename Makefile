@@ -1,6 +1,6 @@
 NAME = 21sh
 
-FLAGS = -Wall #-Werror -Wextra
+FLAGS = -Wall -Wextra #-Werror
 FLAGS += -g
 
 EDIT_LINE = 		edit_line/line_edition_start.c \
@@ -25,6 +25,7 @@ LEXPARSER = 		lexparser/lexparser.c \
 			lexparser/find_spec.c \
 			lexparser/slice_to_blocks.c \
 			lexparser/before_execution.c \
+			lexparser/parser_processing.c \
 			$(PATH_TREE) \
 			$(EXEC) \
 			$(QUOTING) \
@@ -42,7 +43,9 @@ EXEC = 				lexparser/exec/exec_init.c \
 			lexparser/exec/path_parse.c
 
 QUOTING =			lexparser/quoting/quote_control.c \
-			lexparser/quoting/pre_parsing_work.c
+			lexparser/quoting/quote_control_err.c \
+			lexparser/quoting/pre_parsing_work.c \
+			lexparser/quoting/pre_parsing_ansi.c
 
 SUBSTITUTION = 		lexparser/substitution/substitution.c \
 			lexparser/substitution/ft_find_var.c \
@@ -52,7 +55,8 @@ SUBSTITUTION = 		lexparser/substitution/substitution.c \
 			lexparser/substitution/tilda.c
 
 ASSIGNMENT =		lexparser/assignment/backend_variables.c \
-			lexparser/assignment/assignment.c
+			lexparser/assignment/assignment.c \
+			lexparser/assignment/assignment_local.c
 
 REDIRECTION = 		lexparser/redirection/redirect.c \
 			lexparser/redirection/ft_tmpfile.c \
@@ -83,10 +87,8 @@ HELP_LIB =			help_lib/ft_straddsy.c \
 			help_lib/ft_issign.c \
 			help_lib/ft_add_list.c \
 			help_lib/ft_lstclear.c \
-			help_lib/ft_count_words.c \
 			help_lib/ft_strlenchri.c \
 			help_lib/ft_find_token.c \
-			help_lib/ft_gnl.c \
 			$(STACK_STRUCTURE) \
 			$(MALLOC_FUNCTIONS)
 
@@ -120,21 +122,30 @@ DIR_O = objs
 
 DIR_S = srcs
 
+HEADERS = $(wildcard libft/includes/*.h) $(wildcard libft/ft_printf/inc/*.h)
+
+INCLUDES = -I includes -I libft/includes -I libft/ft_printf/inc
+
 SRCS = $(addprefix $(DIR_S)/,$(SOURCES))
 
 OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
-LIBFT = libft/libft.a
+LIBFT = $(addsuffix .libft , libft/)
 
-all:	$(NAME)
+%.libft:  $(HEADERS)
+	@make -C $*
+
+LIBS = -Llibft -lft -ltermcap
+
+all:  $(LIBFT)	$(NAME)
 
 $(NAME): $(OBJS)
 	@make -C ./libft
 	@echo "\033[32;01mCompiling 21sh...\033[0m"
-	@gcc $(FLAGS) $(OBJS) -o $(NAME) $(LIBFT) -ltermcap
+	@gcc $(FLAGS) $(OBJS) -o $(NAME) $(LIBS)
 	@echo "\033[32;01m21sh is ready\033[0m"
 
-$(OBJS): $(DIR_O)/%.o: $(DIR_S)/%.c includes/sh21.h
+$(OBJS): $(DIR_O)/%.o: $(DIR_S)/%.c $(wildcard includes/*.h)
 	@mkdir -p $(DIR_O)
 	@mkdir -p $(DIR_O)/edit_line
 	@mkdir -p $(DIR_O)/edit_line/key_sequences
@@ -151,7 +162,7 @@ $(OBJS): $(DIR_O)/%.o: $(DIR_S)/%.c includes/sh21.h
 	@mkdir -p $(DIR_O)/help_lib
 	@mkdir -p $(DIR_O)/help_lib/stack_structure
 	@mkdir -p $(DIR_O)/help_lib/malloc_functions
-	gcc $(FLAGS) -c -I includes -o $@ $<
+	gcc $(FLAGS) -c $(INCLUDES) -o $@ $<
 
 clean:
 	@echo "\033[34mDeleting 21sh o-files\033[0m"

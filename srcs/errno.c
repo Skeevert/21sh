@@ -62,7 +62,7 @@ int		errtypes_second(int errtype, char *name)
 		ft_putstr_fd("syntax error: ", 2);
 		ft_putendl_fd("unexpected end of file", 2);
 	}
-	else if (errtype == ERR_FD)
+	else if (errtype == ERR_SYNTAX)
 	{
 		ft_putstr_fd("syntax error near unexpected token `", 2);
 		ft_putstr_fd(name, 2);

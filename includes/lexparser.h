@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef LEXPARSER_H
+# define LEXPARSER_H
 
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
@@ -39,28 +39,51 @@ typedef struct stat		t_stat;
 ** Is used in before_execution.c
 */
 
-# define TMPL "/tmp/tmp42sh_XXXXXX"
+/*
+** This defines needs for usage ft_tmpfile
+*/
+
+# define TMPL "tmp42sh_424242XXXXXX"
+
+# ifndef P_tmpdir
+# define P_tmpdir "/tmp"
+#endif
+
+# ifndef L_tmpnam
+# define L_tmpnam 20
+#endif
+
+# ifndef TMP_MAX
+# define TMP_MAX 2000
+#endif
+
+# define TMPFILE_TRY_SIZE TMP_MAX
+
+/*
+** @REW, @FF - flags used in rediretion to switch direction of find WORD
+** @CLOSE - flag used in redirection to set fd like closed
+** @MINUS - flag used in here-document to set "-" to delete tabs
+** @CONTINUE - flag in t_ltree->flags to set block compile
+** @LINE, @ASSIGN - used to choose mode of tilda expantion - like in line or in
+** asssignment like "PATH=$PATH:~/dir"
+*/
 
 enum					e_way
 {
 	REW,
 	FF,
-	IN_R,
-	OUT_R,
-	CLOSE,
-	MINUS,
+	CLOSE = -42,
+	MINUS = 5,
 	CONTINUE,
 	LINE,
 	ASSIGN,
-	LARGE,
-	SMALL
 };
 
-typedef	struct			s_word
+typedef	struct			s_word_i
 {
 	size_t				start;
 	size_t				len;
-}						t_word;
+}						t_word_i;
 
 /*
 ** Struct to save and work with techline
@@ -220,7 +243,7 @@ int						ft_correct_after_andor_pipe(size_t *i);
 
 int						before_exec(t_ltree *sub, t_list **lst);
 int						argv_forming(t_ltree *sub);
-t_word					ft_give_me_word(char const *s, char c, size_t len);
+t_word_i				ft_give_me_word_i(char const *s, char c, size_t len);
 int						ft_local_copy_lines(t_ltree *sub, char *cmd,
 							char *tline);
 int						erroring_andor_pipe(t_ltree *final, size_t *i,

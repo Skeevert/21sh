@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_lib.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vladlenaskubis <vladlenaskubis@student.    +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 20:46:22 by sschmele          #+#    #+#             */
-/*   Updated: 2020/04/05 15:32:38 by vladlenasku      ###   ########.fr       */
+/*   Updated: 2020/07/22 12:56:26 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ void							*ft_xmalloc(size_t size);
 int								ft_issign(char c);
 char							*ft_straddsy(char *dest, char sy);
 int								ft_strrchri(char *s, int c);
-void                            ft_add_list_to_end(t_list **start,
+void							ft_add_list_to_end(t_list **start,
 									t_list *new_list);
-char				            **ft_realloc_array(char ***subj, int len_subj,
+char							**ft_realloc_array(char ***subj, int len_subj,
 									int len_needed);
-void                            ft_lstclear(t_list **begin_list);
-size_t	                        ft_count_words(char const *s, char c,
+void							ft_lstclear(t_list **begin_list);
+size_t							ft_count_words_i(char const *s, char c,
 									size_t len);
-size_t			                ft_strlenchri(const char *s, char c);
-char                            *ft_find_token_sep(char *str);
-int						        ft_gnl(const int fd, char **line);
+size_t							ft_strlenchri(const char *s, char c);
+void							ft_arrdel(char **arr);
+char							*ft_find_token_sep(char *str);
 char							*ft_itoa(int n);
 char							*ft_strdup(const char *s1);
 char							*ft_strjoin(char const *s1, char const *s2);
@@ -56,6 +56,6 @@ t_stack							*ft_init_stack(void);
 int								ft_pop_stack(t_stack **head);
 int								ft_push_stack(t_stack **head, int data);
 void							ft_clear_stack(t_stack **head);
-int				                ft_last_stack(t_stack **head);
+int								ft_last_stack(t_stack **head);
 
 #endif

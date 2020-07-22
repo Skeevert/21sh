@@ -14,20 +14,20 @@ int		ft_find_var(t_ltree *sub)
 	i = -1;
 	while (++i < sub->l_tline.len)
 	{
-		if (sub->l_tline.line[i] == DOLLAR &&
-			sub->l_tline.line[i + 1] != OBRACE &&
-			sub->l_tline.line[i + 1] != OPAREN)
+		if (sub->l_tline.line[i] == DOLLAR && sub->l_tline.line[i + 1] != OBRACE
+			&& sub->l_tline.line[i + 1] != OPAREN)
 		{
 			size = 1;
-			while (i + size < sub->end && sub->l_tline.line[i + size] == WORD_P)
+			while (i + size < sub->end && sub->l_tline.line[i + size] == WORD_P &&
+				sub->l_cmd[i + size] != '/')
 				size++;
-			find = ft_strndup(&sub->l_cmd[i + 1], size - 1);
+			find = size > 1 ? ft_strndup(&sub->l_cmd[i + 1], size - 1) : NULL;
 			if ((find = ft_find_var_value(&find)) != NULL)
 			{
 				ft_reglue(&i, size - 1, sub);
 				insert_str_in_loc_strs(sub, &find, &i, TEXT);
 			}
-			else
+			else if (size > 1)
 				ft_reglue(&i, size, sub);
 		}
 	}
@@ -62,19 +62,9 @@ int		ft_find_curv_var(t_ltree *sub)
 
 char	*ft_find_var_value(char **find)
 {
-	int		li;
-	int		sj;
 	char	*res;
 
-	li = -1;
-	sj = -1;
-	res = NULL;
-	if ((li = variables_search(g_rdovar, &sj, *find)) != -1)
-		res = ft_strdup(&g_rdovar[li][sj]);
-	else if ((li = variables_search(g_env, &sj, *find)) != -1)
-		res = ft_strdup(&g_env[li][sj]);
-	else if ((li = variables_search(g_lovar, &sj, *find)) != -1)
-		res = ft_strdup(&g_lovar[li][sj]);
+	res = ft_strdup(find_env_value(*find));
 	free(*find);
 	return (res);
 }
@@ -95,17 +85,14 @@ int		ft_param_empty(t_ltree *sub, char **find, size_t *i)
 	return (0);
 }
 
-int		ft_error_vars(t_ltree *sub, int err, char *msg)
+int		ft_error_vars(t_ltree *sub, int err, char *msg) //убрать распечатку error_handler для !, который выходит по error_out
 {
 	sub->flags |= ERR_OUT;
-	// sub->err_i |= err;
+	sub->err_i |= err;
 	if (msg)
 		sub->err = ft_strdup(msg);
-	if (!(err == ERR_VAR_SET || err == ERR_VAR_CD))
-		err = ERR_VAR_RDONLY;
-	errno(sub->err_i, err, sub->err);
-	// if (!(sub->err_i & ERR_VAR_UNSET << 9 || sub->err_i & ERR_VAR_SET << 9))
-	// 	sub->err_i |= ERR_RDONLY << 9;
-	// errno(sub->err_i, sub->err);
+	if (!(sub->err_i & ERR_UNSET << 9 || sub->err_i & ERR_SET << 9))
+		sub->err_i |= ERR_RDONLY << 9;
+	error_handler(sub->err_i, sub->err);
 	return (err);
 }

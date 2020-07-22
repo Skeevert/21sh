@@ -1,7 +1,7 @@
 #include "sh21.h"
 #include "help_lib.h"
 
-size_t	ft_count_words(char const *s, char c, size_t len)
+size_t	ft_count_words_i(char const *s, char c, size_t len)
 {
 	size_t	k;
 	size_t	i;

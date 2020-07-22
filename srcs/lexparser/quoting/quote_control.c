@@ -2,16 +2,6 @@
 #include "lexparser.h"
 
 /*
-** Dquote removed
-** if (*ptr == 1 || *ptr == 3 || *ptr == 4 || *ptr == 9 || *ptr == 10
-** || *ptr == 14 || *ptr == 15 || *ptr == 16 || *ptr == 17 || *ptr == 18)
-*/
-
-static char	*g_sign[22] = {
-	"\0", " ", "\\", ";", "&", "\"", "\'", "(", ")", "[", "]",
-	"{", "}", "$", "~", "|", ">", "<", "*", "=", "\n", "#"};
-
-/*
 ** Function needs to nullify symbols in comments and check if is EOF at end
 */
 
@@ -30,6 +20,14 @@ int		nullify_comment(char **ptr, t_stack **stack)
 		ft_pop_stack(stack);
 	if (**ptr == EOF)
 		ft_push_stack(stack, EOF);
+	if ((*stack)->data == SQUOTE_ANSI && **ptr != BSLASH && ptr[0][1] == SQUOTE)
+	{
+		ft_pop_stack(stack);
+		**ptr = TEXT;
+		(*ptr)++;
+	}
+	if ((*stack)->data == SQUOTE_ANSI)
+		**ptr = TEXT;
 	return (0);
 }
 
@@ -50,6 +48,13 @@ int		nullify_backslash(char **ptr, t_stack **stack,\
 		&& **ptr == BSLASH && ptr[0][1] == ENTER &&\
 		(size - *count) == 2)
 		ft_push_stack(stack, BSLASH);
+	if (**ptr == DOLLAR && ptr[0][1] == DOLLAR)
+		ptr[0][1] = WORD_P;
+	if (**ptr == DOLLAR && ptr[0][1] == SQUOTE)
+	{
+		ft_push_stack(stack, SQUOTE_ANSI);
+		(*ptr) += 2;
+	}
 	return (0);
 }
 
@@ -58,8 +63,7 @@ int		nullify_backslash(char **ptr, t_stack **stack,\
 ** also it send line to check brackets ( ) or { }
 */
 
-int		nullify_dquotes(char **ptr, t_stack **stack,\
-		size_t *count)
+int		nullify_dquotes(char **ptr, t_stack **stack)
 {
 	if ((*stack)->data == DOLLAR && **ptr != WORD_P && **ptr != DOLLAR)
 		ft_pop_stack(stack);
@@ -90,25 +94,11 @@ int		nullify_dquotes(char **ptr, t_stack **stack,\
 
 int		nullify_promt_check(t_stack **stack)
 {
-	if ((*stack)->data != 0)
+	if ((*stack)->data != 0 && g_prompt.prompt_func != heredoc_prompt)
 	{
-		if ((*stack)->data == DOLLAR)
-			ft_pop_stack(stack);
-		if ((*stack)->data == DQUOTE || (*stack)->data == SQUOTE)
-			g_prompt.prompt_func = other_prompt;
-		if ((*stack)->data == OBRACE)
-			g_prompt.prompt_func = other_prompt;
-		if ((*stack)->data == BSLASH)
-			g_prompt.prompt_func = other_prompt;
-		if ((*stack)->data == EOF && g_prompt.prompt_func != heredoc_prompt)
-		{
-			g_prompt.prompt_func = main_prompt;
-			errno(ERR_SYNTAX, ERR_SQUOTE,
-				g_sign[(*stack)->next->data]);
-		}
-		return (EXIT);
+		return (nullify_error(stack));
 	}
-	else
+	else if (g_prompt.prompt_func != heredoc_prompt)
 		g_prompt.prompt_func = main_prompt;
 	ft_clear_stack(stack);
 	return (0);
@@ -131,26 +121,21 @@ int		nullify(char **techline, size_t cmd_size)
 	count = -1;
 	ptr = *techline;
 	stack = ft_init_stack();
-	while (++count <= cmd_size)
+	if (g_prompt.prompt_func == heredoc_prompt)
+		ft_push_stack(&stack, DQUOTE);
+	while (++count < cmd_size && *ptr)
 	{
 		if (*ptr == DOLLAR && (stack->data == DQUOTE || stack->data == 0))
 			ft_push_stack(&stack, *ptr);
-		if (!(stack->data))
-		{
-			if (*ptr == DQUOTE || *ptr == SQUOTE)
-				ft_push_stack(&stack, *ptr);
-		}
-		else
-			nullify_dquotes(&ptr, &stack, &count);
+		if (!(stack->data) && (*ptr == DQUOTE || *ptr == SQUOTE))
+			ft_push_stack(&stack, *ptr);
+		else if (g_prompt.prompt_func != heredoc_prompt)
+			nullify_dquotes(&ptr, &stack);
 		nullify_backslash(&ptr, &stack, &count, cmd_size);
-		nullify_comment(&ptr, &stack);
+		if (g_prompt.prompt_func != heredoc_prompt)
+			nullify_comment(&ptr, &stack);
 		ptr++;
 	}
-		// printf("g_cmd nul=%s\n", g_cmd);//печать для проверки
-		// printf("techline cur:");
-		// count = -1;
-		// while (++count <= g_techline.len)
-		// 	printf("%3d", g_techline.line[count]);
-		// printf("\n");
+		// print_techline(g_cmd, g_techline.line, g_techline.len);
 	return (nullify_promt_check(&stack));
 }

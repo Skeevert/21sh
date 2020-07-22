@@ -1,5 +1,17 @@
-#include <sh21.h>
-#include <builtins.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_new_path.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/26 23:19:24 by rbednar           #+#    #+#             */
+/*   Updated: 2020/06/10 18:53:32 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+#include "builtin.h"
 
 void	ft_del_prev(char **arr, int i)
 {
@@ -17,7 +29,7 @@ void	ft_del_prev(char **arr, int i)
 
 void	ft_del_dots(char **arr)
 {
-    int		i;
+	int		i;
 
 	i = 0;
 	while (arr[i])
@@ -30,11 +42,11 @@ void	ft_del_dots(char **arr)
 
 char	*ft_new_from_arr(char **arr)
 {
-    int		i;
-    char	*tmp;
+	int		i;
+	char	*tmp;
 
 	i = 0;
-	tmp = ft_memalloc(1);
+	tmp = (char*)ft_xmalloc(sizeof(char));
 	ft_del_dots(arr);
 	while (arr[i])
 	{
@@ -48,15 +60,20 @@ char	*ft_new_from_arr(char **arr)
 	return (tmp);
 }
 
-char	*ft_join(char *path, char **env)
+char	*ft_join_path(char *path, char **env)
 {
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 	char	*tmp;
 
-	i = variables_search(env, &j, "PWD");
-	tmp = ft_strjoin(env[i] + j, "/");
-	tmp = ft_strrejoin(tmp, path);
+	if (path[0] != '/')
+	{
+		i = find_in_variables(env, &j, "PWD");
+		tmp = ft_strjoin(env[i] + j, "/");
+		tmp = ft_strrejoin(tmp, path);
+	}
+	else
+		tmp = ft_strdup(path);
 	return (tmp);
 }
 
@@ -66,11 +83,17 @@ char	*ft_new_path(char *path, char **env)
 	char	*tmp;
 	char	**arr;
 
-	tmp = ft_join(path, env);
+	new_path = NULL;
+	tmp = ft_join_path(path, env);
 	arr = ft_strsplit(tmp, '/');
-	free(tmp);
-	new_path = ft_new_from_arr(arr);
-	//printf("RES = %s\n", new_path);
+	if (*arr != NULL)
+		new_path = ft_new_from_arr(arr);
 	ft_arrdel(arr);
-	return (new_path);
+	if (new_path != NULL)
+	{
+		free(tmp);
+		return (new_path);
+	}
+	ft_del_slash(&tmp);
+	return (tmp);
 }
