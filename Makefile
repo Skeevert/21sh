@@ -77,6 +77,9 @@ CD =        builtins/cd/cd.c \
 BUILTINS = 			builtins/exit.c \
 			builtins/set.c \
 			builtins/unset.c \
+			builtins/setenv.c \
+			builtins/unsetenv.c \
+			builtins/env.c \
 			builtins/echo.c \
 			$(CD)
 

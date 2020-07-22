@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/26 23:19:10 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 19:09:44 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 22:20:50 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,33 @@ int		ft_valid_cd(t_ltree *pos, int i)
 		return (1);
 	}
 	return (0);
+}
+
+/*
+** Is needed for finding a variable in an array
+** Returns line on which the value is found or -1 if there is no
+** value in the array
+*/
+
+int		find_in_variables(char **arr, int *j, char *name)
+{
+	size_t	i;
+	size_t	tmp;
+	size_t	len_name;
+
+	i = 0;
+	if (!arr)
+		return (-1);
+	len_name = ft_strlen(name);
+	while (arr[i])
+	{
+		tmp = ft_strchri(arr[i], '=');
+		if (ft_strncmp(arr[i], name, len_name) == 0 && tmp == len_name)
+		{
+			*j = tmp + 1;
+			return (i);
+		}
+		i++;
+	}
+	return (-1);
 }

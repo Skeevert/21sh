@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/26 23:20:07 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 20:33:00 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 22:13:32 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_change_pwd(char **path, t_ltree *pos)
 	char	*old;
 	char	*buf;
 
-	k = variable_search(&j, "PWD");
+	k = find_in_variables(pos->envir, &j, "PWD");
 	if (k == -1)
 	{
 		old = getcwd(NULL, 0);

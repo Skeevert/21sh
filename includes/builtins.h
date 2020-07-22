@@ -24,8 +24,6 @@
 # define CD_MANY_ARGS 5
 # define CD_OLDPWD_NS 6
 
-# define BUILTINS_NUM 7
-
 typedef struct	s_ec
 {
 	int			e;
@@ -52,6 +50,7 @@ void			ft_values(t_ltree *pos, char **cd_cur);
 int				ft_cd_pars(char *path, t_ltree *pos);
 int				ft_cd_env(char *path, t_ltree *pos);
 int				ft_valid_cd(t_ltree *pos, int i);
+int				find_in_variables(char **arr, int *j, char *name);
 
 /*
 ** File cd_change_path.c
@@ -79,10 +78,28 @@ void			ft_del_prev(char **arr, int i);
 int				btin_set(void);
 
 /*
+** File set.c
+*/
+
+int				btin_env(t_ltree *pos);
+
+/*
+** File setenv.c
+*/
+
+int				btin_setenv(t_ltree *pos);
+
+/*
 ** File unset.c
 */
 
 int				btin_unset(t_ltree *pos);
+
+/*
+** File unset.c
+*/
+
+int				btin_unsetenv(t_ltree *pos);
 
 /*
 ** File echo.c

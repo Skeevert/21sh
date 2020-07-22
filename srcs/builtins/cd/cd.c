@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/26 18:39:16 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 18:54:37 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 22:15:34 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_values(t_ltree *pos, char **cd_cur)
 	int	i;
 	int	j;
 
-	i = variable_search(&j, "PWD");
+	i = find_in_variables(pos->envir, &j, "PWD");
 	if (i == -1)
 		*cd_cur = getcwd(NULL, 0);
 	else
