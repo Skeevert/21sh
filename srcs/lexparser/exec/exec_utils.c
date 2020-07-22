@@ -1,41 +1,6 @@
 #include "sh21.h"
-#include "lexlexparser.h"
+#include "lexparser.h"
 #include "builtins_list.h"
-
-void	free_vec(char **vec)
-{
-	size_t	i;
-
-	i = 0;
-	while (vec[i])
-	{
-		free(vec[i]);
-		i++;
-	}
-	free(vec);
-}
-
-char	*get_env(char *var)
-{
-	char	*val;
-	size_t	i;
-	size_t	len;
-
-	val = 0;
-	i = 0;
-	if (!g_env)
-		return (NULL);
-	len = ft_strlen(var);
-	while (g_env[i])
-	{
-		if (!ft_strncmp(g_env[i], var, len))
-			break;
-		i++;
-	}
-	if (g_env[i])
-		val = ft_strdup(g_env[i] + len + 1);
-	return (val);
-}
 
 /*
 ** So, let's talk about pipes:
@@ -47,13 +12,12 @@ char	*get_env(char *var)
 ** consider changing architecture to... well, something else
 */
 
-int	exec_clean(char *path, int exit_status, char *err_msg)
+int		exec_clean(char **path, t_ltree *pos, int exit_status)
 {
-	if (path)
-		var_exit_status(exit_status);
-	free(path);
-	if (err_msg)
-		ft_putendl_fd(err_msg, 2);
+	if ((exit_status == -2) && (pos->flags) != ERR_CMDEXEC)
+		errono(ERR_CMDNOTFOUND, ERR_CMDNOTFOUND, *pos->ar_v);
+	if (path && *path)
+		free(*path);
 	return (exit_status);
 }
 
@@ -83,23 +47,29 @@ int		ft_builtins_check(t_ltree *pos, int flag)
 	return (-1);
 }
 
-int		fd_list_process(t_ltree *pos)
+int		fd_list_process(t_ltree *pos, int mode)
 {
 	t_list		*fd_list;
 	t_fd_redir	*redir;
 
-	fd_list = pos->fd;
-	while (fd_list)
+	if (!mode)
 	{
-		redir = (t_fd_redir *)fd_list->content;
-		if (redir->type == OUT_R)
-			dup2(redir->fd_in, redir->fd_out);
-		else
+		std_save(0);
+		fd_list = pos->fd;
+		while (fd_list)
 		{
-			lseek(redir->fd_out, 0, SEEK_SET);
-			dup2(redir->fd_out, redir->fd_in);
+			redir = (t_fd_redir *)fd_list->content;
+			if (redir->fd_old != CLOSE)
+				dup2(redir->fd_old, redir->fd_new);
+			else
+			{
+				dup2(redir->fd_new, redir->fd_new);
+				close(redir->fd_new);
+			}
+			fd_list = fd_list->next;
 		}
-		fd_list = fd_list->next;
 	}
+	else
+		std_save(1);
 	return (0);
 }

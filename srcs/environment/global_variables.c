@@ -96,7 +96,6 @@ int					create_env(void)
 
 	g_envi = (char **)ft_xmalloc(VAR_BUFFER * sizeof(char*));
 	num = save_readonly_variable(0);
-	num = save_shell_variable(num);
 	num = save_environment_variable(num);
 	change_pwd_value((tmp = getcwd(NULL, MAXDIR)));
 	change_oldpwd_value(tmp);
@@ -104,7 +103,7 @@ int					create_env(void)
 	return (0);
 }
 
-int                 exit_status_variables(int status)
+int                 var_exit_status(int status)
 {
     char            *tmp;
 	char			*final;
@@ -112,7 +111,7 @@ int                 exit_status_variables(int status)
 	int				j;
 
     tmp = ft_itoa(status);
-	i = find_in_variable(&j, "?");
+	i = variable_search(&j, "?");
 	final = ft_strjoin("?=", tmp);
 	change_env_value(final, i);
 	free(final);

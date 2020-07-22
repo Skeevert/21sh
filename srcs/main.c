@@ -55,21 +55,19 @@ int				noninteractive_shell(char **argv)
 	int			i;
 	int			j;
 
-	i = variables_search(g_rdovar, &j, "NONINTERACTIVE_MODE");
-	g_rdovar[i][j] = '1';
+	i = variable_search(&j, "NONINTERACTIVE_MODE");
+	g_envi[i][j] = '1';
 	cmd = ft_strdup(argv[0]);
 	g_prompt.prompt_func = NULL;
 	lexparser(cmd);
-	i = variables_search(g_rdovar, &j, "?=");
-	exit(ft_atoi(&g_rdovar[i][j]));
+	i = variable_search(&j, "?");
+	exit(ft_atoi(&g_envi[i][j]));
 }
 
 int				main(int argc, char **argv)
 {
-	g_arrsize = VAR_BUFFER;
-	prepare_environ();
-	prepare_readonly();
-	prepare_local();
+	g_var_size = VAR_BUFFER;
+	create_env();
 	check_c_option(argc, argv);
 	g_prompt.prompt_func = main_prompt;
 	init_hist_buff();

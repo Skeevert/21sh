@@ -14,11 +14,11 @@ int		lexparser(char *line)
 	ft_get_techline(g_cmd, &g_techline);
 	add_history(g_cmd);
 	g_hist.count = g_hist.last + 1;
-	pars_lex_exec(0);
+	pars_lex_exec();
 	return (0);
 }
 
-int		pars_lex_exec(int tmp)
+int		pars_lex_exec(void)
 {
 	if (g_prompt.prompt_func != heredoc_prompt)
 		if (nullify(&g_techline.line, g_cmd_size) == EXIT)
@@ -26,7 +26,7 @@ int		pars_lex_exec(int tmp)
 			destruct_parser();
 			return (0);
 		}
-	ft_slice_fg();
+	ft_slice();
 	destruct_parser();
 	return (0);
 }

@@ -120,7 +120,7 @@ int							put_cursor(char *cap, int x, int y);
 
 int							add_char(char c, int flag);
 int							insert_char(char c);
-int							front_insert_char(char c, int pos_x);
+int							front_insert_char(char c);
 int							front_insert_newline(int *pos_x, int *pos_y,
 								int *str_num, int *flag);
 int							front_insert_till_end(int str_num_print);

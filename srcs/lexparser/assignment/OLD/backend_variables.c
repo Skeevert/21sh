@@ -20,12 +20,12 @@ int			find_assignment_in_vars(char *sub, size_t var,
 	li = -1;
 	sy = -1;
 	find = ft_strndup(sub + var, eq - var);
-	if ((li = variables_search(g_rdovar, &sy, find)) != -1)
+	if ((li = variable_search(g_rdovar, &sy, find)) != -1)
 		return (ERR_OUT);
-	if ((li = variables_search(g_env, &sy, find)) != -1)
+	if ((li = variable_search(g_env, &sy, find)) != -1)
 		return (change_global_variable(find, ft_strndup(sub + var,
 			val - var + 1),	&g_env[li]));
-	else if ((li = variables_search(g_lovar, &sy, find)) != -1)
+	else if ((li = variable_search(g_lovar, &sy, find)) != -1)
 		return (change_global_variable(find, ft_strndup(sub + var,
 			val - var + 1), &g_lovar[li]));
 	free(find);

@@ -33,7 +33,7 @@ int		insert_char(char c)
 		free(buff);
 		g_readline.cmd[g_readline.pos] = c;
 		put_termcap("cd");
-		front_insert_char(g_readline.cmd[g_readline.pos], g_readline.pos_x);
+		front_insert_char(g_readline.cmd[g_readline.pos]);
 		g_readline.pos++;
 		setjmp_cursor(&g_readline.pos, &g_readline.pos_x, &g_readline.pos_y, 1);
 		front_insert_till_end(g_readline.pos_y + 1);
@@ -42,12 +42,12 @@ int		insert_char(char c)
 	{
 		g_readline.cmd[g_readline.pos] = c;
 		g_readline.pos++;
-		front_insert_char(c, g_readline.pos_y);
+		front_insert_char(c);
 	}
 	return (0);
 }
 
-int		front_insert_char(char c, int pos_x)
+int		front_insert_char(char c)
 {
 	write(STDOUT_FILENO, &c, 1);
 	if (c == '\n')
@@ -99,7 +99,7 @@ int		front_insert_till_end(int str_num_print)
 		g_readline.str_num = str_num_print;
 	while (g_readline.pos < g_readline.cmd_len)
 	{
-		front_insert_char(g_readline.cmd[g_readline.pos], g_readline.pos_x);
+		front_insert_char(g_readline.cmd[g_readline.pos]);
 		g_readline.pos++;
 	}
 	setjmp_cursor(&pos_back, &pos_x_back, &pos_y_back, 0);

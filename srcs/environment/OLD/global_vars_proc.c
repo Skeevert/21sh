@@ -54,7 +54,7 @@ int		add_environ_exec(char ***array, char **add)
 
 	i = 0;
 	find = ft_strndup(*add, ft_strrchri(*add, '='));
-	if ((li = variables_search(g_env, &sy, find)) != -1)
+	if ((li = variable_search(g_env, &sy, find)) != -1)
 		return (change_global_variable(find, *add,	&g_env[li]));
 	else
 	{
@@ -81,7 +81,7 @@ int		change_global_variable(char *find, char *insert,
 	return (0);
 }
 
-int		variables_search(char **arr, int *j, char *name)
+int		variable_search(char **arr, int *j, char *name)
 {
 	int		i;
 	int		tmp;

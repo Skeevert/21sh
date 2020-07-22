@@ -3,19 +3,24 @@
 int		errno(int status, int errtype, char *name)
 {
 	ft_putstr_fd("21sh: ", 2);
-	if (status == ERR_NONINTERACTIVE)
+	if (errtype == ERR_NONINTERACTIVE)
 	{
 		ft_putstr_fd(name, 2);
 		ft_putendl_fd(": can't be launched in non-interactive mode", 2);
 	}
-	else if (status == ERR_TERMINAL)
+	else if (errtype == ERR_TERMINAL)
 		ft_putendl_fd("terminal does not exist or can't be changed", 2);
-	else if (status == ERR_TMPFILE)
+	else if (errtype == ERR_TMPFILE)
 		ft_putendl_fd("can't open a temporal file", 2);
-	else if (status == ERR_CMDEXEC)
+	else if (errtype == ERR_CMDEXEC)
 	{
 		ft_putstr_fd(name, 2);
 		ft_putendl_fd(": Permission denied", 2);
+	}
+	else if (errtype == ERR_ISDIR)
+	{
+		ft_putstr_fd(name, 2);
+		ft_putendl_fd(": Is a directory", 2);
 	}
 	errtypes_first(errtype, name);
 	errtypes_second(errtype, name);
@@ -76,6 +81,6 @@ int		exit_status_variable(void)
 	int		li;
 	int		sy;
 	
-	li = variables_search(g_rdovar, &sy, "?");
-	return (ft_atoi(&g_rdovar[li][sy]));
+	li = variable_search(&sy, "?");
+	return (ft_atoi(&g_envi[li][sy]));
 }

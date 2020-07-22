@@ -47,6 +47,6 @@ void				signal_screen(int sig)
     while (g_readline.cmd[++i])
     {
         g_readline.pos++;
-        front_insert_char(g_readline.cmd[i], g_readline.pos_x);
+        front_insert_char(g_readline.cmd[i]);
     }
 }

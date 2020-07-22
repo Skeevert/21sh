@@ -21,7 +21,7 @@ int			find_assignment_in_vars(char *sub, size_t var,
 	new_var = ft_parsing_str(find);
 	free(find);
 	find = ft_strndup(sub + var, eq - var);
-	if ((li = find_in_variable(&sy, find)) != -1)
+	if ((li = variable_search(&sy, find)) != -1)
 	{
 		if (g_envi[li][0] & READONLY) //посмотреть с Сережей тест: unset HOME ; HOME=/ ; echo $HOME
 			g_envi[li][0] |= ENV_VIS;

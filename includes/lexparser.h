@@ -123,8 +123,8 @@ typedef struct  		s_ltree
 {
 	char				*l_cmd;
 	t_tech				l_tline;
-	size_t				start;
-	size_t				end;
+	int					start;
+	int					end;
 	t_list				*fd;
 	char				**envir;
 	char				**ar_v;
@@ -141,26 +141,9 @@ typedef struct  		s_ltree
 
 typedef struct  		s_fd
 {
-	int					fd_out;
-	int					fd_in;
-	int					type;
+	int					fd_new;
+	int					fd_old;
 }              			t_fd_redir;
-
-/*
-** Struct to save and work with env
-** flag needs to know main list
-*/
-
-typedef struct  		s_block
-{
-	char				*name;
-	char				*path;
-	struct s_block		*next;
-	struct s_block		*prev;
-	struct s_block		*down;
-	struct s_block		*up;
-	char				flag;
-}               		t_block;
 
 /*
 ** Struct to save and work with PATH
@@ -211,7 +194,7 @@ t_list					*g_start_list;
 */
 
 int						lexparser(char *line);
-int						pars_lex_exec(int tmp);
+int						pars_lex_exec(void);
 int						ft_get_techline(char *cmd, t_tech *result);
 char					get_tech_num(char check);
 int						ltree_init(t_ltree *final);
@@ -223,8 +206,7 @@ int						ltree_init(t_ltree *final);
 int 					ft_block_start(t_list **list);
 int						ft_block_foward(t_ltree **sub, t_list **start);
 int						ft_block_add_to_list(t_ltree *block, t_list **list);
-int     				ft_slice_fg(void);
-int     				ft_slice_bg(size_t *i, t_ltree	*block, t_list **start_list);
+int						ft_slice(void);
 
 /*
 ** File find_spec.c
@@ -235,7 +217,7 @@ t_ltree					*ft_find_logic(t_ltree *block, t_ltree *final);
 t_ltree					*ft_check_andor_pipes(t_ltree *block, t_ltree *final,\
 						t_list **list);
 void					ft_lst_ltree_clear(t_list **begin_list);
-int						ft_correct_after_andor_pipe(size_t *i);
+int						ft_correct_after_andor_pipe(int *i);
 
 /*
 ** File before_execution.c
@@ -494,21 +476,26 @@ int						exec_init(t_ltree *pos);
 */
 
 int						exec_core(t_ltree *pos);
+int						fork_and_exec(t_ltree *pos, char *path,
+							pid_t *child_pid);
+int						std_save(int mode);
 
 /*
 ** File path_parse.c
 */
 
-char					*path_init(char **exec_av);
+char					*path_init(t_ltree *pos, char **ret);
+char					*path_search(t_ltree *pos);
+char					*locate_file(char *env_path, t_ltree *pos);
+char					*form_path(char *ret, char *env_path, t_ltree *pos);
+char					**path_parse(void);
 
 /*
 ** File exec_utils.c
 */
 
-void					free_vec(char **vec);
-char					*get_env(char *var);
-int						exec_clean(char *path, int exit_status, char *msg);
+int						exec_clean(char **path, t_ltree *pos, int exit_status);
 int						ft_builtins_check(t_ltree *pos, int flag);
-int						fd_list_process(t_ltree *pos);
+int						fd_list_process(t_ltree *pos, int mode);
 
 #endif

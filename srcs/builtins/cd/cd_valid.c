@@ -8,7 +8,7 @@ int		ft_check_cdpath(char *path, char **env)  ///ПЕРЕПИСАТЬ
 	char	**cdpath;
 	char	*tmp;
 
-	if ((i = variables_search(env, &j, "CDPATH")) == -1)
+	if ((i = variable_search(env, &j, "CDPATH")) == -1)
 		return (1);
 	cdpath = ft_strsplit(env[i] + j, ';');
 	i = 0;

@@ -110,7 +110,7 @@ int		assign_local_or_err(t_ltree *sub, char **find, int start)
 	int		i;
 	int		j;
 
-	if ((i = find_in_variable(&j, *find)) != -1)
+	if ((i = variable_search(&j, *find)) != -1)
 	{
 		if (g_envi[i][0] & READONLY)
 			error_handler(ERR_RDONLY << 9 | VARIABLE_ERROR, *find);

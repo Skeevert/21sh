@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/15 15:38:49 by sschmele          #+#    #+#             */
-/*   Updated: 2020/07/22 13:47:36 by rbednar          ###   ########.fr       */
+/*   Created: 2020/07/22 15:46:47 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/22 15:46:48 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,24 +147,24 @@ int					noninteractive_shell(char **argv);
 int					check_c_option(int argc, char **argv);
 
 /*
-** File global_vars_proc.c
+** File environment/global_vars_proc.c
 */
 
 char				*find_env_value(char *str);
-int					find_in_variable(int *j, char *name);
+int					variable_search(int *j, char *name);
 int					form_local_envir(char ***arr, int size);
 int					add_new_env(char *name);
 int					change_env_value(char *new_val, int i);
 
 /*
-** File global_variables.c
+** File environment/global_variables.c
 */
 
-int					create_env(void);
 int					save_environment_variable(int num);
-int					save_shell_variable(int num);
-int					exit_status_variables(int status);
+char				*ft_add_rdovar(char *first, char *scnd, int flag);
 int					save_readonly_variable(int num);
+int					create_env(void);
+int					var_exit_status(int status);
 
 /*
 ** File signals.c

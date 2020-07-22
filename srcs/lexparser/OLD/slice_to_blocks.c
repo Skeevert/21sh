@@ -110,7 +110,7 @@ int		ft_slice_bg(size_t *i, t_ltree *block, t_list **start_list)
 ** Fucntion slice command string to blocks and send add it to start list
 */
 
-int		ft_slice_fg(void)
+int		ft_slice(void)
 {
 	t_ltree		block;
 	size_t		i;

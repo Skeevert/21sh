@@ -24,7 +24,7 @@ int				btin_unset(t_ltree *pos)
 			find = ft_strndup(pos->ar_v[i], tmp);
 		else
 			find = ft_strdup(pos->ar_v[i]);
-		if ((j = find_in_variable(&tmp, find)) < 0)
+		if ((j = variable_search(&tmp, find)) < 0)
 		{
 			free(find);
 			continue ;

@@ -94,7 +94,7 @@ int		form_local_envir(char ***arr, int size)
 ** If the @name is not found, program returns -1
 */
 
-int		find_in_variable(int *j, char *name)
+int		variable_search(int *j, char *name)
 {
 	int			i;
 	int			tmp;
@@ -117,7 +117,7 @@ int		find_in_variable(int *j, char *name)
 }
 
 /*
-** The function-shell for the find_in_variable function
+** The function-shell for the variable_search function
 ** Returns a pointer to the beginning of the VALUE
 ** @str is a name that is searched in the shell
 ** global environment
@@ -129,7 +129,7 @@ char	*find_env_value(char *str)
 	int		j;
 
 	j = 0;
-	i = find_in_variable(&j, str);
+	i = variable_search(&j, str);
 	if (i == -1)
 		return (NULL);
 	return (&g_envi[i][j]);

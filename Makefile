@@ -87,6 +87,7 @@ HELP_LIB =			help_lib/ft_straddsy.c \
 			help_lib/ft_issign.c \
 			help_lib/ft_add_list.c \
 			help_lib/ft_lstclear.c \
+			help_lib/ft_lstlast.c \
 			help_lib/ft_strlenchri.c \
 			help_lib/ft_find_token.c \
 			$(STACK_STRUCTURE) \

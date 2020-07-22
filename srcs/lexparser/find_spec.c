@@ -7,7 +7,7 @@
 
 t_ltree		*ft_find_logic(t_ltree *block, t_ltree *final)
 {
-	size_t		i;
+	int		i;
 
 	i = block->start;
 	final->flags = block->flags;
@@ -43,7 +43,7 @@ t_ltree		*ft_find_pipe(t_ltree *block, t_ltree *final, int *i)
 		block->flags |= PIPED_OUT;
 		return (final);
 	}
-	if ((size_t)*i == block->end || final->flags & LOG_AND_OUT ||
+	if (*i == block->end || final->flags & LOG_AND_OUT ||
 		final->flags & LOG_OR_OUT)
 	{
 		final->start = block->start;
@@ -63,7 +63,7 @@ t_ltree		*ft_find_pipe(t_ltree *block, t_ltree *final, int *i)
 t_ltree		*ft_check_andor_pipes(t_ltree *block, t_ltree *final, t_list **list)
 {
 	int		tmp;
-	size_t	i;
+	int		i;
 
 	if (*list)
 		tmp = ((t_ltree *)(ft_lstlast(list)->content))->flags;
@@ -110,7 +110,7 @@ void	ft_lst_ltree_clear(t_list **begin_list)
 	*begin_list = NULL;
 }
 
-int		ft_correct_after_andor_pipe(size_t *i)
+int		ft_correct_after_andor_pipe(int *i)
 {
 	if (g_techline.line[*i] == WORD_P ||
 		g_techline.line[*i] == PIPE ||

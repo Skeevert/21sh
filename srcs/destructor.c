@@ -5,7 +5,7 @@ int		destruct_globals(void)
 	int		i;
 	int		j;
 	
-	i = variables_search(g_envi, &j, "NONINTERACTIVE_MODE");
+	i = variable_search(&j, "NONINTERACTIVE_MODE");
 	if (g_envi[i][j] == '0')
 	{
 		ft_arrdel(g_hist.cmd);

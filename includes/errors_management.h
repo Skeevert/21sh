@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_management.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vladlenaskubis <vladlenaskubis@student.    +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/16 16:51:28 by sschmele          #+#    #+#             */
-/*   Updated: 2020/03/27 23:55:14 by vladlenasku      ###   ########.fr       */
+/*   Created: 2020/07/22 16:07:58 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/22 16:17:38 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ enum				e_exit
 	ERR_TMPFILE,
 	ERR_CMDEXEC = 126,
 	ERR_CMDNOTFOUND,
-	ERR_SYNTAX = 258
+	ERR_SYNTAX = 258,
+	ERR_ISDIR
 };
 
 enum				e_errtype

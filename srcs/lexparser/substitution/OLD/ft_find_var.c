@@ -69,11 +69,11 @@ char	*ft_find_var_value(char **find)
 	li = -1;
 	sj = -1;
 	res = NULL;
-	if ((li = variables_search(g_rdovar, &sj, *find)) != -1)
+	if ((li = variable_search(g_rdovar, &sj, *find)) != -1)
 		res = ft_strdup(&g_rdovar[li][sj]);
-	else if ((li = variables_search(g_env, &sj, *find)) != -1)
+	else if ((li = variable_search(g_env, &sj, *find)) != -1)
 		res = ft_strdup(&g_env[li][sj]);
-	else if ((li = variables_search(g_lovar, &sj, *find)) != -1)
+	else if ((li = variable_search(g_lovar, &sj, *find)) != -1)
 		res = ft_strdup(&g_lovar[li][sj]);
 	free(*find);
 	return (res);

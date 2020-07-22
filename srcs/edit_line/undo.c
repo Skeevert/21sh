@@ -71,7 +71,8 @@ void			action_pull(t_action_stack **start, int *num)
 		while (g_readline.pos != (*start)->pos_b)
 			key_left_proc();
 		*start = (*start)->next;
-		*start && ((*start)->prev = 0);
+		if (*start)
+			(*start)->prev = 0;
 		free(temp->cmd_b);
 		free(temp);
 		(*num)--;
