@@ -13,7 +13,7 @@
 ** ${parameter#[word]} and ${parameter##[word]}
 */
 
-int		ft_type_param_check(t_ltree *sub, char **find, size_t *i)
+int		ft_type_param_check(t_ltree *sub, char **find, int *i)
 {
 	char	*oper;
 
@@ -43,7 +43,7 @@ int		ft_type_param_check(t_ltree *sub, char **find, size_t *i)
 ** ${parameter:-[word]} and ${parameter-[word]}
 */
 
-int		ft_param_colon_dash(t_ltree *sub, char **find, char *oper, size_t *i)
+int		ft_param_colon_dash(t_ltree *sub, char **find, char *oper, int *i)
 {
 	int		colon;
 	char	*tmp;
@@ -77,7 +77,7 @@ int		ft_param_colon_dash(t_ltree *sub, char **find, char *oper, size_t *i)
 ** ${parameter:=[word]} and ${parameter=[word]}
 */
 
-int		ft_param_colon_equal(t_ltree *sub, char **find, char *oper, size_t *i)
+int		ft_param_colon_equal(t_ltree *sub, char **find, char *oper, int *i)
 {
 	int		colon;
 	char	*tmp;
@@ -111,7 +111,7 @@ int		ft_param_colon_equal(t_ltree *sub, char **find, char *oper, size_t *i)
 ** ${parameter:?[word]} and ${parameter?[word]}
 */
 
-int		ft_param_colon_qmark(t_ltree *sub, char **find, char *oper, size_t *i)
+int		ft_param_colon_qmark(t_ltree *sub, char **find, char *oper, int *i)
 {
 	int		colon;
 	char	*tmp;
@@ -145,7 +145,7 @@ int		ft_param_colon_qmark(t_ltree *sub, char **find, char *oper, size_t *i)
 ** ${parameter:?[word]} and ${parameter?[word]}
 */
 
-int		ft_param_colon_plus(t_ltree *sub, char **find, char *oper, size_t *i)
+int		ft_param_colon_plus(t_ltree *sub, char **find, char *oper, int *i)
 {
 	int		colon;
 	char	*tmp;

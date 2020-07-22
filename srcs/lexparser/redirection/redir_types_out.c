@@ -5,7 +5,7 @@
 ** Function to detect "[n]>word"
 */
 
-int		ft_redir_great(t_ltree *final, size_t *i)
+int		ft_redir_great(t_ltree *final, int *i)
 {
 	t_fd_redir	fd_open;
 	char		*f_name;
@@ -36,7 +36,7 @@ int		ft_redir_great(t_ltree *final, size_t *i)
 ** Function to detect ">>word" (write to end)
 */
 
-int		ft_redir_dgreat(t_ltree *final, size_t *i)
+int		ft_redir_dgreat(t_ltree *final, int *i)
 {
 	t_fd_redir	fd_open;
 	char		*f_name;
@@ -67,7 +67,7 @@ int		ft_redir_dgreat(t_ltree *final, size_t *i)
 ** fcntl used to check access to write in fd
 */
 
-int		ft_redir_greatand(t_ltree *final, size_t *i)
+int		ft_redir_greatand(t_ltree *final, int *i)
 {
 	t_fd_redir	fd_open;
 	char		*f_name;
@@ -79,7 +79,7 @@ int		ft_redir_greatand(t_ltree *final, size_t *i)
 		ft_null_redir(final, *i, 2);
 		(*i) += 2;
 		if ((f_name = ft_word_to_redir(i, final, FF)) != NULL)
-			return (ft_num_or_word_out(&f_name, &fd_open, i, final));
+			return (ft_num_or_word_out(&f_name, &fd_open, final));
 		else
 			return (final->flags |= ERR_REDIR << 16);
 	}
@@ -96,8 +96,6 @@ int		ft_access_check(char **f_name, t_ltree *final, int type)
 	char	*path;
 	int		st;
 
-	// path = (char*)ft_xmalloc(MAXDIR);
-	// getcwd(path, MAXDIR);
 	path = getcwd(NULL, MAXDIR);
 	if (path[0] == 0)
 		free(path);
@@ -107,12 +105,12 @@ int		ft_access_check(char **f_name, t_ltree *final, int type)
 	if ((st = access(path, F_OK)) == -1)
 	{
 		free(path);
-		return (final->flags |= ERR_IN | ERR_R | ERR_NO_FILE << 16);
+		return (final->flags |= ERR_IN | ERR_R | ERR_NOFILEDIR << 16);
 	}
 	if ((st = access(path, type)) == -1)
 	{
 		free(path);
-		return (final->flags |= ERR_IN | ERR_R | ERR_NO_ACC << 16);
+		return (final->flags |= ERR_IN | ERR_R | ERR_NOACCESS << 16);
 	}
 	return (0);
 }

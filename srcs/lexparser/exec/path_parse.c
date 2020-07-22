@@ -1,6 +1,5 @@
 #include "sh21.h"
 #include "lexparser.h"
-#include "builtins_list.h"
 
 char	**path_parse(void)
 {
@@ -9,7 +8,7 @@ char	**path_parse(void)
 	int		co;
 
 	ret = NULL;
-	li = find_in_variable(&co, "PATH");
+	li = variable_search(&co, "PATH");
 	if (li < 0 || ((ret = ft_strsplit(&g_envi[li][co], ':')) == NULL) ||
 			ret[0] == NULL || ret[0][0] == '\0')
 	{

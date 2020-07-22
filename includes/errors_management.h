@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:07:58 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 16:17:38 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 18:14:36 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ enum				e_exit
 	ERR_CMDEXEC = 126,
 	ERR_CMDNOTFOUND,
 	ERR_SYNTAX = 258,
-	ERR_ISDIR
+	ERR_ISDIR,
+	ERR_PIPE
 };
 
 enum				e_errtype

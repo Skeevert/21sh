@@ -6,7 +6,7 @@
 ** which returns len of parameter value
 */
 
-int		ft_substring_len(t_ltree *sub, char **line, char *oper, size_t *i)
+int		ft_substring_len(t_ltree *sub, char **line, char *oper, int *i)
 {
 	size_t	size;
 	char	*tmp;
@@ -32,7 +32,7 @@ int		ft_substring_len(t_ltree *sub, char **line, char *oper, size_t *i)
 */
 
 int		ft_substring_s_l_prefix(t_ltree *sub, char **line,
-			char *oper, size_t *i)
+			char *oper, int *i)
 {
 	size_t	len;
 	char	*tmp;
@@ -67,7 +67,7 @@ int		ft_substring_s_l_prefix(t_ltree *sub, char **line,
 */
 
 int		ft_substring_s_l_suffix(t_ltree *sub, char **line,
-			char *oper, size_t *i)
+			char *oper, int *i)
 {
 	size_t	len;
 	size_t	len_tmp;

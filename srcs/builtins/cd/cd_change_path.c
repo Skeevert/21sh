@@ -6,12 +6,12 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/26 23:20:07 by rbednar           #+#    #+#             */
-/*   Updated: 2020/06/10 18:51:56 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 20:33:00 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "builtin.h"
+#include "sh21.h"
+#include "builtins.h"
 
 int		ft_del_slash(char **str)
 {
@@ -44,26 +44,26 @@ int		ft_to_dir(char *path)
 
 void	ft_change_pwd(char **path, t_ltree *pos)
 {
-	size_t	j;
-	size_t	k;
+	int		j;
+	int		k;
 	char	*old;
 	char	*buf;
 
-	k = find_in_variables(pos->envir, &j, "PWD");
-	if (k == (size_t)-1)
+	k = variable_search(&j, "PWD");
+	if (k == -1)
 	{
 		old = getcwd(NULL, 0);
 		buf = ft_strjoin("OLDPWD=", old);
-		add_new_to_exec_env(&(pos->envir), &buf);
+		find_assignment_in_vars(buf, 0, ft_strchri(buf, '='), ft_strlen(buf));
 		free(old);
 	}
 	else
 	{
 		buf = ft_strjoin("OLDPWD=", pos->envir[k] + j);
-		add_new_to_exec_env(&(pos->envir), &buf);
+		find_assignment_in_vars(buf, 0, ft_strchri(buf, '='), ft_strlen(buf));
 	}
 	buf = ft_strjoin("PWD=", *path);
-	add_new_to_exec_env(&(pos->envir), &buf);
+	find_assignment_in_vars(buf, 0, ft_strchri(buf, '='), ft_strlen(buf));
 }
 
 int		ft_change_path(char **path, t_ltree *pos)

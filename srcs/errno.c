@@ -3,14 +3,14 @@
 int		errno(int status, int errtype, char *name)
 {
 	ft_putstr_fd("21sh: ", 2);
-	if (errtype == ERR_NONINTERACTIVE)
+	if (status == ERR_NONINTERACTIVE)
 	{
 		ft_putstr_fd(name, 2);
 		ft_putendl_fd(": can't be launched in non-interactive mode", 2);
 	}
-	else if (errtype == ERR_TERMINAL)
+	else if (status == ERR_TERMINAL)
 		ft_putendl_fd("terminal does not exist or can't be changed", 2);
-	else if (errtype == ERR_TMPFILE)
+	else if (status == ERR_TMPFILE)
 		ft_putendl_fd("can't open a temporal file", 2);
 	else if (errtype == ERR_CMDEXEC)
 	{
@@ -22,9 +22,11 @@ int		errno(int status, int errtype, char *name)
 		ft_putstr_fd(name, 2);
 		ft_putendl_fd(": Is a directory", 2);
 	}
+	else if (errtype == ERR_PIPE)
+		ft_putendl_fd("Pipe failed", 2);
 	errtypes_first(errtype, name);
 	errtypes_second(errtype, name);
-	return (var_exit_status(status));
+	return (var_exit_status(status & 0x7F));
 }
 
 int		errtypes_first(int errtype, char *name)
@@ -51,8 +53,6 @@ int		errtypes_first(int errtype, char *name)
 		ft_putendl_fd(": Bad file descriptor", 2);
 	else if (errtype == ERR_NOACCESS)
 		ft_putendl_fd(": Permission denied", 2);
-	else if (errtype == ERR_NOFILEDIR)
-		ft_putendl_fd(": No such file or directory", 2);
 	return (0);
 }
 

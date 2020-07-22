@@ -17,7 +17,7 @@ int		add_redir_fd(t_ltree *final, t_fd_redir *redir)
 	fd_work = (t_fd_redir *)new->content;
 	fd_work->fd_new = redir->fd_new;
 	fd_work->fd_old = redir->fd_old;
-	ft_lstadd_to_end(&(final->fd), new);
+	ft_add_list_to_end(&(final->fd), new);
 	return (0);
 }
 
@@ -26,7 +26,7 @@ int		add_redir_fd(t_ltree *final, t_fd_redir *redir)
 ** std is standart input or output
 */
 
-int		ft_check_n_redir_op(size_t i, t_ltree *final, int std)
+int		ft_check_n_redir_op(int i, t_ltree *final, int std)
 {
 	char	*find;
 	int		count;
@@ -81,7 +81,7 @@ int		ft_check_redir_op_n(char *find, int std)
 */
 
 int		ft_num_or_word_out(char **f_name, t_fd_redir *fd_open,
-						size_t *i, t_ltree *final)
+						t_ltree *final)
 {
 	int		fd_ret;
 
@@ -99,7 +99,7 @@ int		ft_num_or_word_out(char **f_name, t_fd_redir *fd_open,
 	{
 		if (((fd_open->fd_old = fcntl(fd_ret, F_GETFL)) & O_ACCMODE)
 			!= O_WRONLY && (fd_open->fd_old & O_ACCMODE) != O_RDWR)
-			return (final->flags |= ERR_IN | ERR_R | ERR_BAD_FD << 16);
+			return (final->flags |= ERR_IN | ERR_R | ERR_FD << 16);
 		else
 			(fd_open->fd_old = fd_ret) >= 0 ?
 			add_redir_fd(final, fd_open) : 0;
@@ -109,7 +109,7 @@ int		ft_num_or_word_out(char **f_name, t_fd_redir *fd_open,
 }
 
 int		ft_num_or_word_in(char **f_name, t_fd_redir *fd_open,
-							size_t *i, t_ltree *final)
+							t_ltree *final)
 {
 	int		fd_ret;
 
@@ -127,7 +127,7 @@ int		ft_num_or_word_in(char **f_name, t_fd_redir *fd_open,
 	{
 		if (((fd_open->fd_old = fcntl(fd_ret, F_GETFL)) & O_ACCMODE)
 			!= O_RDONLY && (fd_open->fd_old & O_ACCMODE) != O_RDWR)
-			return (final->flags |= ERR_IN | ERR_R | ERR_BAD_FD << 16);
+			return (final->flags |= ERR_IN | ERR_R | ERR_FD << 16);
 		else
 			(fd_open->fd_old = fd_ret) >= 0 ?
 			add_redir_fd(final, fd_open) : 0;

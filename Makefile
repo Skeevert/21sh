@@ -70,26 +70,35 @@ ENVIRONMENT =	environment/global_variables.c \
 			environment/global_vars_proc.c
 
 CD =        builtins/cd/cd.c \
-            builtins/cd/cd_flags.c \
-            builtins/cd/cd_valid.c \
-            builtins/cd/cd_parser.c \
-            builtins/cd/cd_change_path.c \
-            builtins/cd/cd_new_path.c
+			builtins/cd/cd_parser.c \
+			builtins/cd/cd_change_path.c \
+			builtins/cd/cd_new_path.c
 
 BUILTINS = 			builtins/exit.c \
 			builtins/set.c \
 			builtins/unset.c \
-            builtins/echo.c \
-            $(CD)
+			builtins/echo.c \
+			$(CD)
 
 HELP_LIB =			help_lib/ft_straddsy.c \
 			help_lib/ft_strrchri.c \
 			help_lib/ft_issign.c \
-			help_lib/ft_add_list.c \
+			help_lib/ft_add_list_to_end.c \
 			help_lib/ft_lstclear.c \
 			help_lib/ft_lstlast.c \
 			help_lib/ft_strlenchri.c \
+			help_lib/ft_strchrcmp.c \
 			help_lib/ft_find_token.c \
+			help_lib/ft_make_techline.c \
+			help_lib/ft_isoctdigit.c \
+			help_lib/ft_ishexdigit.c \
+			help_lib/ft_count_words_i.c \
+			help_lib/ft_atoi_base.c \
+			help_lib/ft_arrdel.c \
+			help_lib/ft_arrshift.c \
+			help_lib/ft_realloc_array.c \
+			help_lib/ft_memrealloc_array.c \
+			help_lib/ft_delelem_array.c \
 			$(STACK_STRUCTURE) \
 			$(MALLOC_FUNCTIONS)
 
@@ -100,13 +109,13 @@ STACK_STRUCTURE = 	help_lib/stack_structure/ft_init_stack.c \
 			help_lib/stack_structure/ft_last_stack.c
 
 MALLOC_FUNCTIONS =	help_lib/malloc_functions/ft_itoa.c \
-			help_lib/malloc_functions/ft_realloc_array.c \
 			help_lib/malloc_functions/ft_realloc.c \
 			help_lib/malloc_functions/ft_strdup.c \
 			help_lib/malloc_functions/ft_strjoin.c \
 			help_lib/malloc_functions/ft_strndup.c \
 			help_lib/malloc_functions/ft_strrejoin.c \
 			help_lib/malloc_functions/ft_strsplit.c \
+			help_lib/malloc_functions/ft_strshift.c \
 			help_lib/malloc_functions/ft_xmalloc.c
 
 SOURCES =	main.c \

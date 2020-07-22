@@ -38,7 +38,7 @@ int			find_assignment_in_vars(char *sub, size_t var,
 }
 
 int			assignment_in_curv_var(t_ltree *sub, char **line,
-				char *oper, size_t *i)
+				char *oper, int *i)
 {
 	size_t	j;
 	int		len;

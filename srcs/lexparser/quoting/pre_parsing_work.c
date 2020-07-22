@@ -6,7 +6,7 @@
 ** g_techline.line and resizing g_cmd_size and g_techline.len.
 */
 
-int		ft_reglue(size_t *i, int num, t_ltree *sub)
+int		ft_reglue(int *i, int num, t_ltree *sub)
 {
 	size_t	z;
 	size_t	size;
@@ -27,7 +27,7 @@ int		ft_reglue(size_t *i, int num, t_ltree *sub)
 	return (0);
 }
 
-int		pre_parsing_back(size_t *i, t_ltree *sub)
+int		pre_parsing_back(int *i, t_ltree *sub)
 {
 	char	*end;
 
@@ -44,7 +44,7 @@ int		pre_parsing_back(size_t *i, t_ltree *sub)
 	return (0);
 }
 
-int		pre_parsing_andor_pipe(size_t *i, t_ltree *sub)
+int		pre_parsing_andor_pipe(int *i, t_ltree *sub)
 {
 	char	*end;
 
@@ -68,7 +68,7 @@ int		pre_parsing_andor_pipe(size_t *i, t_ltree *sub)
 	return (0);
 }
 
-int		pre_parsing_squote(size_t *i, t_ltree *sub)
+int		pre_parsing_squote(int *i, t_ltree *sub)
 {
 	char	*end;
 
@@ -99,11 +99,11 @@ int		pre_parsing_squote(size_t *i, t_ltree *sub)
 int		pre_parsing_cut_glue(t_ltree *sub)
 {
 	char	*end;
-	size_t	i;
+	int		i;
 
 	i = 0;
 	end = sub->l_tline.line;
-	while (i < sub->l_tline.len)
+	while ((size_t)i < sub->l_tline.len)
 	{
 		if (end[i] == DQUOTE)
 		{

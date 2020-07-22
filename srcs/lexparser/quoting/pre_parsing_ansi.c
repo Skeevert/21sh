@@ -1,7 +1,7 @@
 #include "sh21.h"
 #include "lexparser.h"
 
-int		pre_parsing_ansi(size_t *i, t_ltree *sub)
+int		pre_parsing_ansi(int *i, t_ltree *sub)
 {
 	char	*end;
 	char	*cmd;
@@ -17,7 +17,7 @@ int		pre_parsing_ansi(size_t *i, t_ltree *sub)
 	return (0);
 }
 
-int		ansi_table_check(char *symbol, size_t *i, t_ltree *sub)
+int		ansi_table_check(char *symbol, int *i, t_ltree *sub)
 {
 	if (symbol[1] == 'a')
 		symbol[1]='\a';
@@ -46,7 +46,7 @@ int		ansi_table_check(char *symbol, size_t *i, t_ltree *sub)
 	return (ft_reglue(i, 1, sub));
 }
 
-int		ansi_esc_symbols(char *symbol, size_t *i, t_ltree *sub)
+int		ansi_esc_symbols(char *symbol, int *i, t_ltree *sub)
 {
 	char	*nnn;
 	int		nums;
@@ -69,7 +69,7 @@ int		ansi_esc_symbols(char *symbol, size_t *i, t_ltree *sub)
 		return (ansi_esc_hex_symbols(symbol, i, sub));
 }
 
-int		ansi_esc_hex_symbols(char *symbol, size_t *i, t_ltree *sub)
+int		ansi_esc_hex_symbols(char *symbol, int *i, t_ltree *sub)
 {
 	char	*nnn;
 	int		nums;

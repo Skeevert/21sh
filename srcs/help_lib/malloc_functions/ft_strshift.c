@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_strshift.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/12 16:57:49 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 18:51:05 by rbednar          ###   ########.fr       */
+/*   Created: 2020/07/22 16:52:47 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/22 16:52:49 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
-#include "builtins.h"
+#include "libft.h"
 
-int			btin_env(t_ltree *pos)
+void			ft_strshift(char *str, int shift)
 {
-	char	**list;
-	int		max;
+	char		*buff;
+	int			i;
 
-	list = pos->envir;
-	max = -1;
-	while (list[++max])
-		ft_putendl_fd(list[max], STDOUT_FILENO);
-	return (0);
+	if (str == (char*)NULL || str[0] == '\0')
+		return ;
+	buff = (char*)ft_xmalloc(ft_strlen(str) + 1);
+	ft_strcpy(buff, str);
+	ft_strcpy(str + shift, buff);
+	i = 0;
+	while (i < shift)
+	{
+		str[i] = '\0';
+		i++;
+	}
+	free(buff);
 }

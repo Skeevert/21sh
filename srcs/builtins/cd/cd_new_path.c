@@ -6,12 +6,12 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/26 23:19:24 by rbednar           #+#    #+#             */
-/*   Updated: 2020/06/10 18:53:32 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 20:38:01 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "builtin.h"
+#include "sh21.h"
+#include "builtins.h"
 
 void	ft_del_prev(char **arr, int i)
 {
@@ -62,13 +62,13 @@ char	*ft_new_from_arr(char **arr)
 
 char	*ft_join_path(char *path, char **env)
 {
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
 	char	*tmp;
 
 	if (path[0] != '/')
 	{
-		i = find_in_variables(env, &j, "PWD");
+		i = variable_search(&j, "PWD");
 		tmp = ft_strjoin(env[i] + j, "/");
 		tmp = ft_strrejoin(tmp, path);
 	}

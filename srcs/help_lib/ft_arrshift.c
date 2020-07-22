@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setenv.c                                           :+:      :+:    :+:   */
+/*   ft_arrshift.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/12 18:43:04 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 18:51:05 by rbednar          ###   ########.fr       */
+/*   Created: 2020/07/22 20:30:26 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/22 20:30:28 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh21.h"
-#include "builtins.h"
+#include "libft.h"
 
-/*
-** bash: export: `   fu=ft': not a valid identifier
-** erroring for not valig args
-*/
-
-int			btin_setenv(t_ltree *pos)
+void			ft_arrshift(char **arr, int size, int shift)
 {
-	int	i;
-	int	len;
+	char		**buff;
+	int			i;
 
-	i = 1;
-	while (i <= pos->ar_c)
+	if (arr == (char**)NULL)
+		return ;
+	buff = (char**)ft_xmalloc(sizeof(char*) * (size + 1));
+	ft_memcpy(buff, arr, sizeof(char*) * size);
+	if (shift < 0)
 	{
-		pos->err_i = i;
-		len = ft_strlen(pos->ar_v[pos->err_i]);
-		assignment(pos, len);
+		i = shift - 1;
+		while (++i)
+			free(arr[i]);
+	}
+	ft_memcpy(arr + shift, buff, sizeof(char*) * (size - shift));
+	i = 0;
+	while (i < shift)
+	{
+		arr[i] = (char*)NULL;
 		i++;
 	}
-	return (0);
+	free(buff);
 }

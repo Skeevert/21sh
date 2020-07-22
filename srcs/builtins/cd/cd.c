@@ -6,12 +6,12 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/26 18:39:16 by rbednar           #+#    #+#             */
-/*   Updated: 2020/05/29 18:27:28 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 18:54:37 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "builtin.h"
+#include "sh21.h"
+#include "builtins.h"
 
 void	cd_free(char **cd_cur)
 {
@@ -24,11 +24,11 @@ void	cd_free(char **cd_cur)
 
 void	ft_values(t_ltree *pos, char **cd_cur)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	j;
 
-	i = find_in_variables(pos->envir, &j, "PWD");
-	if (i == (size_t)-1)
+	i = variable_search(&j, "PWD");
+	if (i == -1)
 		*cd_cur = getcwd(NULL, 0);
 	else
 		*cd_cur = ft_strdup(pos->envir[i] + j);
@@ -62,7 +62,7 @@ int		ft_error(char *name, int err)
 		tmp = ft_strrejoin(tmp, "too many arguments");
 	else if (err == 6)
 		tmp = ft_strrejoin(tmp, "OLDPWD not set");
-	error_management(VARIABLE_ERROR | (ERR_CD << 9), tmp);
+	errno(ERR_VARIABLE, ERR_VAR_CD, tmp);
 	free(tmp);
 	return (1);
 }

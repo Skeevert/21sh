@@ -3,17 +3,18 @@
 
 int		ft_find_tilda(t_ltree *sub, int flag)
 {
-	size_t	i;
+	int	i;
 
 	i = -1;
-	while (++i < sub->l_tline.len)
+	while ((size_t)++i < sub->l_tline.len)
 	{
 		if ((i == 0 || (i > 0 && (sub->l_tline.line[i - 1] == SPACE ||
 			(flag == ASSIGN && (sub->l_cmd[i - 1] == ':' ||
 			sub->l_tline.line[i - 1] == EQUAL))))) &&
 			sub->l_tline.line[i] == TILDA)
 		{
-			if (i + 1 == sub->l_tline.len || sub->l_tline.line[i + 1] == ENTER ||
+			if ((size_t)(i + 1) == sub->l_tline.len ||
+				sub->l_tline.line[i + 1] == ENTER ||
 				sub->l_tline.line[i + 1] == SPACE ||
 				sub->l_cmd[i + 1] == '/' ||
 				(flag == ASSIGN && sub->l_cmd[i + 1] == ':'))
@@ -29,7 +30,7 @@ int		ft_find_tilda(t_ltree *sub, int flag)
 ** It works when no symbol after '~' or it's '/'
 */
 
-int 	ft_get_home(t_ltree *sub, size_t *i)
+int 	ft_get_home(t_ltree *sub, int *i)
 {
 	char    *tmp;
 
@@ -55,9 +56,9 @@ int 	ft_get_home(t_ltree *sub, size_t *i)
 ** until '/' or ':' (only if flag == ASSIGN)
 */
 
-int	ft_getdir_by_name(t_ltree *sub, size_t *i, int flag)
+int	ft_getdir_by_name(t_ltree *sub, int *i, int flag)
 {
-	size_t	j;
+	int		j;
 	char	*user;
 
 	j = 1;
@@ -75,7 +76,7 @@ int	ft_getdir_by_name(t_ltree *sub, size_t *i, int flag)
 ** Function open file /etc/passwd and try to find user in it by USER
 */
 
-int		ft_find_dir_info(t_ltree *sub, char *user, size_t *i)
+int		ft_find_dir_info(t_ltree *sub, char *user, int *i)
 {
 	int		fd;
 	char	*line;
@@ -105,7 +106,7 @@ int		ft_find_dir_info(t_ltree *sub, char *user, size_t *i)
 ** Function open file /etc/passwd and try to find user in it by UID
 */
 
-int		ft_find_dir_by_uid(t_ltree *sub, char *uid, size_t *i)
+int		ft_find_dir_by_uid(t_ltree *sub, char *uid, int *i)
 {
 	int		fd;
 	char	*line;

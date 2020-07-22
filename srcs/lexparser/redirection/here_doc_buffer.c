@@ -33,8 +33,6 @@ int		ft_sub_heredoc(t_ltree *sub)
 		ft_find_var(sub);
 		if ((err = ft_find_curv_var(sub)) & ERR_OUT)
 			break ;
-		// if ((err = ft_find_sub_subshell(sub)) & ERR_OUT)
-		// 	break ;
 		err = 0;
 	}
 	return (err);
@@ -56,7 +54,7 @@ int		null_here_line(void)
 	nullify(&buf->l_tline.line, buf->l_tline.len);
 	buf->err_i = -1;
 	while (++(buf->err_i) < buf->l_tline.len)
-		pre_parsing_back(&(buf->err_i), buf);
+		pre_parsing_back((int*)&(buf->err_i), buf);
 	ft_sub_heredoc(buf);
 	free(g_cmd);
 	g_cmd = buf->l_cmd;
@@ -70,7 +68,7 @@ int		null_here_line(void)
 
 int		recover_g_cmd_here(void) //удалить при сборке 42
 {
-	clean_parser42();
+	destruct_parser();
 	g_cmd = ft_strdup(g_heredoc.g_cmd_copy);
 	g_cmd_size = g_heredoc.g_len_copy;
 	g_techline.line = ft_strdup(g_heredoc.g_cmd_copy);

@@ -14,7 +14,7 @@ int		ft_check_is_heredoc(int ret)
 	}
 	else if (g_heredoc.list != NULL)
 	{
-		if (ft_check_heredoc_end(ret) == EXIT)
+		if (ft_check_heredoc_end() == EXIT)
 			return (0);
 		ft_heredoc_fill(ret);
 	}
@@ -30,7 +30,7 @@ int		ft_check_is_heredoc(int ret)
 ** It needs to check here-docs correctly ends
 */
 
-int		ft_check_heredoc_end(int ret)
+int		ft_check_heredoc_end(void)
 {
 	t_list	*tmp;
 	int		i;

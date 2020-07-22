@@ -5,7 +5,7 @@
 ** Function to detect "[n]< word"
 */
 
-int		ft_redir_less(t_ltree *final, size_t *i)
+int		ft_redir_less(t_ltree *final, int *i)
 {
 	t_fd_redir	fd_open;
 	char		*f_name;
@@ -38,7 +38,7 @@ int		ft_redir_less(t_ltree *final, size_t *i)
 ** Function to detect "[n]<<stop_word" here-document
 */
 
-int		ft_redir_dless(t_ltree *final, size_t *i)
+int		ft_redir_dless(t_ltree *final, int *i)
 {
 	t_fd_redir	fd_open;
 	char		*f_name;
@@ -63,7 +63,7 @@ int		ft_redir_dless(t_ltree *final, size_t *i)
 ** Function to detect "[n]<<- stop_word" here-document with TAB delete
 */
 
-int		ft_redir_dless_min(t_ltree *final, size_t *i)
+int		ft_redir_dless_min(t_ltree *final, int *i)
 {
 	t_fd_redir	fd_open;
 	char		*f_name;
@@ -88,7 +88,7 @@ int		ft_redir_dless_min(t_ltree *final, size_t *i)
 ** Function to detect "[n]<&[m]" (input from fd or file if)
 */
 
-int		ft_redir_lessand(t_ltree *final, size_t *i)
+int		ft_redir_lessand(t_ltree *final, int *i)
 {
 	t_fd_redir	fd_open;
 	char		*f_name;
@@ -100,7 +100,7 @@ int		ft_redir_lessand(t_ltree *final, size_t *i)
 		ft_null_redir(final, *i, 2);
 		(*i) += 2;
 		if ((f_name = ft_word_to_redir(i, final, FF)) != NULL)
-			return (ft_num_or_word_in(&f_name, &fd_open, i, final));
+			return (ft_num_or_word_in(&f_name, &fd_open, final));
 		else
 			return (final->flags |= ERR_OUT | ERR_REDIR << 16);
 	}
@@ -114,12 +114,12 @@ int		ft_heredoc_form(t_fd_redir *fd_open, char **f_name, t_ltree *final,
 	if (g_prompt.prompt_func == main_prompt)
 	{
 		if (ft_tmpfile(TMPL, &fd_open->fd_old) == -1)
-			return(final->flags |= ERR_OUT | TMPFILE);
+			return(final->flags |= ERR_OUT | ERR_TMPFILE);
 		add_redir_fd(final, fd_open);
 		g_heredoc.stop.stop_w = *f_name;
 		g_heredoc.stop.fd = fd_open->fd_old;
 		g_heredoc.stop.flag = flag;
-		ft_lstadd_to_end(&(g_heredoc.list),
+		ft_add_list_to_end(&(g_heredoc.list),
 			ft_lstnew(&g_heredoc.stop, sizeof(t_stop)));
 	}
 	return (0);

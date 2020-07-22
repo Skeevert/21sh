@@ -9,7 +9,7 @@
 ** argc and argv variables
 */
 
-int		before_exec(t_ltree *sub, t_list **list)
+int		before_exec(t_ltree *sub)
 {
 	int	err;
 	
@@ -93,9 +93,9 @@ int		ft_local_copy_lines(t_ltree *sub, char *cmd, char *tline)
 	return (0);
 }
 
-int		erroring_andor_pipe(t_ltree *final, size_t *i, int tmp, size_t bl_end)
+int		erroring_andor_pipe(t_ltree *final, int *i, int tmp, size_t bl_end)
 {
-	if (*i == g_techline.len || g_techline.line[*i] == COMENT)
+	if ((size_t)(*i) == g_techline.len || g_techline.line[*i] == COMENT)
 	{
 		final->flags |= ERR_OUT;
 		if ((tmp & LOG_AND_OUT) || (tmp & LOG_OR_OUT))
@@ -104,7 +104,7 @@ int		erroring_andor_pipe(t_ltree *final, size_t *i, int tmp, size_t bl_end)
 			g_prompt.prompt_func = other_prompt;
 		return (EXIT);
 	}
-	else if (*i == bl_end || g_techline.line[*i] == PIPE ||
+	else if ((size_t)(*i) == bl_end || g_techline.line[*i] == PIPE ||
 		g_techline.line[*i] == AND)
 	{
 		final->err_i = *i;

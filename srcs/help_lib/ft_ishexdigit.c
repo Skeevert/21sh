@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_ishexdigit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/12 16:57:49 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 18:51:05 by rbednar          ###   ########.fr       */
+/*   Created: 2020/06/12 15:15:48 by rbednar           #+#    #+#             */
+/*   Updated: 2020/06/12 15:17:06 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
-#include "builtins.h"
+#include "libft.h"
 
-int			btin_env(t_ltree *pos)
+int		ft_ishexdigit(char c)
 {
-	char	**list;
-	int		max;
-
-	list = pos->envir;
-	max = -1;
-	while (list[++max])
-		ft_putendl_fd(list[max], STDOUT_FILENO);
+	if ((c >= '0' && c <= '9') ||
+			(c >= 'A' && c <= 'F'))
+		return (1);
 	return (0);
 }

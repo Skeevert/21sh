@@ -1,7 +1,7 @@
 #include "sh21.h"
 #include "lexparser.h"
 
-int		ft_param_word_sub(t_ltree *sub, char **line, char *oper, size_t *i)
+int		ft_param_word_sub(t_ltree *sub, char **line, char *oper, int *i)
 {
 	char *buf;
 
@@ -41,10 +41,10 @@ int		ft_param_error_msg(t_ltree *sub, char **find, char *oper)
 	*oper = '\0';
 	sub->err = ft_strdup(*find);
 	if (oper[1] == '\0')
-		sub->err_i |= ERR_OUT | VARIABLE_ERROR | ERR_UNSET << 9;
+		sub->err_i |= ERR_OUT | ERR_VARIABLE | ERR_VAR_UNSET << 9;
 	else
 	{
-		sub->err_i |= ERR_OUT | VARIABLE_ERROR | ERR_SET << 9;
+		sub->err_i |= ERR_OUT | ERR_VARIABLE | ERR_VAR_SET << 9;
 		sub->err = ft_strndup(sub->err, ft_strlen(sub->err) + 2);
 		sub->err = ft_strcat(sub->err, ": ");
 		buf = ft_parsing_str(oper + 1);

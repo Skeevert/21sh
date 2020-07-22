@@ -13,9 +13,6 @@ int		ft_substitution(t_ltree *sub)
 	err = 1;
 	while (err)
 	{
-		if ((err = btin_exsign(sub)) & ERR_OUT)
-			break ;
-		//ft_alias_find ;
 		ft_find_tilda(sub, LINE);
 		ft_find_var(sub);
 		if ((err = ft_find_curv_var(sub)) & ERR_OUT)
@@ -24,8 +21,7 @@ int		ft_substitution(t_ltree *sub)
 	}
 	if (err & ERR_OUT)
 	{
-		if (!(err & ERR_EXSIGN))
-			err & ERR_R ? ft_error_redir(sub) : ft_error_vars(sub, 0, NULL);
+		err & ERR_R ? ft_error_redir(sub) : ft_error_vars(sub, 0, NULL);
 		ft_lst_ltree_clear(&g_start_list);
 	}
 	return (err);
@@ -42,10 +38,10 @@ int		before_add(t_ltree *sub, t_list **list)
 		return (EXIT);
 	if ((err = ft_find_redirection(sub)) & ERR_OUT)
 	{
-		if ((err & 0xFF) != TMPFILE)
+		if ((err) != ERR_TMPFILE)
 			ft_error_redir(sub);
 		else
-			error_handler(err, NULL);
+			errno(err, err, NULL);
 		ft_one_ltree_clear(sub);
 		ft_lst_ltree_clear(list);
 		return (EXIT);
@@ -55,10 +51,10 @@ int		before_add(t_ltree *sub, t_list **list)
 
 int		ft_check_null(t_ltree *sub, t_list **list)
 {
-	size_t i;
+	int i;
 
 	i = sub->start;
-	while (i <= sub->l_tline.len)
+	while ((size_t)i <= sub->l_tline.len)
 	{
 		if (sub->l_tline.line[i] != SPACE)
 			break ;
@@ -83,10 +79,10 @@ int		ft_check_null(t_ltree *sub, t_list **list)
 ** has two types of work - added real techline insert or just TEXT (quoted)
 */
 
-int     insert_str_in_loc_strs(t_ltree *sub, char **insert, size_t *i, int flag)
+int     insert_str_in_loc_strs(t_ltree *sub, char **insert, int *i, int flag)
 {
 	char	*buf;
-	size_t	len_ins;
+	int		len_ins;
 	
 	len_ins = ft_strlen(*insert);
 	buf = (char *)ft_xmalloc(sizeof(char) * (sub->l_tline.len + len_ins));

@@ -19,22 +19,24 @@ int			ft_null_redir(t_ltree *pos, size_t i, long long num)
 
 int			ft_error_redir(t_ltree *final)
 {
-	if ((final->flags >> 16 & 0x1FFF) == ERR_NO_ACC)
-		error_handler((ERR_SYNTAX | (ERR_NO_ACC << 9)), final->err);
-	else if ((final->flags >> 16 & 0x1FFF) == ERR_BAD_FD)
-		error_handler((ERR_SYNTAX | (ERR_BAD_FD << 9)), final->err);
-	else if ((final->flags >> 16 & 0x1FFF) == ERR_NO_FILE)
-		error_handler((ERR_SYNTAX | (ERR_NO_FILE << 9)), final->err);
+	if ((final->flags >> 16 & 0x1FFF) == ERR_CMDEXEC)
+		errno(ERR_CMDEXEC, ERR_CMDEXEC, final->err);
+	else if ((final->flags >> 16 & 0x1FFF) == ERR_FD)
+		errno(ERR_CMDEXEC, ERR_FD, final->err);
+	else if ((final->flags >> 16 & 0x1FFF) == ERR_TMPFILE)
+		errno(ERR_TMPFILE, ERR_TMPFILE, final->err);
+	else if ((final->flags >> 16 & 0x1FFF) == ERR_NOFILEDIR)
+		errno(1, ERR_NOFILEDIR, final->err);
 	else if ((final->flags >> 16 & 0x1FFF) & ERR_REDIR)
 	{
 		final->err = ft_find_token_sep(&final->l_cmd[final->err_i]);
 		final->err == NULL ? final->err = ft_strdup(final->token) : 0;
-		if (final->err_i < final->end ||
-			(final->err_i == final->end &&
+		if (final->err_i < (size_t)final->end ||
+			(final->err_i == (size_t)final->end &&
 			final->l_tline.line[final->end] != END_T))
-			error_handler((ERR_SYNTAX | (ERR_REDIR << 9)), final->err);
+			errno(ERR_SYNTAX, ERR_SYNTAX , final->err);
 		else if (final->l_tline.line[final->end] == END_T)
-			error_handler((ERR_SYNTAX | (ERR_REDIR << 9)), "newline");
+			errno(ERR_SYNTAX, ERR_SYNTAX, "newline");
 	}
 	return (0);
 }
@@ -45,7 +47,7 @@ int			ft_error_redir(t_ltree *final)
 
 int			ft_find_redirection(t_ltree *final)
 {
-	size_t	i;
+	int		i;
 	int		ret;
 
 	i = final->start;
@@ -74,7 +76,7 @@ int			ft_find_redirection(t_ltree *final)
 ** Function to detect WORD of filename where/to need to redirect
 */
 
-char		*ft_word_to_redir(size_t *i, t_ltree *final, int rew_ff)
+char		*ft_word_to_redir(int *i, t_ltree *final, int rew_ff)
 {
 	char		*file;
 	char		*buf;
@@ -102,7 +104,7 @@ char		*ft_word_to_redir(size_t *i, t_ltree *final, int rew_ff)
 	return (file);
 }
 
-int			ft_word_to_redir_rew(size_t *i, t_ltree *final,
+int			ft_word_to_redir_rew(int *i, t_ltree *final,
 			long long *size, size_t *start)
 {
 	if (*i > 0)

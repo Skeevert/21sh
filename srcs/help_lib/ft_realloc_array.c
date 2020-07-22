@@ -1,5 +1,5 @@
 #include "sh21.h"
-#include "help_lib.h"
+#include "libft.h"
 
 char				**ft_realloc_array(char ***subj, int len_subj,
 						int len_needed)
@@ -11,7 +11,7 @@ char				**ft_realloc_array(char ***subj, int len_subj,
 	i = 0;
 	old = *subj;
 	new = (char**)ft_xmalloc(sizeof(char*) * (len_needed + 1));
-	while (old[i])
+	while (old[i] && i < len_subj)
 	{
 		new[i] = ft_strdup(old[i]);
 		i++;

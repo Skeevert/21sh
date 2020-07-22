@@ -6,23 +6,23 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/26 23:19:10 by rbednar           #+#    #+#             */
-/*   Updated: 2020/06/03 18:14:39 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 19:09:44 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "builtin.h"
+#include "sh21.h"
+#include "builtins.h"
 
 int		ft_cd_env(char *path, t_ltree *pos)
 {
 	char	*name;
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
 
 	name = path ? ft_strdup("OLDPWD") : ft_strdup("HOME");
 	if (name)
-		i = find_in_variables(pos->envir, &j, name);
-	if (path && i == (size_t)-1)
+		i = variable_search(&j, name);
+	if (path && i == -1)
 	{
 		free(name);
 		return (ft_error(NULL, CD_OLDPWD_NS));
@@ -30,8 +30,8 @@ int		ft_cd_env(char *path, t_ltree *pos)
 	free(name);
 	if (path != NULL)
 		ft_putendl_fd((pos->envir)[i] + j, STDOUT_FILENO);
-	if (i == (size_t)-1)
-		name = ft_parsing_str(pos->envir, "~");
+	if (i == -1)
+		name = ft_parsing_str("~");
 	else
 		name = ft_strdup((pos->envir)[i] + j);
 	return (ft_change_path(&name, pos));

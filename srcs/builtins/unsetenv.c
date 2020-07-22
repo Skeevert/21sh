@@ -6,12 +6,12 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:43:04 by rbednar           #+#    #+#             */
-/*   Updated: 2020/05/29 22:25:39 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 18:51:05 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "builtin.h"
+#include "sh21.h"
+#include "builtins.h"
 
 static int	unset_from_array(char **arr, int i)
 {

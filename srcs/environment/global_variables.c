@@ -92,14 +92,10 @@ int					save_readonly_variable(int num)
 int					create_env(void)
 {
 	int		num;
-	char	*tmp;
 
 	g_envi = (char **)ft_xmalloc(VAR_BUFFER * sizeof(char*));
 	num = save_readonly_variable(0);
 	num = save_environment_variable(num);
-	change_pwd_value((tmp = getcwd(NULL, MAXDIR)));
-	change_oldpwd_value(tmp);
-	free(tmp);
 	return (0);
 }
 

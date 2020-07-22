@@ -13,7 +13,7 @@ int		assignment(t_ltree *sub)
 	while (i < sub->ar_c)
 	{
 		len_arg = ft_strlen(sub->ar_v[i]);
-		if (check_kind_assign(sub, i, len_arg, arg_tline))
+		if (check_kind_assign(i, len_arg, arg_tline))
 			break ;
 		i++;
 	}
@@ -36,7 +36,7 @@ int		assignment(t_ltree *sub)
 ** only assignments, or have no one assignment
 */
 
-int		check_kind_assign(t_ltree *sub, int i, int len_arg, char **arg_tline)
+int		check_kind_assign(int i, int len_arg, char **arg_tline)
 {
 	int	eq;
 
@@ -113,7 +113,7 @@ int		assign_local_or_err(t_ltree *sub, char **find, int start)
 	if ((i = variable_search(&j, *find)) != -1)
 	{
 		if (g_envi[i][0] & READONLY)
-			error_handler(ERR_RDONLY << 9 | VARIABLE_ERROR, *find);
+			errno(ERR_VAR_RDONLY, ERR_VAR_RDONLY, *find);
 		else
 			change_var_in_local(sub, find, start);
 	}
