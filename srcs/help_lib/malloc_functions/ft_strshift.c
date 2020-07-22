@@ -6,11 +6,12 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:52:47 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 16:52:49 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/22 21:55:23 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "sh21.h"
+#include "help_lib.h"
 
 void			ft_strshift(char *str, int shift)
 {
