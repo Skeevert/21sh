@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 13:55:51 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 14:59:14 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 17:03:28 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int		argument_needed_21sh(char *option, char *name)
 {
 	char		*arg;
-	
+
 	arg = ft_strjoin(name, ": ");
 	arg = ft_strrejoin(arg, option);
 	errno(ERR_OPTIONS, ERR_BTIN_ARG, arg);
@@ -26,7 +26,7 @@ static int		argument_needed_21sh(char *option, char *name)
 static int		invalid_option_21sh(char *option, char *name)
 {
 	char		*arg;
-	
+
 	arg = ft_strjoin(name, ": ");
 	arg = ft_strrejoin(arg, option);
 	errno(ERR_OPTIONS, ERR_OPT_BTIN_INVALID, arg);
@@ -54,7 +54,7 @@ int				check_c_option(int argc, char **argv)
 		if (argv[i][j] == '-' && !argv[i][j + 1])
 			break ;
 		if (j > 0 && (!(argv[i][j] == 'c' || argv[i][j] == '\0')))
-			return (invalid_option_21sh(&argv[i][j], argv[0]));	
+			return (invalid_option_21sh(&argv[i][j], argv[0]));
 	}
 	if (tmp > 0 && !argv[i])
 		return (argument_needed_21sh("-c", argv[0]));

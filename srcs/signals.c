@@ -6,14 +6,14 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:08:20 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 16:08:21 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 17:05:42 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh21.h"
 #include "edit_line.h"
 
-int					signals_define(int from)
+int		signals_define(int from)
 {
 	if (from == 1)
 	{
@@ -33,7 +33,7 @@ int					signals_define(int from)
 	return (0);
 }
 
-void				signal_ctrl_c_readline(int sig)
+void	signal_ctrl_c_readline(int sig)
 {
 	sig = sig ? sig : sig;
 	ft_putchar_fd('\n', 1);
@@ -42,23 +42,23 @@ void				signal_ctrl_c_readline(int sig)
 	bzero_readline();
 }
 
-void				signal_screen(int sig)
+void	signal_screen(int sig)
 {
 	int				i;
 
 	sig = sig ? sig : sig;
-    put_cursor("ch", 0, 0);
+	put_cursor("ch", 0, 0);
 	put_termcap("cd");
 	init_wind_size();
-    g_readline.pos = 0;
-    g_readline.pos_x = g_prompt.prompt_len;
-    g_readline.pos_y = 0;
-    g_readline.str_num = 1;
-    g_prompt.prompt_func(); //проверить заход, чтобы позиция х приравнялась
-    i = -1;
-    while (g_readline.cmd[++i])
-    {
-        g_readline.pos++;
-        front_insert_char(g_readline.cmd[i]);
-    }
+	g_readline.pos = 0;
+	g_readline.pos_x = g_prompt.prompt_len;
+	g_readline.pos_y = 0;
+	g_readline.str_num = 1;
+	g_prompt.prompt_func();
+	i = -1;
+	while (g_readline.cmd[++i])
+	{
+		g_readline.pos++;
+		front_insert_char(g_readline.cmd[i]);
+	}
 }

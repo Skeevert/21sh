@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 13:56:26 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 13:56:27 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 17:02:15 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		destruct_globals(void)
 {
 	int		i;
 	int		j;
-	
+
 	i = variable_search(&j, "NONINTERACTIVE_MODE");
 	if (g_envi[i][j] == '0')
 	{

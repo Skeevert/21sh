@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:08:15 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 16:08:16 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 17:07:29 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int		exit_status_variable(void)
 {
 	int		li;
 	int		sy;
-	
+
 	li = variable_search(&sy, "?");
 	return (ft_atoi(&g_envi[li][sy]));
 }
