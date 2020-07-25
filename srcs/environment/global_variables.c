@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:10:36 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 16:05:46 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 17:35:22 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,21 @@ int		save_environment_variable(int num, char **environ)
 	int	i;
 
 	i = 0;
-	while (environ[i])
-	{
-		if (num >= g_var_size || (num + 1) >= g_var_size)
+	if (environ)
+		while (environ[i])
 		{
-			g_envi = ft_realloc_array(&g_envi, g_var_size, g_var_size * 2);
-			g_var_size *= 2;
+			if ((num + 1) >= g_var_size)
+			{
+				g_envi = ft_realloc_array(&g_envi, g_var_size, g_var_size * 2);
+				g_var_size *= 2;
+			}
+			g_envi[num] = (char*)ft_xmalloc((ft_strlen(environ[i]) + 2) * sizeof(char));
+			ft_strcpy(&g_envi[num][1], environ[i]);
+			g_envi[num][0] |= ENV_VIS;
+			g_envi[num][0] |= SET_VIS;
+			num++;
+			i++;
 		}
-		g_envi[num] = (char*)ft_xmalloc((ft_strlen(environ[i]) + 2) * sizeof(char));
-		ft_strcpy(g_envi[num][1], environ[i]);
-		g_envi[num][0] |= ENV_VIS;
-		g_envi[num][0] |= SET_VIS;
-		num++;
-		i++;
-	}
 	return (num);
 }
 
@@ -55,8 +56,7 @@ char	*ft_add_rdovar(char *first, char *scnd, int flag)
 	ft_strcpy(res + 1, first);
 	if (scnd)
 		ft_strcpy(res + ft_strlen(first) + 1, scnd);
-	if (flag != 2)
-		res[0] |= READONLY;
+	res[0] |= READONLY;
 	if (flag != 1)
 		res[0] |= SET_VIS;
 	return (res);
@@ -66,7 +66,7 @@ int		save_readonly_variable(int num)
 {
 	char	*tmp;
 
-	g_envi[num++] = ft_add_rdovar("?=0", NULL, 1);
+	g_envi[num] = ft_add_rdovar("?=0", NULL, 1);
 	g_envi[num++] = ft_add_rdovar("0=21sh", NULL, 1);
 	g_envi[num++] = ft_add_rdovar("NONINTERACTIVE_MODE=0", NULL, 1);
 	tmp = getcwd(NULL, MAXDIR);
@@ -100,7 +100,7 @@ int		create_env(char **environ)
 {
 	int	num;
 
-	g_envi = (char **)ft_xmalloc(VAR_BUFFER * sizeof(char*));
+	g_envi = (char**)ft_xmalloc(VAR_BUFFER * sizeof(char*));
 	num = save_readonly_variable(0);
 	num = save_environment_variable(num, environ);
 	return (0);
