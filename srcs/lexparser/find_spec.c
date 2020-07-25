@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find_spec.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 16:09:33 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 16:13:39 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -71,7 +83,7 @@ t_ltree		*ft_check_andor_pipes(t_ltree *block, t_ltree *final, t_list **list)
 		tmp = 0;
 	if (!ft_find_logic(block, final))
 		return (NULL);
-	if (tmp & LOG_AND_OUT || tmp & LOG_OR_OUT || 
+	if (tmp & LOG_AND_OUT || tmp & LOG_OR_OUT ||
 		final->flags & PIPED_IN)
 	{
 		final->flags |= (tmp & LOG_OR_OUT) ? LOG_OR_IN : 0;
@@ -82,16 +94,16 @@ t_ltree		*ft_check_andor_pipes(t_ltree *block, t_ltree *final, t_list **list)
 				break ;
 		erroring_andor_pipe(final, &i, tmp, block->end);
 	}
-	return (final);			
+	return (final);
 }
 
 /*
 ** Function clear list of t_ltree type. It uses ft_one_ltree_clear
 */
 
-void	ft_lst_ltree_clear(t_list **begin_list)
+void		ft_lst_ltree_clear(t_list **begin_list)
 {
-	t_list 	*tmp;
+	t_list	*tmp;
 	t_ltree	*buf;
 
 	if (!(begin_list) || !(*begin_list))
@@ -110,7 +122,7 @@ void	ft_lst_ltree_clear(t_list **begin_list)
 	*begin_list = NULL;
 }
 
-int		ft_correct_after_andor_pipe(int *i)
+int			ft_correct_after_andor_pipe(int *i)
 {
 	if (g_techline.line[*i] == WORD_P ||
 		g_techline.line[*i] == PIPE ||

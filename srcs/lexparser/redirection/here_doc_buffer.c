@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc_buffer.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 15:55:16 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 15:56:14 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -25,7 +37,7 @@ int		add_to_heredoc_buf(char ***array, char *add, int *buf_size)
 int		ft_sub_heredoc(t_ltree *sub)
 {
 	int	err;
-	
+
 	err = 1;
 	while (err)
 	{
@@ -66,7 +78,7 @@ int		null_here_line(void)
 	return (0);
 }
 
-int		recover_g_cmd_here(void) //удалить при сборке 42
+int		recover_g_cmd_here(void)
 {
 	destruct_parser();
 	g_cmd = ft_strdup(g_heredoc.g_cmd_copy);

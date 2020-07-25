@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   param_help_func.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 16:02:12 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 16:03:34 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -36,7 +48,7 @@ int		ft_param_error_msg(t_ltree *sub, char **find, char *oper)
 	int		len;
 	char	*buf;
 	size_t	j;
-	
+
 	ft_colon_check(&len, find, &oper, &j);
 	*oper = '\0';
 	sub->err = ft_strdup(*find);
@@ -51,7 +63,7 @@ int		ft_param_error_msg(t_ltree *sub, char **find, char *oper)
 		sub->err = ft_strrejoin(sub->err, buf);
 		free(buf);
 	}
-	free (*find);
+	free(*find);
 	return (sub->err_i);
 }
 

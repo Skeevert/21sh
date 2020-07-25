@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_types_in.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 15:55:26 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 16:01:42 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -45,7 +57,7 @@ int		ft_redir_dless(t_ltree *final, int *i)
 
 	f_name = NULL;
 	if (final->l_tline.line[*i] == LTHAN && final->l_tline.line[*i + 1] == LTHAN
-		&&	final->l_cmd[*i + 2] != '-')
+		&& final->l_cmd[*i + 2] != '-')
 	{
 		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDIN_FILENO);
 		ft_null_redir(final, *i, 2);
@@ -94,7 +106,8 @@ int		ft_redir_lessand(t_ltree *final, int *i)
 	char		*f_name;
 
 	f_name = NULL;
-	if (final->l_tline.line[*i] == LTHAN && (final->l_tline.line[*i + 1] == AND))
+	if (final->l_tline.line[*i] == LTHAN &&
+		(final->l_tline.line[*i + 1] == AND))
 	{
 		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDIN_FILENO);
 		ft_null_redir(final, *i, 2);
@@ -114,7 +127,7 @@ int		ft_heredoc_form(t_fd_redir *fd_open, char **f_name, t_ltree *final,
 	if (g_prompt.prompt_func == main_prompt)
 	{
 		if (ft_tmpfile(TMPL, &fd_open->fd_old) == -1)
-			return(final->flags |= ERR_OUT | ERR_TMPFILE);
+			return (final->flags |= ERR_OUT | ERR_TMPFILE);
 		add_redir_fd(final, fd_open);
 		g_heredoc.stop.stop_w = *f_name;
 		g_heredoc.stop.fd = fd_open->fd_old;

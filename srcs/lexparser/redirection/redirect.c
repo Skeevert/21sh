@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 15:55:32 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 16:00:56 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -34,7 +46,7 @@ int			ft_error_redir(t_ltree *final)
 		if (final->err_i < (size_t)final->end ||
 			(final->err_i == (size_t)final->end &&
 			final->l_tline.line[final->end] != END_T))
-			errno(ERR_SYNTAX, ERR_SYNTAX , final->err);
+			errno(ERR_SYNTAX, ERR_SYNTAX, final->err);
 		else if (final->l_tline.line[final->end] == END_T)
 			errno(ERR_SYNTAX, ERR_SYNTAX, "newline");
 	}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote_control.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 15:50:31 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 15:50:41 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -136,6 +148,5 @@ int		nullify(char **techline, size_t cmd_size)
 			nullify_comment(&ptr, &stack);
 		ptr++;
 	}
-		// print_techline(g_cmd, g_techline.line, g_techline.len);
 	return (nullify_promt_check(&stack));
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_find_var.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 16:02:06 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 16:02:43 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -19,7 +31,7 @@ int		ft_find_var(t_ltree *sub)
 		{
 			size = 1;
 			while (i + size < sub->end && sub->l_cmd[i + size] != '/'
-				 && sub->l_tline.line[i + size] == WORD_P)
+				&& sub->l_tline.line[i + size] == WORD_P)
 				size++;
 			find = size > 1 ? ft_strndup(&sub->l_cmd[i + 1], size - 1) : NULL;
 			if ((find = ft_find_var_value(&find)) != NULL)

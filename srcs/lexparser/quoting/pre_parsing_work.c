@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pre_parsing_work.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 15:49:13 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 15:50:16 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -56,7 +68,7 @@ int		pre_parsing_andor_pipe(int *i, t_ltree *sub)
 		if (end[*i] == PIPE && end[*i + 1] != PIPE)
 			*i += 1;
 		else
-			*i += 2;		
+			*i += 2;
 		while (end[*i] == SPACE)
 			(*i)++;
 		if (end[*i] == ENTER)
@@ -122,6 +134,5 @@ int		pre_parsing_cut_glue(t_ltree *sub)
 			ft_reglue(&i, 1, sub);
 		i++;
 	}
-		// print_techline(sub->l_cmd, sub->l_tline.line, sub->l_tline.len);
 	return (0);
 }

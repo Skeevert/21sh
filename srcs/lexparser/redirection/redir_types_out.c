@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_types_out.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 15:55:29 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 16:00:38 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -11,8 +23,9 @@ int		ft_redir_great(t_ltree *final, int *i)
 	char		*f_name;
 
 	f_name = NULL;
-	if (final->l_tline.line[*i] == GTHAN && (final->l_tline.line[*i + 1] != GTHAN &&
-		(final->l_tline.line[*i + 1] != AND || final->l_tline.line[*i + 1] == PIPE)))
+	if (final->l_tline.line[*i] == GTHAN && (final->l_tline.line[*i + 1] !=
+		GTHAN && (final->l_tline.line[*i + 1] != AND ||
+		final->l_tline.line[*i + 1] == PIPE)))
 	{
 		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDOUT_FILENO);
 		ft_null_redir(final, *i, 1);
@@ -42,7 +55,8 @@ int		ft_redir_dgreat(t_ltree *final, int *i)
 	char		*f_name;
 
 	f_name = NULL;
-	if (final->l_tline.line[*i] == GTHAN && final->l_tline.line[*i + 1] == GTHAN)
+	if (final->l_tline.line[*i] == GTHAN &&
+		final->l_tline.line[*i + 1] == GTHAN)
 	{
 		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDOUT_FILENO);
 		ft_null_redir(final, *i, 2);
@@ -73,7 +87,8 @@ int		ft_redir_greatand(t_ltree *final, int *i)
 	char		*f_name;
 
 	f_name = NULL;
-	if (final->l_tline.line[*i] == GTHAN && (final->l_tline.line[*i + 1] == AND))
+	if (final->l_tline.line[*i] == GTHAN &&
+		(final->l_tline.line[*i + 1] == AND))
 	{
 		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDOUT_FILENO);
 		ft_null_redir(final, *i, 2);

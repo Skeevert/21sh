@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:10:36 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 15:16:11 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:05:46 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		save_readonly_variable(int num)
 }
 
 /*
-** Shell local variables - dinamic, exist within the session
+** Shell local variables - dynamic, exist within the session
 ** @g_envi with flag SET_VIS
 ** Can be added and changed by assignment (fuu=bar)
 ** And if already exists in @g_envi and

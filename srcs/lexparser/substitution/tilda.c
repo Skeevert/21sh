@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tilda.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 16:02:18 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 16:07:43 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -30,9 +42,9 @@ int		ft_find_tilda(t_ltree *sub, int flag)
 ** It works when no symbol after '~' or it's '/'
 */
 
-int 	ft_get_home(t_ltree *sub, int *i)
+int		ft_get_home(t_ltree *sub, int *i)
 {
-	char    *tmp;
+	char	*tmp;
 
 	if ((tmp = ft_strdup(find_env_value("HOME"))) != NULL)
 	{
@@ -52,11 +64,11 @@ int 	ft_get_home(t_ltree *sub, int *i)
 }
 
 /*
-** It works when after symbol '~' is some WORD 
+** It works when after symbol '~' is some WORD
 ** until '/' or ':' (only if flag == ASSIGN)
 */
 
-int	ft_getdir_by_name(t_ltree *sub, int *i, int flag)
+int		ft_getdir_by_name(t_ltree *sub, int *i, int flag)
 {
 	int		j;
 	char	*user;
@@ -81,7 +93,7 @@ int		ft_find_dir_info(t_ltree *sub, char *user, int *i)
 	int		fd;
 	char	*line;
 	char	**info;
-	
+
 	line = NULL;
 	if ((fd = open("/etc/passwd", O_RDONLY)) != -1)
 		while (ft_gnl(fd, &line) > 0)
@@ -98,7 +110,7 @@ int		ft_find_dir_info(t_ltree *sub, char *user, int *i)
 			}
 			ft_arrdel(info);
 		}
-	close (fd);
+	close(fd);
 	return (0);
 }
 
@@ -111,7 +123,7 @@ int		ft_find_dir_by_uid(t_ltree *sub, char *uid, int *i)
 	int		fd;
 	char	*line;
 	char	**info;
-	
+
 	line = NULL;
 	if ((fd = open("/etc/passwd", O_RDONLY)) != -1)
 		while (ft_gnl(fd, &line) > 0)
@@ -128,6 +140,6 @@ int		ft_find_dir_by_uid(t_ltree *sub, char *uid, int *i)
 			}
 			ft_arrdel(info);
 		}
-	close (fd);
+	close(fd);
 	return (0);
 }

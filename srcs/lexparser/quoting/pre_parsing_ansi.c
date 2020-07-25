@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pre_parsing_ansi.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 15:45:38 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 15:48:23 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -20,27 +32,27 @@ int		pre_parsing_ansi(int *i, t_ltree *sub)
 int		ansi_table_check(char *symbol, int *i, t_ltree *sub)
 {
 	if (symbol[1] == 'a')
-		symbol[1]='\a';
+		symbol[1] = '\a';
 	else if (symbol[1] == 'b')
-		symbol[1]='\b';
+		symbol[1] = '\b';
 	else if (symbol[1] == 'e' || symbol[1] == 'E')
-		symbol[1]='\e';
+		symbol[1] = '\e';
 	else if (symbol[1] == 'f')
-		symbol[1]='\f';
+		symbol[1] = '\f';
 	else if (symbol[1] == 'n')
-		symbol[1]='\n';
+		symbol[1] = '\n';
 	else if (symbol[1] == 'r')
-		symbol[1]='\r';
+		symbol[1] = '\r';
 	else if (symbol[1] == 't')
-		symbol[1]='\t';
+		symbol[1] = '\t';
 	else if (symbol[1] == 'v')
-		symbol[1]='\v';
+		symbol[1] = '\v';
 	else if (symbol[1] == '\'')
-		symbol[1]='\'';
+		symbol[1] = '\'';
 	else if (symbol[1] == '\"')
-		symbol[1]='\"';
+		symbol[1] = '\"';
 	else if (symbol[1] == '?')
-		symbol[1]='\?';
+		symbol[1] = '\?';
 	else
 		return (ansi_esc_symbols(symbol, i, sub));
 	return (ft_reglue(i, 1, sub));
