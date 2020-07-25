@@ -1,6 +1,6 @@
 #!/bin/bash --posix
 
-bsh_name="./42sh"
+bsh_name="./21sh"
 
 if [ -x $bsh_name ]
 then
