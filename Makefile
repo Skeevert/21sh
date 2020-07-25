@@ -6,7 +6,7 @@
 #    By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/25 13:55:36 by rbednar           #+#    #+#              #
-#    Updated: 2020/07/25 13:57:48 by rbednar          ###   ########.fr        #
+#    Updated: 2020/07/25 14:37:44 by rbednar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,8 +87,6 @@ CD =        builtins/cd/cd.c \
 			builtins/cd/cd_new_path.c
 
 BUILTINS = 			builtins/exit.c \
-			builtins/set.c \
-			builtins/unset.c \
 			builtins/setenv.c \
 			builtins/unsetenv.c \
 			builtins/env.c \
