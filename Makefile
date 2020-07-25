@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/07/25 13:55:36 by rbednar           #+#    #+#              #
+#    Updated: 2020/07/25 13:57:48 by rbednar          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = 21sh
 
 FLAGS = -Wall -Wextra #-Werror
@@ -180,12 +192,12 @@ $(OBJS): $(DIR_O)/%.o: $(DIR_S)/%.c $(wildcard includes/*.h)
 clean:
 	@echo "\033[34mDeleting 21sh o-files\033[0m"
 	@/bin/rm -Rf $(DIR_O)
-	@make clean --directory ./libft
+	@make clean -C libft
 
 fclean: clean
 	@echo "\033[34mDeleting 21sh binary\033[0m"
 	@/bin/rm -f $(NAME)
-	@make fclean --directory ./libft
+	@make fclean -C libft
 
 re:		fclean all
 
