@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_clear_stack.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vladlenaskubis <vladlenaskubis@student.    +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 10:37:08 by sschmele          #+#    #+#             */
-/*   Updated: 2020/03/27 19:23:14 by vladlenasku      ###   ########.fr       */
+/*   Created: 2020/07/25 15:18:18 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 15:18:19 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

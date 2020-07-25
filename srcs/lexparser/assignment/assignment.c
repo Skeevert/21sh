@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   assignment.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 15:36:26 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 15:37:19 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -21,7 +33,7 @@ int		assignment(t_ltree *sub)
 	{
 		ft_arrdel(arg_tline);
 		return (0);
-	}	
+	}
 	if (i < sub->ar_c)
 	{
 		add_new_local_env(sub, i, arg_tline);
@@ -50,7 +62,7 @@ int		check_kind_assign(int i, int len_arg, char **arg_tline)
 	if (eq < len_arg)
 	{
 		if (is_it_command(i, arg_tline, eq))
-			return(1);
+			return (1);
 		return (0);
 	}
 	return (1);
@@ -65,7 +77,7 @@ int		is_it_command(int i, char **arg_tline, int eq)
 	if (eq == 0)
 		return (1);
 	else if (eq-- > 0)
-		while (eq >  0)
+		while (eq > 0)
 		{
 			if (arg_tline[i][eq] != WORD_P)
 				break ;

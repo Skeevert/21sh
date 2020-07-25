@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/12 14:18:08 by rbednar           #+#    #+#             */
-/*   Updated: 2020/06/12 14:34:50 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 15:25:30 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	ft_isspace(char c)
 	return (0);
 }
 
-static int	_isdigit(char c)
+static int	is_digit(char c)
 {
 	if ((c >= '0' && c <= '9') ||
 			(c >= 'A' && c <= 'F'))
@@ -28,7 +28,7 @@ static int	_isdigit(char c)
 	return (0);
 }
 
-static char	_toupper(char c)
+static char	to_upper(char c)
 {
 	if (c >= 'a' && c <= 'f')
 		return (c - 32);
@@ -55,10 +55,10 @@ int			ft_atoi_base(char *str, int str_base)
 		i++;
 	while (str[i])
 	{
-		if (!_isdigit(_toupper(str[i])))
+		if (!is_digit(to_upper(str[i])))
 			return (-1);
 		ret *= str_base;
-		ret += (str[i] <= '9') ? str[i] - '0' : _toupper(str[i]) - 55;
+		ret += (str[i] <= '9') ? str[i] - '0' : to_upper(str[i]) - 55;
 		i++;
 	}
 	return (ret * neg);

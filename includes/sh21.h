@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh21.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 15:46:47 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 15:46:48 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 15:04:25 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,10 +160,10 @@ int					change_env_value(char *new_val, int i);
 ** File environment/global_variables.c
 */
 
-int					save_environment_variable(int num);
+int					save_environment_variable(int num, char **environ);
 char				*ft_add_rdovar(char *first, char *scnd, int flag);
 int					save_readonly_variable(int num);
-int					create_env(void);
+int					create_env(char **environ);
 int					var_exit_status(int status);
 
 /*

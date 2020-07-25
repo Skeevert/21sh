@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 13:55:51 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 13:55:52 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 14:59:14 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ int				noninteractive_shell(char **argv)
 	exit(ft_atoi(&g_envi[i][j]));
 }
 
-int				main(int argc, char **argv)
+int				main(int argc, char **argv, char **environ)
 {
 	g_var_size = VAR_BUFFER;
-	create_env();
+	create_env(environ);
 	check_c_option(argc, argv);
 	g_prompt.prompt_func = main_prompt;
 	init_hist_buff();

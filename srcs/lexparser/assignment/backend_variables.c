@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   backend_variables.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 15:35:34 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 15:38:28 by rbednar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
 /*
 ** Is used in parser to execute the assignment command "VARIABLE=VALUE"
-** Checks the array if such variable exists and if not found - 
+** Checks the array if such variable exists and if not found -
 ** adds the variable to @g_envi
 ** READONLY can not be changed by the user, therefore if the variable
 ** is one of the rdonly shell variables - there is an error
@@ -23,10 +35,10 @@ int			find_assignment_in_vars(char *sub, size_t var,
 	find = ft_strndup(sub + var, eq - var);
 	if ((li = variable_search(&sy, find)) != -1)
 	{
-		if (g_envi[li][0] & READONLY) //посмотреть с Сережей тест: unset HOME ; HOME=/ ; echo $HOME
+		if (g_envi[li][0] & READONLY)
 			g_envi[li][0] |= ENV_VIS;
 		else
-			change_env_value(new_var, li);	
+			change_env_value(new_var, li);
 	}
 	else
 		add_new_env(new_var);
@@ -43,7 +55,7 @@ int			assignment_in_curv_var(t_ltree *sub, char **line,
 	size_t	j;
 	int		len;
 	char	*buf;
-	
+
 	ft_colon_check(&len, line, &oper, &j);
 	buf = ft_parsing_str(oper + 1);
 	ft_reglue(i, len + 2, sub);
