@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:09:27 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 16:09:28 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 18:59:52 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int		ft_block_start(t_list **list)
 	while (start)
 	{
 		sub = (t_ltree *)(start->content);
-		if (before_exec(sub) == EXIT)
+		if (before_exec(sub) == EXIT || out_flag != 0)
 			break ;
 		if (!(sub->flags & ERR_IN))
 		{
