@@ -6,7 +6,7 @@
 #    By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/25 13:55:36 by rbednar           #+#    #+#              #
-#    Updated: 2020/07/25 14:37:44 by rbednar          ###   ########.fr        #
+#    Updated: 2020/07/25 14:46:32 by rbednar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,8 +49,7 @@ PATH_TREE = 		lexparser/path_tree/ft_block.c \
 			lexparser/path_tree/ft_path_help.c \
 			lexparser/path_tree/ft_path.c
 
-EXEC = 				lexparser/exec/exec_init.c \
-			lexparser/exec/exec_core.c \
+EXEC = 				lexparser/exec/exec_core.c \
 			lexparser/exec/exec_utils.c \
 			lexparser/exec/path_parse.c
 
