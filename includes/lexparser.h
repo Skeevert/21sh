@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexparser.h                                           :+:      :+:    :+:   */
+/*   lexparser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vladlenaskubis <vladlenaskubis@student.    +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/18 15:04:04 by hshawand          #+#    #+#             */
-/*   Updated: 2020/07/25 14:49:08 by hshawand         ###   ########.fr       */
+/*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 18:25:42 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct stat		t_stat;
 # define ERR_R			0x20000000U
 # define ERR_CONT		0x08000000U
 # define ERR_OUT		0x10000000U
+
 /*
 ** Is used in before_execution.c
 */
@@ -45,17 +46,19 @@ typedef struct stat		t_stat;
 
 # define TMPL "tmp42sh_424242XXXXXX"
 
+# define P_TMPDIR P_tmpdir
 # ifndef P_tmpdir
-# define P_tmpdir "/tmp"
-#endif
+#  define P_TMPDIR "/tmp"
+# endif
 
+# define L_TMPNAM L_tmpnam
 # ifndef L_tmpnam
-# define L_tmpnam 20
-#endif
+#  define L_TMPNAM 20
+# endif
 
 # ifndef TMP_MAX
-# define TMP_MAX 2000
-#endif
+#  define TMP_MAX 2000
+# endif
 
 # define TMPFILE_TRY_SIZE TMP_MAX
 
@@ -89,14 +92,12 @@ typedef	struct			s_word_i
 ** Struct to save and work with techline
 */
 
-typedef struct  		s_tech
+typedef struct			s_tech
 {
-   char					*line;
-   size_t				len;
-   size_t				alloc_size;
-}               		t_tech;
-
-//TODO to fill
+	char				*line;
+	size_t				len;
+	size_t				alloc_size;
+}						t_tech;
 
 /*
 ** @l_cmd is
@@ -115,11 +116,11 @@ typedef struct  		s_tech
 ** FLAGS:
 ** 0x01 -- PIPED_OUTPUT
 ** 0x02 -- PIPED_INPUT
-** 0x04 -- REDIRECTION (It's kinda different, as we have to take fd from another place)
+** 0x04 -- REDIRECTION (as we have to take fd from another place)
 ** 0x08 -- IS_BG
 */
 
-typedef struct  		s_ltree
+typedef struct			s_ltree
 {
 	char				*l_cmd;
 	t_tech				l_tline;
@@ -133,29 +134,29 @@ typedef struct  		s_ltree
 	char				*token;
 	char				*err;
 	size_t				err_i;
-}              			t_ltree;
+}						t_ltree;
 
 /*
 ** Struct needs for list of redirections before exec
 */
 
-typedef struct  		s_fd
+typedef struct			s_fd
 {
 	int					fd_new;
 	int					fd_old;
-}              			t_fd_redir;
+}						t_fd_redir;
 
 /*
 ** Struct to save and work with PATH
 */
 
-typedef struct  		s_path
+typedef struct			s_path
 {
 	char				*name;
 	struct s_path		*next;
 	struct s_path		*prev;
 	char				flag;
-}               		t_path;
+}						t_path;
 
 /*
 ** Struct to save and work with here-docs
@@ -203,7 +204,7 @@ int						ltree_init(t_ltree *final);
 ** File slice_to_blocks.c
 */
 
-int 					ft_block_start(t_list **list);
+int						ft_block_start(t_list **list);
 int						ft_block_foward(t_ltree **sub, t_list **start);
 int						ft_block_add_to_list(t_ltree *block, t_list **list);
 int						ft_slice(void);
@@ -262,7 +263,6 @@ int						ft_redir_dgreat(t_ltree *final, int *i);
 int						ft_redir_greatand(t_ltree *final, int *i);
 int						ft_access_check(char **f_name, t_ltree *final,
 							int type);
-
 
 /*
 ** File redir_types_in.c
@@ -339,7 +339,7 @@ int						add_vars_to_genvi(t_ltree *sub, char **arg_tline);
 ** File backend_variables.c
 */
 
-int             		find_assignment_in_vars(char *sub, size_t var,
+int						find_assignment_in_vars(char *sub, size_t var,
 							size_t eq, size_t val);
 int						assignment_in_curv_var(t_ltree *sub,
 							char **line, char *oper, int *i);
@@ -364,7 +364,7 @@ int						insert_str_in_loc_strs(t_ltree *sub,
 ** File ft_find_var.c
 */
 
-int	   					ft_find_var(t_ltree *sub);
+int						ft_find_var(t_ltree *sub);
 int						ft_find_curv_var(t_ltree *sub);
 char					*ft_find_var_value(char **find);
 int						ft_param_empty(t_ltree *sub, char **find, int *i);
@@ -403,7 +403,7 @@ int						ft_substring_s_l_suffix(t_ltree *sub,
 int						ft_param_word_sub(t_ltree *sub,
 							char **line, char *oper, int *i);
 void					ft_one_ltree_clear(t_ltree *buf);
-int     				ft_param_error_msg(t_ltree *sub, char **find,
+int						ft_param_error_msg(t_ltree *sub, char **find,
 							char *oper);
 char					*ft_parsing_str(char *str);
 
@@ -481,7 +481,8 @@ int						ft_insert_prev(t_path **current,
 int						ft_insert_next(t_path **current,
 							t_path **parent, t_path **temp, size_t *len);
 int						ft_path_free(t_path **root);
-int						ft_input_builtins(t_path **root, size_t *len, char *find);
+int						ft_input_builtins(t_path **root, size_t *len,
+							char *find);
 
 /*
 ** File ft_block.c funcs to add and spend massive char **str of exe files

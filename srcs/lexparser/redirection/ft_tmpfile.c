@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:51:25 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 15:54:53 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 18:21:30 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	ft_init_tmp(int *len, int *fd, int *try, char *tmpl)
 	*len = ft_strlen(tmpl);
 	*fd = -1;
 	*try = -1;
-	if (*len < L_tmpnam || ft_strcmp(&tmpl[*len - 6], "XXXXXX"))
+	if (*len < L_TMPNAM || ft_strcmp(&tmpl[*len - 6], "XXXXXX"))
 		return (-1);
 	return (0);
 }
@@ -63,8 +63,8 @@ int			ft_tmpfile(char *tmpl, int *fd)
 		return (-1);
 	if ((tmp = find_env_value("TMPDIR")) != NULL)
 		tmp = ft_strjoin(tmp, tmpl);
-	else if (P_tmpdir)
-		tmp = ft_strjoin(P_tmpdir, tmpl);
+	else if (P_TMPDIR)
+		tmp = ft_strjoin(P_TMPDIR, tmpl);
 	xxx = (tmp != NULL) ? &tmp[len - 6] : NULL;
 	while (*fd < 0)
 	{

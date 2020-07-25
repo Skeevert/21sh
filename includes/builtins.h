@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                        :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vladlenaskubis <vladlenaskubis@student.    +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/16 13:45:45 by sschmele          #+#    #+#             */
-/*   Updated: 2020/03/25 17:08:25 by vladlenasku      ###   ########.fr       */
+/*   Created: 2020/07/25 17:52:46 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 17:53:00 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,5 @@ int				btin_unsetenv(t_ltree *pos);
 */
 
 int				btin_echo(t_ltree *pos);
-
 
 #endif

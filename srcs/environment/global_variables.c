@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:10:36 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 17:43:55 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 18:16:06 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int		save_environment_variable(int num, char **environ)
 				g_envi = ft_realloc_array(&g_envi, g_var_size, g_var_size * 2);
 				g_var_size *= 2;
 			}
-			g_envi[num] = (char*)ft_xmalloc((ft_strlen(environ[i]) + 2) * sizeof(char));
+			g_envi[num] = (char*)ft_xmalloc((ft_strlen(environ[i]) + 2) *
+				sizeof(char));
 			ft_strcpy(&g_envi[num][1], environ[i]);
 			g_envi[num][0] |= ENV_VIS;
 			g_envi[num][0] |= SET_VIS;
@@ -52,7 +53,8 @@ char	*ft_add_rdovar(char *first, char *scnd, int flag)
 {
 	char	*res;
 
-	res = (char*)ft_xmalloc((ft_strlen(first) + ft_strlen(scnd) + 2) * sizeof(char));
+	res = (char*)ft_xmalloc((ft_strlen(first) + ft_strlen(scnd) + 2) *
+		sizeof(char));
 	ft_strcpy(res + 1, first);
 	if (scnd)
 		ft_strcpy(res + ft_strlen(first) + 1, scnd);
@@ -71,7 +73,7 @@ int		save_readonly_variable(int num)
 	g_envi[num++] = ft_add_rdovar("?=0", NULL, 1);
 	g_envi[num++] = ft_add_rdovar("0=21sh", NULL, 1);
 	g_envi[num++] = ft_add_rdovar("NONINTERACTIVE_MODE=0", NULL, 1);
-	tmp = getcwd(NULL, MAXDIR);
+	tmp = getcwd(NULL, (size_t)MAXDIR);
 	g_envi[num++] = ft_add_rdovar("21SH=", tmp, 0);
 	free(tmp);
 	tmp = ft_itoa(getuid());
@@ -102,7 +104,7 @@ int		create_env(char **environ)
 {
 	int	num;
 
-	g_envi = (char**)ft_xmalloc(VAR_BUFFER * sizeof(char*));
+	g_envi = (char**)ft_xmalloc((size_t)VAR_BUFFER * sizeof(char*));
 	num = save_readonly_variable(0);
 	num = save_environment_variable(num, environ);
 	return (0);

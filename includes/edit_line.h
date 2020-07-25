@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   edit_line.h                                         :+:      :+:    :+:   */
+/*   edit_line.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vladlenaskubis <vladlenaskubis@student.    +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/11 15:03:22 by sschmele          #+#    #+#             */
-/*   Updated: 2020/03/28 01:22:11 by vladlenasku      ###   ########.fr       */
+/*   Created: 2020/07/25 17:55:46 by rbednar           #+#    #+#             */
+/*   Updated: 2020/07/25 17:57:31 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READLINE_H
-# define READLINE_H
+#ifndef EDIT_LINE_H
+# define EDIT_LINE_H
 
 # define TERMCAP_BUFF 	20
 # define CMD_SIZE		100
@@ -201,8 +201,8 @@ int							escd_cut_till_word_end(void);
 ** File jump_around_and_paste.c
 */
 
-int             			jump_up(void);
-int             			jump_down(void);
+int							jump_up(void);
+int							jump_down(void);
 int							ctrlae_jump_home_end(char c);
 int							ctrlp_paste(int mode, char *yank);
 int							paste_insert(char *paste_str);

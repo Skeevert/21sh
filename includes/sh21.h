@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 15:46:47 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 15:04:25 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 17:55:13 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,25 @@
 # include "edit_line.h"
 # include "builtins.h"
 
-# define 			MAX_HISTORY 500
-# define			MAXDIRLEN 256
-# define			EXIT_STATUS_LEN 10
-# define 			VAR_BUFFER 120
-# define			EXIT 21
+# define MAX_HISTORY 500
+# define MAXDIRLEN 256
+# define EXIT_STATUS_LEN 10
+# define VAR_BUFFER 120
+# define EXIT 21
 
 /*
 ** Flags for shell_variables
 */
 
-# define			ENV_VIS		0x1
-# define			SET_VIS		0x2
-# define			READONLY 	0x4
+# define ENV_VIS 0x1
+# define SET_VIS 0x2
+# define READONLY 0x4
 
 /*
 ** MAXDIR according to POSIX:  _POSIX_PATH_MAX
 */
 
-# define			MAXDIR 256
+# define MAXDIR 256
 
 typedef struct		s_prompt
 {
@@ -97,7 +97,7 @@ typedef struct		s_history
 enum				e_techline
 {
 	WORD_P = 1,
-	SPACE ,
+	SPACE,
 	BSLASH,
 	SCOLON,
 	AND,
