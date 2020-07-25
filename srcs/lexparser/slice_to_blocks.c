@@ -74,7 +74,7 @@ int		ft_block_start(t_list **list)
 				start = start->next;
 				continue ;
 			}
-			out_flag = exec_init(sub);
+			out_flag = exec_core(sub);
 		}
 		start = start->next;
 	}

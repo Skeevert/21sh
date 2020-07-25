@@ -496,12 +496,6 @@ void					ft_addpath(char *name, t_path **buf);
 */
 
 /*
-** File exec_init.c
-*/
-
-int						exec_init(t_ltree *pos);
-
-/*
 ** File exec_core.c
 */
 
