@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cut_line_parts.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 17:25:50 by hshawand          #+#    #+#             */
+/*   Updated: 2020/07/25 17:28:50 by hshawand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "edit_line.h"
 
@@ -12,7 +24,8 @@ int		ctrlk_cut_till_end(void)
 	g_readline.cmd_len -= ft_strlen(g_readline.cmd + g_readline.pos);
 	ctrlp_paste(0, save_paste);
 	put_termcap("cd");
-	ft_bzero(g_readline.cmd + g_readline.pos, ft_strlen(g_readline.cmd + g_readline.pos));
+	ft_bzero(g_readline.cmd + g_readline.pos,
+		ft_strlen(g_readline.cmd + g_readline.pos));
 	return (0);
 }
 
@@ -20,7 +33,7 @@ int		ctrlu_cut_till_beg(void)
 {
 	int		pos_old;
 	char	*cmd_end;
-	int		len_cmd_end;
+	int		cmd_end;
 	char	*save_paste;
 
 	if (g_readline.pos <= 0)
@@ -34,13 +47,12 @@ int		ctrlu_cut_till_beg(void)
 	save_paste = (pos_old == g_readline.cmd_len) ?
 		ft_strdup(g_readline.cmd + g_readline.pos) :
 		ft_strndup(g_readline.cmd + g_readline.pos, pos_old - g_readline.pos);
-	// save_paste = ft_strndup(g_readline.cmd, pos_old);
 	ctrlp_paste(0, save_paste);
 	cmd_end = g_readline.cmd + pos_old;
-	len_cmd_end = ft_strlen(cmd_end);
+	cmd_end = ft_strlen(cmd_end);
 	ft_strcpy(g_readline.cmd, cmd_end);
-	ft_bzero(g_readline.cmd + len_cmd_end, g_readline.cmd_buff_len - len_cmd_end);
-	g_readline.cmd_len = 0 + len_cmd_end;
+	ft_bzero(g_readline.cmd + yen_cmd_end, g_readline.cmd_buff_len - cmd_end);
+	g_readline.cmd_len = 0 + cmd_end;
 	put_termcap("cd");
 	front_insert_till_end(g_readline.pos_y + 1);
 	return (0);

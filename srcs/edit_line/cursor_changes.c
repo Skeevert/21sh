@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cursor_changes.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 17:14:34 by hshawand          #+#    #+#             */
+/*   Updated: 2020/07/25 17:15:43 by hshawand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "edit_line.h"
 
@@ -16,7 +28,7 @@ int		posx_for_newline(int nl_pos)
 	if (nl_pos > 0)
 		len -= 1;
 	else if (nl_pos == 0 && g_readline.cmd[nl_pos] != '\n')
-        len += g_prompt.prompt_len + 1;
+		len += g_prompt.prompt_len + 1;
 	if (len >= g_winsize.ws_col)
 		len = len % g_winsize.ws_col;
 	return (len);
@@ -103,13 +115,12 @@ int		front_move_char_left(int pos_x)
 ** @flag == 0 means "return position"
 */
 
-int		setjmp_cursor(int *pos, int *pos_x,
-			int *pos_y, int flag)
+int		setjmp_cursor(int *pos, int *pos_x, int *pos_y, int flag)
 {
 	static int		pos_save;
 	static int		pos_x_save;
 	static int		pos_y_save;
-	
+
 	if (flag == 1)
 	{
 		pos_save = *pos;

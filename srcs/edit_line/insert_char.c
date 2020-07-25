@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   insert_char.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 17:16:52 by hshawand          #+#    #+#             */
+/*   Updated: 2020/07/25 17:24:06 by hshawand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "edit_line.h"
 
@@ -14,7 +26,7 @@ int		add_char(char c, int flag)
 		undo(0);
 	g_readline.cmd_len++;
 	if (g_readline.cmd_len + 1 < 0 || g_readline.cmd_buff_len + 1 < 0)
-        return (EXIT);
+		return (EXIT);
 	insert_char(c);
 	return (0);
 }
@@ -27,7 +39,8 @@ int		insert_char(char c)
 	if (g_readline.cmd[g_readline.pos])
 	{
 		str = g_readline.cmd + g_readline.pos;
-		buff = (char *)ft_xmalloc(ft_strlen(g_readline.cmd + g_readline.pos) + 1);
+		buff = (char *)ft_xmalloc(ft_strlen(g_readline.cmd + g_readline.pos)
+			+ 1);
 		ft_strcpy(buff, str);
 		ft_strcpy(str + 1, buff);
 		free(buff);
@@ -51,8 +64,10 @@ int		front_insert_char(char c)
 {
 	write(STDOUT_FILENO, &c, 1);
 	if (c == '\n')
+	{
 		return (front_insert_newline(&g_readline.pos_x, &g_readline.pos_y,
-			&g_readline.str_num, &g_readline.flag));
+				&g_readline.str_num, &g_readline.flag));
+	}
 	if (g_readline.pos_x == g_winsize.ws_col - 1)
 	{
 		put_termcap("sf");
@@ -66,7 +81,7 @@ int		front_insert_char(char c)
 	else if (g_readline.pos_x == 0 && (g_readline.flag & NEW_LINE_SY))
 		g_readline.flag &= ~(NEW_LINE_SY);
 	if (g_readline.flag & PROMPTLEN_ZERO)
-        g_readline.flag &= ~(PROMPTLEN_ZERO);
+		g_readline.flag &= ~(PROMPTLEN_ZERO);
 	g_readline.pos_x++;
 	return (0);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   jump_around_and_paste.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 17:30:39 by hshawand          #+#    #+#             */
+/*   Updated: 2020/07/25 17:30:41 by hshawand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "edit_line.h"
 
@@ -8,7 +20,7 @@
 int		jump_up(void)
 {
 	int				pos_x_goal;
-	
+
 	if (g_readline.str_num < 2 || g_readline.pos_y == 0)
 		return (incorrect_seq());
 	pos_x_goal = g_readline.pos_x;
@@ -44,7 +56,8 @@ int		jump_down(void)
 
 	if (g_readline.str_num < 2 || g_readline.pos_y == g_readline.str_num - 1)
 		return (incorrect_seq());
-	pos_x_goal = (g_readline.pos_y == 0) ? g_readline.pos_x - g_prompt.prompt_len :
+	pos_x_goal = (g_readline.pos_y == 0) ?
+		g_readline.pos_x - g_prompt.prompt_len :
 		g_readline.pos_x;
 	flag = (pos_x_goal == 0) ? 1 : 0;
 	if (pos_x_goal == 0)
