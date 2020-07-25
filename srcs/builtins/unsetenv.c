@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   unsetenv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:43:04 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 22:51:28 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 14:39:10 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh21.h"
 #include "builtins.h"
 
-int			btin_unsetenv(t_ltree *pos)
+int		btin_unsetenv(t_ltree *pos)
 {
-	int	unused;
+	int		unused;
 	int		j;
 	int		i;
 
