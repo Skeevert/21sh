@@ -6,7 +6,7 @@
 /*   By: vladlenaskubis <vladlenaskubis@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 15:04:04 by hshawand          #+#    #+#             */
-/*   Updated: 2020/03/26 22:30:41 by vladlenasku      ###   ########.fr       */
+/*   Updated: 2020/07/25 14:49:08 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -494,12 +494,6 @@ void					ft_addpath(char *name, t_path **buf);
 /*
 ** Folder exec_________________________________________________________________
 */
-
-/*
-** File exec_init.c
-*/
-
-int						exec_init(t_ltree *pos);
 
 /*
 ** File exec_core.c

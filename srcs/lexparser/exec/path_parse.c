@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_parse.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 14:54:00 by hshawand          #+#    #+#             */
+/*   Updated: 2020/07/25 14:55:29 by hshawand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -58,8 +70,8 @@ char	*locate_file(char *env_path, t_ltree *pos)
 }
 
 /*
-** This is "just executable name case". We should check all directories in $PATH, find first match
-** and check its accessibility
+** This is "just executable name case". We should check all
+** directories in $PATH, find first match and check its accessibility
 */
 
 char	*path_search(t_ltree *pos)
