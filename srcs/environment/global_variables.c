@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:10:36 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 17:35:22 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/25 17:43:55 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ int		save_readonly_variable(int num)
 {
 	char	*tmp;
 
-	g_envi[num] = ft_add_rdovar("?=0", NULL, 1);
+	if (num < 0)
+		num = 0;
+	g_envi[num++] = ft_add_rdovar("?=0", NULL, 1);
 	g_envi[num++] = ft_add_rdovar("0=21sh", NULL, 1);
 	g_envi[num++] = ft_add_rdovar("NONINTERACTIVE_MODE=0", NULL, 1);
 	tmp = getcwd(NULL, MAXDIR);
