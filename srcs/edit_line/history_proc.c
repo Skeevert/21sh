@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   history_proc.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 17:16:09 by hshawand          #+#    #+#             */
+/*   Updated: 2020/07/25 17:16:30 by hshawand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "edit_line.h"
 
@@ -54,12 +66,12 @@ int		add_history_eof_cmd(char *cmd, int flag)
 	destruct_parser();
 	if (flag == EOF)
 	{
-			g_cmd = (char*)ft_xmalloc(ft_strlen(g_hist.cmd[g_hist.last]) + 2);
-			ft_strcpy(g_cmd, g_hist.cmd[g_hist.last]);
-			g_cmd = ft_straddsy(g_cmd, EOF);
+		g_cmd = (char*)ft_xmalloc(ft_strlen(g_hist.cmd[g_hist.last]) + 2);
+		ft_strcpy(g_cmd, g_hist.cmd[g_hist.last]);
+		g_cmd = ft_straddsy(g_cmd, EOF);
 	}
 	else
-			g_cmd = ft_strdup(g_hist.cmd[g_hist.last]);
+		g_cmd = ft_strdup(g_hist.cmd[g_hist.last]);
 	g_cmd_size = ft_strlen(g_cmd);
 	ft_get_techline(g_cmd, &g_techline);
 	return (0);

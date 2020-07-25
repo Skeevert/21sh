@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   jump_words.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 17:31:18 by hshawand          #+#    #+#             */
+/*   Updated: 2020/07/25 17:31:19 by hshawand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "edit_line.h"
 
@@ -42,7 +54,7 @@ int		word_left_onetwo_chars(void)
 	if (pos_old == 2)
 	{
 		if (front_move_char_left(g_readline.pos_x))
-				return (incorrect_seq());
+			return (incorrect_seq());
 		g_readline.pos--;
 	}
 	return (0);

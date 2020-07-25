@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompts.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 17:34:11 by hshawand          #+#    #+#             */
+/*   Updated: 2020/07/25 17:34:12 by hshawand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "edit_line.h"
 
@@ -18,7 +30,7 @@ int				main_prompt(void)
 int				heredoc_prompt(void)
 {
 	int			len;
-	
+
 	ft_putstr_fd("heredoc> ", STDOUT_FILENO);
 	len = 9;
 	g_prompt.prompt_len = prompt_len_by_winsize(len);
@@ -28,7 +40,7 @@ int				heredoc_prompt(void)
 int				other_prompt(void)
 {
 	int			len;
-	
+
 	ft_putstr_fd("> ", STDOUT_FILENO);
 	len = 2;
 	g_prompt.prompt_len = prompt_len_by_winsize(len);
@@ -38,7 +50,7 @@ int				other_prompt(void)
 int				route_exit(void)
 {
 	t_ltree	*pos;
-	
+
 	if (g_prompt.prompt_func == main_prompt)
 	{
 		pos = (t_ltree*)ft_xmalloc(sizeof(t_ltree));
@@ -64,7 +76,7 @@ int				route_exit(void)
 int				prompt_len_by_winsize(int len)
 {
 	int			new;
-	
+
 	if (len >= g_winsize.ws_col)
 		new = len % g_winsize.ws_col;
 	else

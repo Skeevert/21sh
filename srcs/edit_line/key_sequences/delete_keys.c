@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   delete_keys.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 17:29:18 by hshawand          #+#    #+#             */
+/*   Updated: 2020/07/25 17:29:19 by hshawand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "edit_line.h"
 
@@ -8,7 +20,7 @@ int		backspace_process(void)
 	char	*save_paste;
 
 	if (g_readline.pos <= 0)
-        return (incorrect_seq());
+		return (incorrect_seq());
 	undo(0);
 	save_paste = ft_strndup(g_readline.cmd + g_readline.pos - 1, 1);
 	ctrlp_paste(0, save_paste);
