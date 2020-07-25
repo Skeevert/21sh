@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_core.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
+/*   Updated: 2020/07/25 14:51:31 by hshawand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh21.h"
 #include "lexparser.h"
 
@@ -29,7 +41,7 @@ int		fork_and_exec(t_ltree *pos, char *path, pid_t *child_pid)
 	*child_pid = fork();
 	if (!*child_pid)
 	{
-		if (execve(path, pos->ar_v, pos->envir) == -1) //TODO испрвить на все виды очисток
+		if (execve(path, pos->ar_v, pos->envir) == -1)
 			exit(-1);
 	}
 	else if (*child_pid < 0)
