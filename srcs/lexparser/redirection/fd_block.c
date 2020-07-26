@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_block.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:55:22 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 14:25:46 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 18:18:22 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		ft_num_or_word_out(char **f_name, t_fd_redir *fd_open,
 		if (!(ft_strcmp(*f_name, "-")))
 			fd_open->fd_old = CLOSE;
 		else if ((fd_open->fd_old = open(*f_name, O_CREAT | O_WRONLY | O_TRUNC |
-			O_CLOEXEC | O_SYNC | O_NOCTTY, S_IRUSR | S_IWUSR)) == -1)
+			O_CLOEXEC | O_SYNC | O_NOCTTY, 00666)) == -1)
 			return (ft_access_check(f_name, final, W_OK));
 	}
 	else if ((final->err = ft_strdup(*f_name)) != NULL)

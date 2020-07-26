@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 13:24:26 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 17:55:31 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 18:17:29 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_find_redirection_do(t_ltree *final)
 int		ft_redir_great_do(t_ltree *final, t_fd_redir *fd)
 {
 	if ((fd->fd_old = open(fd->name, O_CREAT | O_RDWR | O_TRUNC |
-	O_CLOEXEC | O_NDELAY | O_NOCTTY, S_IWUSR)) == -1)
+	O_CLOEXEC | O_NDELAY | O_NOCTTY, 00666)) == -1)
 		return (ft_access_check(&fd->name, final, W_OK));
 	return (0);
 }
@@ -64,7 +64,7 @@ int		ft_redir_great_do(t_ltree *final, t_fd_redir *fd)
 int		ft_redir_dgreat_do(t_ltree *final, t_fd_redir *fd)
 {
 	if ((fd->fd_old = open(fd->name, O_CREAT | O_RDWR | O_APPEND |
-	O_CLOEXEC | O_NDELAY | O_NOCTTY, S_IWUSR)) == -1)
+	O_CLOEXEC | O_NDELAY | O_NOCTTY, 00666)) == -1)
 		return (ft_access_check(&fd->name, final, W_OK));
 	return (0);
 }
