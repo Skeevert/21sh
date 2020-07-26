@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:51:25 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 22:50:49 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 23:02:44 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ static int	ft_try_create_fd(char **tmp, int *fd, int len, char **xxx)
 	return (*fd);
 }
 
+static char	*add_slash(char **tmp, char *input, char *tmpl)
+{
+	*tmp = ft_strjoin(input, "/");
+	*tmp = ft_strrejoin(*tmp, tmpl);
+	return (*tmp);
+}
+
 /*
 ** Generate a temporary file name based on TMPL.  TMPL must match the
 ** rules for mk[s]temp (i.e. end in "XXXXXX").  The name constructed
@@ -62,15 +69,9 @@ int			ft_tmpfile(char *tmpl, int *fd)
 	if (ft_init_tmp(&len, fd, &try, tmpl) == -1)
 		return (-1);
 	if ((tmp = find_env_value("TMPDIR")) != NULL)
-	{
-		tmp = ft_strjoin(tmp, "/");
-		tmp = ft_strjoin(tmp, tmpl);
-	}
+		tmp = add_slash(&tmp, tmp, tmpl);
 	else if (P_TMPDIR)
-	{
-		tmp = ft_strjoin(P_TMPDIR, "/");
-		tmp = ft_strjoin(tmp, tmpl);
-	}
+		tmp = add_slash(&tmp, P_TMPDIR, tmpl);
 	xxx = (tmp != NULL) ? &tmp[len - 6] : NULL;
 	while (*fd < 0)
 	{
