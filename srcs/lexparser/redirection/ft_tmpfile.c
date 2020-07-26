@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tmpfile.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:51:25 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 18:21:30 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 22:50:49 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,15 @@ int			ft_tmpfile(char *tmpl, int *fd)
 	if (ft_init_tmp(&len, fd, &try, tmpl) == -1)
 		return (-1);
 	if ((tmp = find_env_value("TMPDIR")) != NULL)
+	{
+		tmp = ft_strjoin(tmp, "/");
 		tmp = ft_strjoin(tmp, tmpl);
+	}
 	else if (P_TMPDIR)
-		tmp = ft_strjoin(P_TMPDIR, tmpl);
+	{
+		tmp = ft_strjoin(P_TMPDIR, "/");
+		tmp = ft_strjoin(tmp, tmpl);
+	}
 	xxx = (tmp != NULL) ? &tmp[len - 6] : NULL;
 	while (*fd < 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:55:32 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 15:00:30 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 22:38:37 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char		*ft_word_to_redir(int *i, t_ltree *final, int rew_ff)
 
 	size = 0;
 	start = 0;
-	if (rew_ff == FF)
+	if (rew_ff == FF || rew_ff == HERE)
 	{
 		while (*i < final->end && final->l_tline.line[*i] == SPACE)
 			(*i)++;

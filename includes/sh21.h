@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh21.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 15:46:47 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 17:55:13 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 22:45:35 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 # include <pwd.h>
 # include <string.h>
 # include <fcntl.h>
-# include <stdlib.h>
 
 # include "errors_management.h"
 # include "libft.h"
