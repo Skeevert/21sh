@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_core.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/07/26 16:18:41 by hshawand         ###   ########.fr       */
+/*   Updated: 2020/07/27 01:03:07 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int		fork_and_exec(t_ltree *pos, char *path, pid_t *child_pid)
 	}
 	else if (*child_pid < 0)
 		return (exec_clean(&path, pos, -2));
-	wait(child_pid);
+	else if (!(pos->flags & PIPED_OUT))
+		wait(child_pid);
 	return (0);
 }
 
@@ -67,8 +68,8 @@ int		exec_core(t_ltree *pos)
 	if ((pos->flags & PIPED_OUT) && pipe(pipe_next) == -1)
 		ret = -1;
 	fd_list_process(pos, 0);
-	(pos->flags & PIPED_OUT) ? dup2(pipe_next[1], 1) : 0;
-	(pos->flags & PIPED_IN) ? dup2(pipe_prev, 0) : 0;
+	(pos->flags & PIPED_OUT) ? dup2(pipe_next[1], STDOUT_FILENO) : 0;
+	(pos->flags & PIPED_IN) ? dup2(pipe_prev, STDIN_FILENO) : 0;
 	if (ft_builtins_check(pos, 1) == -1)
 		!ret ? fork_and_exec(pos, path, &child_pid) : 0;
 	(pos->flags & PIPED_OUT) ? close(pipe_next[1]) : 0;

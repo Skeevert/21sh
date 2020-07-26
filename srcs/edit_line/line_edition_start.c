@@ -3,26 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   line_edition_start.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:32:31 by hshawand          #+#    #+#             */
-/*   Updated: 2020/07/25 17:32:32 by hshawand         ###   ########.fr       */
+/*   Updated: 2020/07/27 01:10:12 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh21.h"
 #include "edit_line.h"
-
-/*
-** First we check if 42sh program was launched in
-** the background. We compare the process group that
-** is considered as a controlling terminal owner with
-** the pid of the group we are in. If controlling terminal
-** does not belong to our group - we stop our group with
-** SIGTTIN signal. After we get back to the foreground,
-** we continue the work as thought we were launched in the
-** foreground from the very beginning.
-*/
 
 int		interactive_shell(void)
 {

@@ -6,12 +6,14 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 15:46:47 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 22:45:35 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/27 01:11:52 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH21_H
 # define SH21_H
+
+# define _DEFAULT_SOURCE 1
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -171,6 +173,7 @@ int					var_exit_status(int status);
 
 int					signals_define(int from);
 void				signal_ctrl_c_readline(int sig);
+void				signal_ctrl_c_exec(int sig);
 void				signal_screen(int sig);
 
 /*

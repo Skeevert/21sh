@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:08:20 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 17:05:42 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/27 01:11:34 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		signals_define(int from)
 	}
 	else if (from == 2)
 	{
-		signal(SIGINT, signal_ctrl_c_readline);
+		signal(SIGINT, signal_ctrl_c_exec);
 		signal(SIGTSTP, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGCONT, SIG_IGN);
@@ -39,6 +39,14 @@ void	signal_ctrl_c_readline(int sig)
 	ft_putchar_fd('\n', 1);
 	g_prompt.prompt_func = main_prompt;
 	g_prompt.prompt_func();
+	bzero_readline();
+}
+
+void	signal_ctrl_c_exec(int sig)
+{
+	sig = sig ? sig : sig;
+	ft_putchar_fd('\n', 1);
+	g_prompt.prompt_func = main_prompt;
 	bzero_readline();
 }
 
