@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   substitution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:02:15 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 16:06:16 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 15:02:32 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		before_add(t_ltree *sub, t_list **list)
 	pre_parsing_cut_glue(sub);
 	if (ft_check_null(sub, list) == EXIT)
 		return (EXIT);
-	if ((err = ft_find_redirection(sub)) & ERR_OUT)
+	if ((err = ft_find_redirection_check(sub)) & ERR_OUT)
 	{
 		if ((err) != ERR_TMPFILE)
 			ft_error_redir(sub);

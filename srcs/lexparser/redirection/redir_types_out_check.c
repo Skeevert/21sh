@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_types_out.c                                  :+:      :+:    :+:   */
+/*   redir_types_out_check.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:55:29 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 12:23:14 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 15:25:15 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,24 @@
 ** Function to detect "[n]>word"
 */
 
-int		ft_redir_great(t_ltree *final, int *i)
+int		ft_redir_great_check(t_ltree *final, int *i)
 {
-	t_fd_redir	fd_open;
-	char		*f_name;
+	t_fd_redir	fd;
 
-	f_name = NULL;
+	fd.name = NULL;
 	if (final->l_tline.line[*i] == GTHAN && (final->l_tline.line[*i + 1] !=
 		GTHAN && (final->l_tline.line[*i + 1] != AND ||
 		final->l_tline.line[*i + 1] == PIPE)))
 	{
-		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDOUT_FILENO);
-		ft_null_redir(final, *i, 1);
-		(*i)++;
-		if ((f_name = ft_word_to_redir(i, final, FF)) != NULL)
-		{
-			if ((fd_open.fd_old = open(f_name, O_CREAT | O_RDWR | O_TRUNC |
-			O_CLOEXEC | O_NDELAY | O_NOCTTY, S_IWUSR)) == -1)
-				return (ft_access_check(&f_name, final, W_OK));
-			else
-				add_redir_fd(final, &fd_open);
-		}
+		fd.type = GREAT;
+		fd.fd_new = ft_check_n_redir_op(*i, final, STDOUT_FILENO);
+		!ft_null_redir(final, *i, 1) ? (*i)++ : 0;
+		if ((fd.name = ft_word_to_redir(i, final, FF)) != NULL)
+			add_redir_fd(final, &fd);
 		else
 			return (final->flags |= ERR_OUT | ERR_REDIR << 16);
 	}
-	(f_name != NULL) ? free(f_name) : 0;
+	free(fd.name);
 	return (0);
 }
 
@@ -49,30 +42,24 @@ int		ft_redir_great(t_ltree *final, int *i)
 ** Function to detect ">>word" (write to end)
 */
 
-int		ft_redir_dgreat(t_ltree *final, int *i)
+int		ft_redir_dgreat_check(t_ltree *final, int *i)
 {
-	t_fd_redir	fd_open;
-	char		*f_name;
+	t_fd_redir	fd;
 
-	f_name = NULL;
+	fd.name = NULL;
 	if (final->l_tline.line[*i] == GTHAN &&
 		final->l_tline.line[*i + 1] == GTHAN)
 	{
-		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDOUT_FILENO);
+		fd.type = DGREAT;
+		fd.fd_new = ft_check_n_redir_op(*i, final, STDOUT_FILENO);
 		ft_null_redir(final, *i, 2);
 		(*i) += 2;
-		if ((f_name = ft_word_to_redir(i, final, FF)) != NULL)
-		{
-			if ((fd_open.fd_old = open(f_name, O_CREAT | O_RDWR | O_APPEND |
-				O_CLOEXEC | O_NDELAY | O_NOCTTY, S_IWUSR)) == -1)
-				return (ft_access_check(&f_name, final, W_OK));
-			else
-				add_redir_fd(final, &fd_open);
-		}
+		if ((fd.name = ft_word_to_redir(i, final, FF)) != NULL)
+			add_redir_fd(final, &fd);
 		else
 			return (final->flags |= ERR_OUT | ERR_REDIR << 16);
 	}
-	free(f_name);
+	free(fd.name);
 	return (0);
 }
 
@@ -81,24 +68,24 @@ int		ft_redir_dgreat(t_ltree *final, int *i)
 ** fcntl used to check access to write in fd
 */
 
-int		ft_redir_greatand(t_ltree *final, int *i)
+int		ft_redir_greatand_check(t_ltree *final, int *i)
 {
-	t_fd_redir	fd_open;
-	char		*f_name;
+	t_fd_redir	fd;
 
-	f_name = NULL;
+	fd.name = NULL;
 	if (final->l_tline.line[*i] == GTHAN &&
 		(final->l_tline.line[*i + 1] == AND))
 	{
-		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDOUT_FILENO);
+		fd.type = GREATAND;
+		fd.fd_new = ft_check_n_redir_op(*i, final, STDOUT_FILENO);
 		ft_null_redir(final, *i, 2);
 		(*i) += 2;
-		if ((f_name = ft_word_to_redir(i, final, FF)) != NULL)
-			return (ft_num_or_word_out(&f_name, &fd_open, final));
+		if ((fd.name = ft_word_to_redir(i, final, FF)) != NULL)
+			add_redir_fd(final, &fd);
 		else
 			return (final->flags |= ERR_REDIR << 16);
 	}
-	free(f_name);
+	free(fd.name);
 	return (0);
 }
 
@@ -114,8 +101,6 @@ int		ft_access_check(char **f_name, t_ltree *final, int type)
 	if (*f_name[0] != '/')
 	{
 		path = getcwd(NULL, MAXDIR);
-		if (path[0] == 0)
-			free(path);
 		ft_strcat(path, "/");
 		ft_strcat(path, *f_name);
 	}

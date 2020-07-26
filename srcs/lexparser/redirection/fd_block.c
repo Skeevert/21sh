@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_block.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:55:22 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 15:55:23 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 14:25:46 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int		add_redir_fd(t_ltree *final, t_fd_redir *redir)
 	fd_work = (t_fd_redir *)new->content;
 	fd_work->fd_new = redir->fd_new;
 	fd_work->fd_old = redir->fd_old;
+	fd_work->type = redir->type;
+	fd_work->name = ft_strdup(redir->name);
 	ft_add_list_to_end(&(final->fd), new);
 	return (0);
 }
@@ -100,12 +102,10 @@ int		ft_num_or_word_out(char **f_name, t_fd_redir *fd_open,
 	if ((fd_ret = ft_check_redir_op_n(*f_name, -1)) == -1)
 	{
 		if (!(ft_strcmp(*f_name, "-")))
-			(fd_open->fd_old = CLOSE) < 0 ? add_redir_fd(final, fd_open) : 0;
+			fd_open->fd_old = CLOSE;
 		else if ((fd_open->fd_old = open(*f_name, O_CREAT | O_WRONLY | O_TRUNC |
 			O_CLOEXEC | O_SYNC | O_NOCTTY, S_IRUSR | S_IWUSR)) == -1)
 			return (ft_access_check(f_name, final, W_OK));
-		else
-			add_redir_fd(final, fd_open);
 	}
 	else if ((final->err = ft_strdup(*f_name)) != NULL)
 	{
@@ -113,10 +113,8 @@ int		ft_num_or_word_out(char **f_name, t_fd_redir *fd_open,
 			!= O_WRONLY && (fd_open->fd_old & O_ACCMODE) != O_RDWR)
 			return (final->flags |= ERR_IN | ERR_R | ERR_FD << 16);
 		else
-			(fd_open->fd_old = fd_ret) >= 0 ?
-			add_redir_fd(final, fd_open) : 0;
+			fd_open->fd_old = fd_ret;
 	}
-	free(*f_name);
 	return (0);
 }
 
@@ -128,12 +126,10 @@ int		ft_num_or_word_in(char **f_name, t_fd_redir *fd_open,
 	if ((fd_ret = ft_check_redir_op_n(*f_name, -1)) == -1)
 	{
 		if (!(ft_strcmp(*f_name, "-")))
-			(fd_open->fd_old = CLOSE) < 0 ? add_redir_fd(final, fd_open) : 0;
+			fd_open->fd_old = CLOSE;
 		else if ((fd_open->fd_old = open(*f_name, O_RDONLY |
 			O_CLOEXEC | O_SYNC | O_NOCTTY)) == -1)
 			return (ft_access_check(f_name, final, R_OK));
-		else
-			add_redir_fd(final, fd_open);
 	}
 	else if ((final->err = ft_strdup(*f_name)) != NULL)
 	{
@@ -141,9 +137,7 @@ int		ft_num_or_word_in(char **f_name, t_fd_redir *fd_open,
 			!= O_RDONLY && (fd_open->fd_old & O_ACCMODE) != O_RDWR)
 			return (final->flags |= ERR_IN | ERR_R | ERR_FD << 16);
 		else
-			(fd_open->fd_old = fd_ret) >= 0 ?
-			add_redir_fd(final, fd_open) : 0;
+			fd_open->fd_old = fd_ret;
 	}
-	free(*f_name);
 	return (0);
 }

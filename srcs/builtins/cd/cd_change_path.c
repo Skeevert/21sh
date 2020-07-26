@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/26 23:20:07 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 22:13:32 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 15:28:09 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,11 @@ void	ft_change_pwd(char **path, t_ltree *pos)
 	{
 		buf = ft_strjoin("OLDPWD=", pos->envir[k] + j);
 		find_assignment_in_vars(buf, 0, ft_strchri(buf, '='), ft_strlen(buf));
+		free(buf);
 	}
 	buf = ft_strjoin("PWD=", *path);
 	find_assignment_in_vars(buf, 0, ft_strchri(buf, '='), ft_strlen(buf));
+	free(buf);
 }
 
 int		ft_change_path(char **path, t_ltree *pos)

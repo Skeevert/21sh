@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_types_in.c                                   :+:      :+:    :+:   */
+/*   redir_types_in_check.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:55:26 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 16:01:42 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 14:55:41 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,29 @@
 #include "lexparser.h"
 
 /*
-** Function to detect "[n]< word"
+** Function to detect "[n]<word"
 */
 
-int		ft_redir_less(t_ltree *final, int *i)
+int		ft_redir_less_check(t_ltree *final, int *i)
 {
-	t_fd_redir	fd_open;
-	char		*f_name;
+	t_fd_redir	fd;
 
-	f_name = NULL;
+	fd.name = NULL;
 	if (final->l_tline.line[*i] == LTHAN &&
 		(final->l_tline.line[*i + 1] != LTHAN &&
 		(final->l_tline.line[*i + 1] != AND ||
 		final->l_tline.line[*i + 1] == PIPE)))
 	{
-		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDIN_FILENO);
+		fd.type = LESS;
+		fd.fd_new = ft_check_n_redir_op(*i, final, STDIN_FILENO);
 		ft_null_redir(final, *i, 1);
 		(*i)++;
-		if ((f_name = ft_word_to_redir(i, final, FF)) != NULL)
-		{
-			if ((fd_open.fd_old = open(f_name, O_RDONLY | O_CLOEXEC |
-			O_NDELAY | O_NOCTTY, S_IRUSR)) == -1)
-				return (ft_access_check(&f_name, final, R_OK));
-			else
-				add_redir_fd(final, &fd_open);
-		}
+		if ((fd.name = ft_word_to_redir(i, final, FF)) != NULL)
+			add_redir_fd(final, &fd);
 		else
 			return (final->flags |= ERR_OUT | ERR_REDIR << 16);
 	}
-	free(f_name);
+	free(fd.name);
 	return (0);
 }
 
@@ -62,7 +56,7 @@ int		ft_redir_dless(t_ltree *final, int *i)
 		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDIN_FILENO);
 		ft_null_redir(final, *i, 2);
 		(*i) += 2;
-		if ((f_name = ft_word_to_redir(i, final, FF)) != NULL)
+		if ((f_name = ft_word_to_redir(i, final, FF)))
 			return (ft_heredoc_form(&fd_open, &f_name, final, 0));
 		else
 			return (final->flags |= ERR_OUT | ERR_REDIR << 16);
@@ -87,7 +81,7 @@ int		ft_redir_dless_min(t_ltree *final, int *i)
 		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDIN_FILENO);
 		ft_null_redir(final, *i, 3);
 		(*i) += 3;
-		if ((f_name = ft_word_to_redir(i, final, FF)) != NULL)
+		if ((f_name = ft_word_to_redir(i, final, FF)))
 			return (ft_heredoc_form(&fd_open, &f_name, final, MINUS));
 		else
 			return (final->flags |= ERR_OUT | ERR_REDIR << 16);
@@ -100,24 +94,24 @@ int		ft_redir_dless_min(t_ltree *final, int *i)
 ** Function to detect "[n]<&[m]" (input from fd or file if)
 */
 
-int		ft_redir_lessand(t_ltree *final, int *i)
+int		ft_redir_lessand_check(t_ltree *final, int *i)
 {
-	t_fd_redir	fd_open;
-	char		*f_name;
+	t_fd_redir	fd;
 
-	f_name = NULL;
+	fd.name = NULL;
 	if (final->l_tline.line[*i] == LTHAN &&
 		(final->l_tline.line[*i + 1] == AND))
 	{
-		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDIN_FILENO);
+		fd.type = LESSAND;
+		fd.fd_new = ft_check_n_redir_op(*i, final, STDIN_FILENO);
 		ft_null_redir(final, *i, 2);
 		(*i) += 2;
-		if ((f_name = ft_word_to_redir(i, final, FF)) != NULL)
-			return (ft_num_or_word_in(&f_name, &fd_open, final));
+		if ((fd.name = ft_word_to_redir(i, final, FF)) != NULL)
+			add_redir_fd(final, &fd);
 		else
 			return (final->flags |= ERR_OUT | ERR_REDIR << 16);
 	}
-	free(f_name);
+	free(fd.name);
 	return (0);
 }
 

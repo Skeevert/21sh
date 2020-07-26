@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexparser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 18:25:42 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 15:05:00 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,20 @@ typedef struct			s_fd
 {
 	int					fd_new;
 	int					fd_old;
+	int					type;
+	char				*name;
 }						t_fd_redir;
+
+enum					e_redir
+{
+	GREAT,
+	DGREAT,
+	GREATAND,
+	LESS,
+	DLESS,
+	DLESS_MIN,
+	LESSAND,
+};
 
 /*
 ** Struct to save and work with PATH
@@ -246,7 +259,7 @@ int						ft_tmpfile(char *template, int *fd);
 ** File redirect.c
 */
 
-int						ft_find_redirection(t_ltree *final);
+int						ft_find_redirection_check(t_ltree *final);
 char					*ft_word_to_redir(int *i, t_ltree *final,
 							int rew_ff);
 int						ft_word_to_redir_rew(int *i, t_ltree *final,
@@ -255,25 +268,41 @@ int						ft_null_redir(t_ltree *pos, size_t i, long long num);
 int						ft_error_redir(t_ltree *final);
 
 /*
-** File redir_types_out.c
+** File redir_types_out_check.c
 */
 
-int						ft_redir_great(t_ltree *final, int *i);
-int						ft_redir_dgreat(t_ltree *final, int *i);
-int						ft_redir_greatand(t_ltree *final, int *i);
+int						ft_redir_great_check(t_ltree *final, int *i);
+int						ft_redir_dgreat_check(t_ltree *final, int *i);
+int						ft_redir_greatand_check(t_ltree *final, int *i);
 int						ft_access_check(char **f_name, t_ltree *final,
 							int type);
 
 /*
-** File redir_types_in.c
+** File redir_types_out_do.c
 */
 
-int						ft_redir_less(t_ltree *final, int *i);
+int						ft_find_redirection_do(t_ltree *final);
+int						ft_redir_great_do(t_ltree *final, t_fd_redir *fd);
+int						ft_redir_dgreat_do(t_ltree *final, t_fd_redir *fd);
+int						ft_redir_greatand_do(t_ltree *final, t_fd_redir *fd);
+
+/*
+** File redir_types_in_check.c
+*/
+
+int						ft_redir_less_check(t_ltree *final, int *i);
 int						ft_redir_dless(t_ltree *final, int *i);
 int						ft_redir_dless_min(t_ltree *final, int *i);
-int						ft_redir_lessand(t_ltree *final, int *i);
+int						ft_redir_lessand_check(t_ltree *final, int *i);
 int						ft_heredoc_form(t_fd_redir *fd_open, char **f_name,
 						t_ltree *final, int flag);
+
+/*
+** File redir_types_in_do.c
+*/
+
+int						ft_redir_less_do(t_ltree *final, t_fd_redir *fd);
+int						ft_redir_lessand_do(t_ltree *final, t_fd_redir *fd);
 
 /*
 ** File fd_block.c

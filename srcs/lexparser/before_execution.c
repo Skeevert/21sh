@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   before_execution.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:09:37 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 16:11:26 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 13:45:01 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int			before_exec(t_ltree *sub)
 		ft_lst_ltree_clear(&g_start_list);
 		return (EXIT);
 	}
+	ft_find_redirection_do(sub);
 	if (sub->flags & ERR_R)
 		ft_error_redir(sub);
 	if (!sub->envir)

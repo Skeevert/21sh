@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/25 13:55:36 by rbednar           #+#    #+#              #
-#    Updated: 2020/07/25 14:46:32 by rbednar          ###   ########.fr        #
+#    Updated: 2020/07/26 13:25:08 by rbednar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,8 +71,10 @@ ASSIGNMENT =		lexparser/assignment/backend_variables.c \
 
 REDIRECTION = 		lexparser/redirection/redirect.c \
 			lexparser/redirection/ft_tmpfile.c \
-			lexparser/redirection/redir_types_out.c \
-			lexparser/redirection/redir_types_in.c \
+			lexparser/redirection/redir_types_out_check.c \
+			lexparser/redirection/redir_types_out_do.c \
+			lexparser/redirection/redir_types_in_check.c \
+			lexparser/redirection/redir_types_in_do.c \
 			lexparser/redirection/fd_block.c \
 			lexparser/redirection/here_doc.c \
 			lexparser/redirection/here_doc_buffer.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   param_help_func.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:02:12 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 16:03:34 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 14:34:33 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,20 @@ int		ft_param_word_sub(t_ltree *sub, char **line, char *oper, int *i)
 
 void	ft_one_ltree_clear(t_ltree *buf)
 {
+	t_list		*tmp;
+
 	if (buf)
 	{
 		free(buf->l_cmd);
 		free(buf->l_tline.line);
 		ft_arrdel(buf->envir);
 		ft_arrdel(buf->ar_v);
+		if ((tmp = buf->fd))
+			while (tmp)
+			{
+				free(((t_fd_redir *)(tmp->content))->name);
+				tmp = tmp->next;
+			}
 		ft_lstclear(&buf->fd);
 		free(buf->err);
 		free(buf->token);
