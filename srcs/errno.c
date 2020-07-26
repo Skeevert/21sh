@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errno.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:08:15 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 17:07:29 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 12:06:57 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int		errtypes_first(int errtype, char *name)
 		ft_putendl_fd(name, 2);
 		return (0);
 	}
-	ft_putstr_fd(name, 2);
+	if (errtype != ERR_SQUOTE && errtype != ERR_SYNTAX)
+		ft_putstr_fd(name, 2);
 	if (errtype == ERR_VAR_RDONLY)
 		ft_putendl_fd(": readonly variable", 2);
 	else if (errtype == ERR_VAR_UNSET)
