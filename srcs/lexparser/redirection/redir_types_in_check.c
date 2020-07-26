@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_types_in_check.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:55:26 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 14:55:41 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 19:15:17 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,22 @@ int		ft_redir_less_check(t_ltree *final, int *i)
 
 int		ft_redir_dless(t_ltree *final, int *i)
 {
-	t_fd_redir	fd_open;
-	char		*f_name;
+	t_fd_redir	fd;
 
-	f_name = NULL;
+	fd.name = NULL;
 	if (final->l_tline.line[*i] == LTHAN && final->l_tline.line[*i + 1] == LTHAN
 		&& final->l_cmd[*i + 2] != '-')
 	{
-		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDIN_FILENO);
+		fd.type = DLESS;
+		fd.fd_new = ft_check_n_redir_op(*i, final, STDIN_FILENO);
 		ft_null_redir(final, *i, 2);
 		(*i) += 2;
-		if ((f_name = ft_word_to_redir(i, final, FF)))
-			return (ft_heredoc_form(&fd_open, &f_name, final, 0));
+		if ((fd.name = ft_word_to_redir(i, final, HERE)))
+			return (ft_heredoc_form(&fd, &fd.name, final, 0));
 		else
 			return (final->flags |= ERR_OUT | ERR_REDIR << 16);
 	}
-	free(f_name);
+	free(fd.name);
 	return (0);
 }
 
@@ -71,22 +71,22 @@ int		ft_redir_dless(t_ltree *final, int *i)
 
 int		ft_redir_dless_min(t_ltree *final, int *i)
 {
-	t_fd_redir	fd_open;
-	char		*f_name;
+	t_fd_redir	fd;
 
-	f_name = NULL;
+	fd.name = NULL;
 	if (final->l_tline.line[*i] == LTHAN && final->l_tline.line[*i + 1] == LTHAN
 		&& final->l_cmd[*i + 2] == '-')
 	{
-		fd_open.fd_new = ft_check_n_redir_op(*i, final, STDIN_FILENO);
+		fd.type = DLESS_MIN;
+		fd.fd_new = ft_check_n_redir_op(*i, final, STDIN_FILENO);
 		ft_null_redir(final, *i, 3);
 		(*i) += 3;
-		if ((f_name = ft_word_to_redir(i, final, FF)))
-			return (ft_heredoc_form(&fd_open, &f_name, final, MINUS));
+		if ((fd.name = ft_word_to_redir(i, final, HERE)))
+			return (ft_heredoc_form(&fd, &fd.name, final, MINUS));
 		else
 			return (final->flags |= ERR_OUT | ERR_REDIR << 16);
 	}
-	free(f_name);
+	free(fd.name);
 	return (0);
 }
 

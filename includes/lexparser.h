@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 17:53:13 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 19:14:58 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ enum					e_way
 {
 	REW,
 	FF,
+	HERE,
 	CLOSE = -42,
 	MINUS = 5,
 	CONTINUE,
