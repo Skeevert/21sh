@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:55:32 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 16:00:56 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 12:36:20 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int			ft_null_redir(t_ltree *pos, size_t i, long long num)
 
 int			ft_error_redir(t_ltree *final)
 {
-	if ((final->flags >> 16 & 0x1FFF) == ERR_CMDEXEC)
-		errno(ERR_CMDEXEC, ERR_CMDEXEC, final->err);
+	if ((final->flags >> 16 & 0x1FFF) == ERR_NOACCESS)
+		errno(ERR_VARIABLE, ERR_NOACCESS, final->err);
 	else if ((final->flags >> 16 & 0x1FFF) == ERR_FD)
-		errno(ERR_CMDEXEC, ERR_FD, final->err);
+		errno(ERR_VARIABLE, ERR_FD, final->err);
 	else if ((final->flags >> 16 & 0x1FFF) == ERR_TMPFILE)
 		errno(ERR_TMPFILE, ERR_TMPFILE, final->err);
 	else if ((final->flags >> 16 & 0x1FFF) == ERR_NOFILEDIR)
