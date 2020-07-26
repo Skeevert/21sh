@@ -6,7 +6,7 @@
 /*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/07/25 19:18:05 by hshawand         ###   ########.fr       */
+/*   Updated: 2020/07/26 16:18:41 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		fork_and_exec(t_ltree *pos, char *path, pid_t *child_pid)
 int		exec_core(t_ltree *pos)
 {
 	pid_t			child_pid;
-	int				 ret;
+	int				ret;
 	char			*path;
 	static int		pipe_prev;
 	static int		pipe_next[2];
@@ -74,6 +74,6 @@ int		exec_core(t_ltree *pos)
 	(pos->flags & PIPED_OUT) ? close(pipe_next[1]) : 0;
 	(pos->flags & PIPED_IN) ? close(pipe_prev) : 0;
 	fd_list_process(pos, 1);
-	return (exec_clean(&path, pos, WIFEXITED(child_pid) && !ret  ? \
-	WEXITSTATUS(child_pid) : (ret)));
+	return (exec_clean(&path, pos, WIFEXITED(child_pid) && !ret ?
+		WEXITSTATUS(child_pid) : (ret)));
 }
