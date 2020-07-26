@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_types_out_do.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 13:24:26 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 15:15:31 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 17:55:31 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,32 @@
 ** Function to do redirectionsin block
 */
 
-int			ft_find_redirection_do(t_ltree *final)
+void	ft_find_redirection_do(t_ltree *final)
 {
 	t_list		*fd_list;
 	t_fd_redir	*redir;
-	int			ret;
 
 	fd_list = final->fd;
 	while (fd_list)
 	{
-		redir = (t_fd_redir *)fd_list->content;
+		redir = ((t_fd_redir *)fd_list->content);
 		if (redir->type == GREAT)
-			if ((ret = ft_redir_great_do(final, redir)))
-				return (ret);
+			if (ft_redir_great_do(final, redir))
+				break ;
 		if (redir->type == DGREAT)
-			if ((ret = ft_redir_dgreat_do(final, redir)))
-				return (ret);
+			if (ft_redir_dgreat_do(final, redir))
+				break ;
 		if (redir->type == GREATAND)
-			if ((ret = ft_redir_greatand_do(final, redir)))
-				return (ret);
+			if (ft_redir_greatand_do(final, redir))
+				break ;
 		if (redir->type == LESS)
-			if ((ret = ft_redir_less_do(final, redir)))
-				return (ret);
+			if (ft_redir_less_do(final, redir))
+				break ;
 		if (redir->type == LESSAND)
-			if ((ret = ft_redir_lessand_do(final, redir)))
-				return (ret);
+			if (ft_redir_lessand_do(final, redir))
+				break ;
 		fd_list = fd_list->next;
 	}
-	return (0);
 }
 
 /*

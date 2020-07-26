@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_types_out_check.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:55:29 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 15:25:15 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 17:44:30 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int		ft_access_check(char **f_name, t_ltree *final, int type)
 		ft_strcat(path, *f_name);
 	}
 	else
-		path = ft_strdup(*f_name);	
+		path = ft_strdup(*f_name);
 	final->err = *f_name;
 	if ((st = access(path, F_OK)) == -1)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexparser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 15:05:00 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/26 17:53:13 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,7 @@ int						ft_access_check(char **f_name, t_ltree *final,
 ** File redir_types_out_do.c
 */
 
-int						ft_find_redirection_do(t_ltree *final);
+void					ft_find_redirection_do(t_ltree *final);
 int						ft_redir_great_do(t_ltree *final, t_fd_redir *fd);
 int						ft_redir_dgreat_do(t_ltree *final, t_fd_redir *fd);
 int						ft_redir_greatand_do(t_ltree *final, t_fd_redir *fd);
