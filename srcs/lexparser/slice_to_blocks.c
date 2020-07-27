@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   slice_to_blocks.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:09:27 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 19:09:26 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/27 11:00:49 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int		ft_block_start(t_list **list)
 				start = start->next;
 				continue ;
 			}
-			out_flag = exec_core(sub);
+			out_flag = exec_core(sub, 0);
 		}
 		start = start->next;
 	}

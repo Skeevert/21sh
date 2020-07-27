@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 23:49:04 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/27 14:28:40 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ enum					e_way
 	FF,
 	HERE,
 	CLOSE = -42,
+	SAVE,
 	MINUS = 5,
 	CONTINUE,
 	LINE,
@@ -202,6 +203,7 @@ char					*g_cmd;
 size_t					g_cmd_size;
 t_tech					g_techline;
 t_here					g_heredoc;
+pid_t					g_child_pid;
 t_list					*g_start_list;
 
 /*
@@ -530,9 +532,10 @@ void					ft_addpath(char *name, t_path **buf);
 ** File exec_core.c
 */
 
-int						exec_core(t_ltree *pos);
+int						exec_core(t_ltree *pos, int ret);
 int						fork_and_exec(t_ltree *pos, char *path,
 							pid_t *child_pid);
+int						kill_pipe(t_ltree *pos, t_stack **stack, int *status);
 int						std_save(int mode);
 
 /*

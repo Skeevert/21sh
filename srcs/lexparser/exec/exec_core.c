@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/07/27 01:03:07 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/27 14:31:20 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,50 @@ int		std_save(int mode)
 	return (0);
 }
 
+int		kill_pipe(t_ltree *pos, t_stack **stack, int *status)
+{
+	if (!(pos->flags & PIPED_OUT) && (pos->flags & PIPED_IN))
+	{
+		while ((*stack)->data != 0)
+		{
+			kill((*stack)->data, SIGKILL);
+			waitpid((*stack)->data, status, 0);
+			ft_pop_stack(stack);
+		}
+		ft_clear_stack(stack);
+	}
+	return (0);
+}
+
 int		fork_and_exec(t_ltree *pos, char *path, pid_t *child_pid)
 {
+	static t_stack	*stack;
+	int				status;
+	
 	*child_pid = fork();
 	if (!*child_pid)
 	{
 		if (execve(path, pos->ar_v, pos->envir) == -1)
-			exit(-1);
+			_exit(-1);
 	}
 	else if (*child_pid < 0)
 		return (exec_clean(&path, pos, -2));
-	else if (!(pos->flags & PIPED_OUT))
-		wait(child_pid);
+	if (!(pos->flags & PIPED_OUT))
+		waitpid(*child_pid, &status, 0) != *child_pid ? status = -1 : 0;
+	else
+	{
+		if (!stack)
+			stack = ft_init_stack();
+		ft_push_stack(&stack, *child_pid);
+	}
+	kill_pipe(pos, &stack, &status);
+	*child_pid = status;
 	return (0);
 }
 
-int		exec_core(t_ltree *pos)
+int		exec_core(t_ltree *pos, int ret)
 {
 	pid_t			child_pid;
-	int				ret;
 	char			*path;
 	static int		pipe_prev;
 	static int		pipe_next[2];
