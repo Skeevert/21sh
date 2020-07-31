@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:52:46 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 17:53:00 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/31 22:23:12 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int				find_in_variables(char **arr, int *j, char *name);
 
 int				ft_change_path(char **path, t_ltree *pos);
 void			ft_change_pwd(char **path, t_ltree *pos);
+int				ft_add_varspwd(char **buf, char *find);
 int				ft_to_dir(char *path);
 int				ft_del_slash(char **str);
 

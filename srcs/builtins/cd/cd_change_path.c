@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/26 23:20:07 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 15:28:09 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/31 22:31:18 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,20 @@ int		ft_to_dir(char *path)
 	return (0);
 }
 
+int		ft_add_varspwd(char **buf, char *find)
+{
+	int		eq;
+	int		len;
+
+	len = ft_strlen(*buf);
+	eq = ft_strchri(*buf, '=');
+	find_assignment_in_vars(*buf, 0, eq, len);
+	eq = variable_search(&len, find);
+	g_envi[eq][0] |= ENV_VIS;
+	free(*buf);
+	return (0);
+}
+
 void	ft_change_pwd(char **path, t_ltree *pos)
 {
 	int		j;
@@ -54,18 +68,16 @@ void	ft_change_pwd(char **path, t_ltree *pos)
 	{
 		old = getcwd(NULL, 0);
 		buf = ft_strjoin("OLDPWD=", old);
-		find_assignment_in_vars(buf, 0, ft_strchri(buf, '='), ft_strlen(buf));
+		ft_add_varspwd(&buf, "OLDPWD");
 		free(old);
 	}
 	else
 	{
 		buf = ft_strjoin("OLDPWD=", pos->envir[k] + j);
-		find_assignment_in_vars(buf, 0, ft_strchri(buf, '='), ft_strlen(buf));
-		free(buf);
+		ft_add_varspwd(&buf, "OLDPWD");
 	}
 	buf = ft_strjoin("PWD=", *path);
-	find_assignment_in_vars(buf, 0, ft_strchri(buf, '='), ft_strlen(buf));
-	free(buf);
+	ft_add_varspwd(&buf, "PWD");
 }
 
 int		ft_change_path(char **path, t_ltree *pos)
