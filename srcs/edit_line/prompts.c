@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompts.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:34:11 by hshawand          #+#    #+#             */
-/*   Updated: 2020/07/25 17:34:12 by hshawand         ###   ########.fr       */
+/*   Updated: 2020/07/31 23:56:58 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int				route_exit(void)
 		if (g_readline.cmd_len >= g_readline.cmd_buff_len - 1)
 			realloc_readline_cmd();
 		g_readline.cmd = ft_straddsy(g_readline.cmd, EOF);
+		g_readline.cmd[0] == EOF ? ft_putchar_fd('\n', STDOUT_FILENO) : 0;
 		return (EXIT);
 	}
 	return (0);

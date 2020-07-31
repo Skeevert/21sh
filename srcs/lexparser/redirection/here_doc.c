@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:55:19 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/31 23:21:39 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/31 23:54:17 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int		ft_check_is_heredoc(int ret)
 int		ft_check_heredoc_end(void)
 {
 	t_list	*tmp;
-	int		i;
 	t_stop	*find;
+	int		i;
 
 	tmp = g_heredoc.list;
 	null_here_line();
@@ -97,7 +97,6 @@ int		ft_heredoc_fill(int ret)
 		}
 		tmp = tmp->next;
 	}
-	ft_putchar_fd('\n', STDOUT_FILENO);
 	recover_g_cmd_here();
 	ft_heredoc_rem();
 	g_prompt.prompt_func = main_prompt;
