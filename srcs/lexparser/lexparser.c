@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexparser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:08:41 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 19:51:05 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/31 22:52:49 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,11 @@ int		ltree_init(t_ltree *final)
 	final->token = NULL;
 	final->envir = NULL;
 	final->ar_v = NULL;
+	final->ar_c = 0;
 	final->err = NULL;
 	final->err_i = 0;
 	final->l_cmd = NULL;
 	final->l_tline.line = NULL;
+	final->l_tline.len = 0;
 	return (0);
 }

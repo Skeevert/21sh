@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/07/27 14:31:20 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/31 23:06:40 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int		fork_and_exec(t_ltree *pos, char *path, pid_t *child_pid)
 	int				status;
 	
 	*child_pid = fork();
+	status = 0;
 	if (!*child_pid)
 	{
 		if (execve(path, pos->ar_v, pos->envir) == -1)
@@ -100,6 +101,6 @@ int		exec_core(t_ltree *pos, int ret)
 	(pos->flags & PIPED_OUT) ? close(pipe_next[1]) : 0;
 	(pos->flags & PIPED_IN) ? close(pipe_prev) : 0;
 	fd_list_process(pos, 1);
-	return (exec_clean(&path, pos, WIFEXITED(child_pid) && !ret ?
-		WEXITSTATUS(child_pid) : (ret)));
+	return (exec_clean(&path, pos, (WIFEXITED(child_pid) && !ret) ?
+		WEXITSTATUS(child_pid) : ret));
 }
