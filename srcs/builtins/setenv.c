@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 18:43:04 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/31 22:11:57 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/07/31 22:42:26 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int			btin_setenv(t_ltree *pos)
 	int		i;
 	int		len;
 	int		eq;
-	char	find;
+	char	*find;
 
 	i = 1;
-	while (i <= pos->ar_c)
+	while (i < pos->ar_c)
 	{
 		pos->err_i = i;
 		len = ft_strlen(pos->ar_v[pos->err_i]);
