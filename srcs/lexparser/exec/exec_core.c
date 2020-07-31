@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/07/31 23:06:40 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/01 01:01:51 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,16 @@ int		kill_pipe(t_ltree *pos, t_stack **stack, int *status)
 {
 	if (!(pos->flags & PIPED_OUT) && (pos->flags & PIPED_IN))
 	{
-		while ((*stack)->data != 0)
+		if (*stack)
 		{
-			kill((*stack)->data, SIGKILL);
-			waitpid((*stack)->data, status, 0);
-			ft_pop_stack(stack);
+			while ((*stack)->data != 0)
+			{
+				kill((*stack)->data, SIGKILL);
+				waitpid((*stack)->data, status, 0);
+				ft_pop_stack(stack);
+			}
+			ft_clear_stack(stack);
 		}
-		ft_clear_stack(stack);
 	}
 	return (0);
 }
