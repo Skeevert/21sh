@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/01 01:01:51 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/01 02:05:19 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int		std_save(int mode)
 	}
 	else
 	{
-		dup2(save[0], 0);
-		dup2(save[1], 1);
-		dup2(save[2], 2);
+		dup2(save[0], STDIN_FILENO);
+		dup2(save[1], STDOUT_FILENO);
+		dup2(save[2], STDERR_FILENO);
 	}
 	return (0);
 }
@@ -96,9 +96,10 @@ int		exec_core(t_ltree *pos, int ret)
 	(pos->flags & PIPED_IN) ? (pipe_prev = pipe_next[0]) : 0;
 	if ((pos->flags & PIPED_OUT) && pipe(pipe_next) == -1)
 		ret = -1;
+	std_save(0);
+	(pos->flags & PIPED_OUT) ? dup2(pipe_next[1], 1) : 0;
+	(pos->flags & PIPED_IN) ? dup2(pipe_prev, 0) : 0;
 	fd_list_process(pos, 0);
-	(pos->flags & PIPED_OUT) ? dup2(pipe_next[1], STDOUT_FILENO) : 0;
-	(pos->flags & PIPED_IN) ? dup2(pipe_prev, STDIN_FILENO) : 0;
 	if (ft_builtins_check(pos, 1) == -1)
 		!ret ? fork_and_exec(pos, path, &child_pid) : 0;
 	(pos->flags & PIPED_OUT) ? close(pipe_next[1]) : 0;

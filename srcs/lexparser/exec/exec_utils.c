@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:52:35 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/01 00:41:37 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/01 02:08:30 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int		fd_list_process(t_ltree *pos, int mode)
 
 	if (!mode)
 	{
-		std_save(0);
 		fd_list = pos->fd;
 		while (fd_list)
 		{
@@ -76,10 +75,7 @@ int		fd_list_process(t_ltree *pos, int mode)
 			if (redir->fd_old != CLOSE)
 				dup2(redir->fd_old, redir->fd_new);
 			else
-			{
-				dup2(redir->fd_new, redir->fd_new);
 				close(redir->fd_new);
-			}
 			fd_list = fd_list->next;
 		}
 	}
