@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/08/01 19:21:23 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/01 19:43:20 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,6 @@ typedef struct stat		t_stat;
 # endif
 
 # define L_TMPNAM 20
-
-# ifndef TMP_MAX
-#  define TMP_MAX 2000
-# endif
 
 # define TMPFILE_TRY_SIZE 200
 

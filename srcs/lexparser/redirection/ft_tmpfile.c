@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:51:25 by rbednar           #+#    #+#             */
-/*   Updated: 2020/08/01 19:18:12 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/01 19:44:07 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ int			ft_tmpfile(char *tmpl, int *fd)
 
 	if (ft_init_tmp(&len, fd, &try, tmpl) == -1)
 		return (-1);
-	if ((tmp = find_env_value("TMPDIR")) != NULL)
-		tmp = add_slash(&tmp, tmp, tmpl);
-	else if (P_TMPDIR)
+	if (P_TMPDIR)
 		tmp = add_slash(&tmp, P_TMPDIR, tmpl);
 	xxx = (tmp != NULL) ? &tmp[len - 6] : NULL;
 	while (*fd < 0)
