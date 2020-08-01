@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexparser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/31 23:54:07 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/01 15:26:48 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,6 @@ char					*g_cmd;
 size_t					g_cmd_size;
 t_tech					g_techline;
 t_here					g_heredoc;
-pid_t					g_child_pid;
 t_list					*g_start_list;
 
 /*
