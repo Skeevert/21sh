@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/08/01 15:26:48 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/01 15:30:25 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ t_here					g_heredoc;
 t_list					*g_start_list;
 
 /*
-** File parser42.c
+** File lexparser.c
 */
 
 int						lexparser(char *line);
@@ -214,6 +214,16 @@ int						pars_lex_exec(void);
 int						ft_get_techline(char *cmd, t_tech *result);
 char					get_tech_num(char check);
 int						ltree_init(t_ltree *final);
+
+/*
+** File parser_processing.c
+*/
+
+int						shift_cmd_substitution(char **lcmd, int start,
+							int end, int len_subst);
+int						shift_techline_substitution(t_tech *tline, int start,
+							int end, int len_subst);
+void					clear_techline(t_tech *techline);
 
 /*
 ** File slice_to_blocks.c
