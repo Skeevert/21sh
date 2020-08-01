@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tmpfile.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:51:25 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 23:02:44 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/01 19:18:12 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ static int	ft_try_create_fd(char **tmp, int *fd, int len, char **xxx)
 
 static char	*add_slash(char **tmp, char *input, char *tmpl)
 {
-	*tmp = ft_strjoin(input, "/");
+	if (input[ft_strlen(input) - 1] != '/')
+		*tmp = ft_strjoin(input, "/");
+	else
+		*tmp = ft_strdup(input);
 	*tmp = ft_strrejoin(*tmp, tmpl);
 	return (*tmp);
 }
