@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_core.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/01 02:05:19 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/01 14:42:57 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		fork_and_exec(t_ltree *pos, char *path, pid_t *child_pid)
 {
 	static t_stack	*stack;
 	int				status;
-	
+
 	*child_pid = fork();
 	status = 0;
 	if (!*child_pid)
