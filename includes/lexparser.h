@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/08/01 18:05:50 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/01 19:10:04 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ typedef struct stat		t_stat;
 #  define P_TMPDIR "/tmp"
 # endif
 
-# define L_TMPNAM L_tmpnam
-# ifndef L_tmpnam
-#  define L_TMPNAM 20
-# endif
+# define L_TMPNAM 20
 
 # ifndef TMP_MAX
 #  define TMP_MAX 2000

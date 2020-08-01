@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 15:55:26 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 19:15:17 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/01 18:47:51 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int		ft_heredoc_form(t_fd_redir *fd_open, char **f_name, t_ltree *final,
 	if (g_prompt.prompt_func == main_prompt)
 	{
 		if (ft_tmpfile(TMPL, &fd_open->fd_old) == -1)
-			return (final->flags |= ERR_OUT | ERR_TMPFILE);
+			return (final->flags |= ERR_OUT | ERR_TMPFILE << 16);
 		add_redir_fd(final, fd_open);
 		g_heredoc.stop.stop_w = *f_name;
 		g_heredoc.stop.fd = fd_open->fd_old;
