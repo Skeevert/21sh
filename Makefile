@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+         #
+#    By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/25 13:55:36 by rbednar           #+#    #+#              #
-#    Updated: 2020/07/26 13:25:08 by rbednar          ###   ########.fr        #
+#    Updated: 2020/08/01 17:43:58 by rbednar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

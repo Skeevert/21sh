@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/08/01 15:30:25 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/01 18:05:50 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -498,32 +498,6 @@ int						ansi_table_check(char *symbol, int *i, t_ltree *sub);
 int						ansi_esc_symbols(char *symbol, int *i, t_ltree *sub);
 int						ansi_esc_hex_symbols(char *symbol, int *i,
 							t_ltree *sub);
-
-/*
-** Folder path_tree____________________________________________________________
-*/
-
-/*
-** File ft_path.c
-*/
-
-char					**ft_path_pars(char *find, char *path,
-							size_t *total, int *size_max);
-void					ft_get_path(char *name, t_path **root,
-							size_t *len, char *find);
-void					insert(char *dp_name, t_path **root, size_t *len);
-
-/*
-** File ft_path_help.c
-*/
-
-int						ft_insert_prev(t_path **current,
-							t_path **parent, t_path **temp, size_t *len);
-int						ft_insert_next(t_path **current,
-							t_path **parent, t_path **temp, size_t *len);
-int						ft_path_free(t_path **root);
-int						ft_input_builtins(t_path **root, size_t *len,
-							char *find);
 
 /*
 ** File ft_block.c funcs to add and spend massive char **str of exe files
