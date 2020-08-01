@@ -6,7 +6,7 @@
 #    By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/25 13:55:36 by rbednar           #+#    #+#              #
-#    Updated: 2020/08/01 17:43:58 by rbednar          ###   ########.fr        #
+#    Updated: 2020/08/01 18:13:02 by rbednar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,16 +38,11 @@ LEXPARSER = 		lexparser/lexparser.c \
 			lexparser/slice_to_blocks.c \
 			lexparser/before_execution.c \
 			lexparser/parser_processing.c \
-			$(PATH_TREE) \
 			$(EXEC) \
 			$(QUOTING) \
 			$(SUBSTITUTION) \
 			$(ASSIGNMENT) \
 			$(REDIRECTION)
-
-PATH_TREE = 		lexparser/path_tree/ft_block.c \
-			lexparser/path_tree/ft_path_help.c \
-			lexparser/path_tree/ft_path.c
 
 EXEC = 				lexparser/exec/exec_core.c \
 			lexparser/exec/exec_utils.c \
