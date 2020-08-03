@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_core.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/01 14:42:57 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/03 18:02:25 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		kill_pipe(t_ltree *pos, t_stack **stack, int *status)
 		{
 			while ((*stack)->data != 0)
 			{
-				kill((*stack)->data, SIGKILL);
+				kill((*stack)->data, SIGPIPE);
 				waitpid((*stack)->data, status, 0);
 				ft_pop_stack(stack);
 			}
