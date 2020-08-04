@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexparser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/08/01 19:43:20 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/04 03:11:09 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -510,7 +510,7 @@ void					ft_addpath(char *name, t_path **buf);
 
 int						exec_core(t_ltree *pos, int ret);
 int						fork_and_exec(t_ltree *pos, char *path,
-							pid_t *child_pid);
+							pid_t *child_pid, int fd[3]);
 int						kill_pipe(t_ltree *pos, t_stack **stack, int *status);
 int						std_save(int mode);
 
