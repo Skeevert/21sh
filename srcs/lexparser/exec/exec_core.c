@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/04 13:51:14 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/04 14:19:50 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ void	fork_func(t_ltree *pos, char *path, int fd[3])
 		dup2(fd[0], STDIN_FILENO);
 	}
 	fd_list_process(pos, 0);
+	if ((pos->flags & PIPED_IN) || (pos->flags & PIPED_OUT))
+	{
+		if ((pos->end = ft_builtins_check(pos, 1)) != -1)
+				_exit(pos->end);
+	}
 	if (execve(path, pos->ar_v, pos->envir) == -1)
 		_exit(-1);
 }
@@ -123,7 +128,9 @@ int		exec_core(t_ltree *pos, int ret)
 	std_save(0);
 	fd[1] = pipe_next[0];
 	fd[2] = pipe_next[1];
-	if (ft_builtins_check(pos, 1) == -1)
+	if ((pos->flags & PIPED_IN) || (pos->flags & PIPED_OUT))
+		!ret ? fork_and_exec(pos, path, &child_pid, fd) : 0;
+	else if (ft_builtins_check(pos, 1) == -1)
 		!ret ? fork_and_exec(pos, path, &child_pid, fd) : 0;
 	fd_list_process(pos, 1);
 	return (exec_clean(&path, pos, (WIFEXITED(child_pid) && !ret) ?
