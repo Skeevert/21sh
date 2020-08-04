@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/04 14:21:49 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/04 14:44:14 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,18 @@ int		std_save(int mode)
 	return (0);
 }
 
-int		kill_pipe(t_ltree *pos, t_stack **stack, int *status)
+int		kill_pipe(t_ltree *pos, t_stack **stack)
 {
+	int status;
+
+	status = 0;
 	if (!(pos->flags & PIPED_OUT) && (pos->flags & PIPED_IN))
 	{
 		if (*stack)
 		{
 			while ((*stack)->data != 0)
 			{
-				waitpid((*stack)->data, status, 0);
+				waitpid((*stack)->data, &status, 0);
 				ft_pop_stack(stack);
 			}
 			ft_clear_stack(stack);
@@ -104,7 +107,7 @@ int		fork_and_exec(t_ltree *pos, char *path, pid_t *child_pid, int fd[3])
 			stack = ft_init_stack();
 		ft_push_stack(&stack, *child_pid);
 	}
-	kill_pipe(pos, &stack, &status);
+	kill_pipe(pos, &stack);
 	*child_pid = status;
 	return (0);
 }
