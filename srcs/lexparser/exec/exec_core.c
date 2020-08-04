@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/04 14:44:14 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/04 14:48:18 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int		kill_pipe(t_ltree *pos, t_stack **stack)
 				ft_pop_stack(stack);
 			}
 			ft_clear_stack(stack);
-			signal(SIGTTIN, SIG_DFL);
 		}
 	}
 	return (0);
