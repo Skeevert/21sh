@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/04 14:19:50 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/04 14:21:49 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	fork_func(t_ltree *pos, char *path, int fd[3])
 	if ((pos->flags & PIPED_IN) || (pos->flags & PIPED_OUT))
 	{
 		if ((pos->end = ft_builtins_check(pos, 1)) != -1)
-				_exit(pos->end);
+			_exit(pos->end);
 	}
 	if (execve(path, pos->ar_v, pos->envir) == -1)
 		_exit(-1);
