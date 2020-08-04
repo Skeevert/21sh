@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/04 04:06:30 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/04 13:31:54 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int		exec_core(t_ltree *pos, int ret)
 	if (ft_builtins_check(pos, 0) == -1 && !(path = path_init(pos, &path)))
 		ret = -2;
 	if (pos->flags & PIPED_IN)
-		(fd[0]= pipe_next[0]);
+		(fd[0] = pipe_next[0]);
 	if ((pos->flags & PIPED_OUT) && pipe(pipe_next) == -1)
 		ret = -1;
 	std_save(0);
