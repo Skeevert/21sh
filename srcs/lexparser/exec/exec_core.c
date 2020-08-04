@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/04 03:46:10 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/04 04:06:30 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int		kill_pipe(t_ltree *pos, t_stack **stack, int *status)
 		{
 			while ((*stack)->data != 0)
 			{
-				// kill((*stack)->data, SIGPIPE);
 				waitpid((*stack)->data, status, 0);
 				ft_pop_stack(stack);
 			}
@@ -55,51 +54,47 @@ int		kill_pipe(t_ltree *pos, t_stack **stack, int *status)
 	return (0);
 }
 
+void	fork_func(t_ltree *pos, char *path, int fd[3])
+{
+	if ((pos->flags & PIPED_OUT) && !(pos->flags & PIPED_IN))
+	{
+		close(fd[1]);
+		dup2(fd[2], STDOUT_FILENO);
+	}
+	else if ((pos->flags & PIPED_IN) && !(pos->flags & PIPED_OUT))
+	{
+		close(fd[2]);
+		dup2(fd[0], STDIN_FILENO);
+	}
+	else if ((pos->flags & PIPED_IN) && (pos->flags & PIPED_OUT))
+	{
+		close(fd[1]);
+		dup2(fd[2], STDOUT_FILENO);
+		dup2(fd[0], STDIN_FILENO);
+	}
+	fd_list_process(pos, 0);
+	if (execve(path, pos->ar_v, pos->envir) == -1)
+		_exit(-1);
+}
+
 int		fork_and_exec(t_ltree *pos, char *path, pid_t *child_pid, int fd[3])
 {
 	static t_stack	*stack;
 	int				status;
 
 	status = 0;
-	*child_pid = fork();
-	if (!*child_pid)
-	{
-		if ((pos->flags & PIPED_OUT) && !(pos->flags & PIPED_IN))
-		{
-			close(fd[1]);
-			dup2(fd[2], STDOUT_FILENO);
-			close(fd[2]);
-		}
-		else if ((pos->flags & PIPED_IN) && !(pos->flags & PIPED_OUT))
-		{
-			close(fd[2]);
-			dup2(fd[0], STDIN_FILENO);
-			close(fd[0]);
-		}
-		else if ((pos->flags & PIPED_IN) && (pos->flags & PIPED_OUT))
-		{
-			close(fd[1]);
-			dup2(fd[2], STDOUT_FILENO);
-			close(fd[2]);
-			dup2(fd[0], STDIN_FILENO);
-			close(fd[0]);
-		}
-		fd_list_process(pos, 0);
-		if (execve(path, pos->ar_v, pos->envir) == -1)
-			_exit(-1);
-	}
+	if (!(*child_pid = fork()))
+		fork_func(pos, path, fd);
 	else if (*child_pid < 0)
 		return (exec_clean(&path, pos, -2));
+	if (pos->flags & PIPED_OUT)
+		close(fd[2]);
+	if ((pos->flags & PIPED_OUT) && (pos->flags & PIPED_IN))
+		close(fd[1]);
+	if (pos->flags & PIPED_IN)
+		close(fd[0]);
 	if (!(pos->flags & PIPED_OUT))
-	{
-		if (pos->flags & PIPED_OUT)
-			close(fd[2]);
-		if ((pos->flags & PIPED_OUT) && (pos->flags & PIPED_IN))
-			close(fd[1]);
-		if (pos->flags & PIPED_IN)
-			close(fd[0]);
 		waitpid(*child_pid, &status, 0) != *child_pid ? status = -1 : 0;
-	}
 	else
 	{
 		if (!stack)
@@ -115,9 +110,8 @@ int		exec_core(t_ltree *pos, int ret)
 {
 	pid_t			child_pid;
 	char			*path;
-	static int		pipe_prev;
 	static int		pipe_next[2];
-	int				fd[3];
+	static int		fd[3];
 
 	path = NULL;
 	child_pid = 0;
@@ -125,22 +119,14 @@ int		exec_core(t_ltree *pos, int ret)
 	if (ft_builtins_check(pos, 0) == -1 && !(path = path_init(pos, &path)))
 		ret = -2;
 	if (pos->flags & PIPED_IN)
-		(pipe_prev = pipe_next[0]);
+		(fd[0]= pipe_next[0]);
 	if ((pos->flags & PIPED_OUT) && pipe(pipe_next) == -1)
 		ret = -1;
 	std_save(0);
-	fd[0] = pipe_prev;
 	fd[1] = pipe_next[0];
 	fd[2] = pipe_next[1];
-
 	if (ft_builtins_check(pos, 1) == -1)
 		!ret ? fork_and_exec(pos, path, &child_pid, fd) : 0;
-	if (pos->flags & PIPED_OUT)
-		close(pipe_next[1]);
-	if ((pos->flags & PIPED_OUT) && (pos->flags & PIPED_IN))
-		close(pipe_next[0]);
-	if (pos->flags & PIPED_IN)
-		close(pipe_prev);
 	fd_list_process(pos, 1);
 	return (exec_clean(&path, pos, (WIFEXITED(child_pid) && !ret) ?
 		WEXITSTATUS(child_pid) : ret));
