@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/04 13:31:54 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/04 13:51:14 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ int		fork_and_exec(t_ltree *pos, char *path, pid_t *child_pid, int fd[3])
 		return (exec_clean(&path, pos, -2));
 	if (pos->flags & PIPED_OUT)
 		close(fd[2]);
-	if ((pos->flags & PIPED_OUT) && (pos->flags & PIPED_IN))
-		close(fd[1]);
 	if (pos->flags & PIPED_IN)
 		close(fd[0]);
 	if (!(pos->flags & PIPED_OUT))
