@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:52:35 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/01 02:08:30 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/05 17:37:07 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int		ft_builtins_check(t_ltree *pos, int flag)
 		{
 			if (flag)
 			{
+				if (!(pos->flags & PIPED_IN) && !(pos->flags & PIPED_OUT))	
+					fd_list_process(pos, 0);
 				exit = g_builtins_func[i](pos);
 				var_exit_status(exit);
 			}
