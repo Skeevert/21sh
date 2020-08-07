@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:52:35 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/07 20:15:52 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/07 21:20:33 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,17 @@
 
 int		exec_clean(char **path, t_ltree *pos, int exit_status)
 {
-	if ((exit_status == -2) && (pos->flags) != ERR_CMDEXEC)
-		errno(ERR_CMDNOTFOUND, ERR_NOCMD, *pos->ar_v);
+	if (exit_status == -2)
+	{
+		if (pos->err_i == ERR_ISDIR)
+			errno(ERR_CMDEXEC, ERR_ISDIR, *pos->ar_v);
+		else if (pos->err_i == ERR_CMDEXEC)
+			errno(ERR_CMDEXEC, ERR_CMDEXEC, *pos->ar_v);
+		else if (pos->err_i == ERR_NOFILEDIR)
+			errno(ERR_CMDNOTFOUND, ERR_NOFILEDIR, *pos->ar_v);
+		else
+			errno(ERR_CMDNOTFOUND, ERR_NOCMD, *pos->ar_v);
+	}
 	else if (exit_status == -1)
 		errno(ERR_PIPE, ERR_PIPE, *pos->ar_v);
 	if (path && *path)

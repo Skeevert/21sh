@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errno.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:08:15 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/26 12:06:57 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/07 21:34:44 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,20 @@ int		errno(int status, int errtype, char *name)
 		ft_putendl_fd("terminal does not exist or can't be changed", 2);
 	else if (status == ERR_TMPFILE)
 		ft_putendl_fd("can't open a temporal file", 2);
-	else if (errtype == ERR_CMDEXEC)
+	else if (errtype == ERR_CMDEXEC || errtype == ERR_ISDIR ||
+		errtype == ERR_PIPE)
+		errtypes_prefirst(errtype, name);
+	else
+	{
+		errtypes_first(errtype, name);
+		errtypes_second(errtype, name);
+	}
+	return (var_exit_status(status & 0x7F));
+}
+
+int		errtypes_prefirst(int errtype, char *name)
+{
+	if (errtype == ERR_CMDEXEC)
 	{
 		ft_putstr_fd(name, 2);
 		ft_putendl_fd(": Permission denied", 2);
@@ -36,9 +49,7 @@ int		errno(int status, int errtype, char *name)
 	}
 	else if (errtype == ERR_PIPE)
 		ft_putendl_fd("Pipe failed", 2);
-	errtypes_first(errtype, name);
-	errtypes_second(errtype, name);
-	return (var_exit_status(status & 0x7F));
+	return (0);
 }
 
 int		errtypes_first(int errtype, char *name)
