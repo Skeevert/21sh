@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   jump_around_and_paste.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:30:39 by hshawand          #+#    #+#             */
-/*   Updated: 2020/07/25 17:30:41 by hshawand         ###   ########.fr       */
+/*   Updated: 2020/08/07 20:41:23 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,22 @@ int		ctrlae_jump_home_end(char c)
 
 	if (c == '\001')
 	{
+		if (g_readline.cmd_len == 0 || g_readline.pos <= 0 ||
+				g_readline.pos > g_readline.cmd_len)
+			return (0);
 		pos_old = 0;
 		return_cursor_to_position(pos_old, 'l');
 	}
 	else
 	{
+		if (g_readline.cmd_len == 0 || g_readline.pos < 0 ||
+				g_readline.pos > g_readline.cmd_len)
+			return (0);
 		pos_old = g_readline.cmd_len - 1;
-		return_cursor_to_position(pos_old, 'r');
+		if (g_readline.pos < g_readline.cmd_len)
+			return_cursor_to_position(pos_old, 'r');
+		else
+			return_cursor_to_position(pos_old, 'l');
 	}
 	return (0);
 }
