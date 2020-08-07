@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_core.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:50:54 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/04 14:52:41 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/07 20:09:05 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,6 @@ int		fork_and_exec(t_ltree *pos, char *path, pid_t *child_pid, int fd[3])
 		fork_func(pos, path, fd);
 	else if (*child_pid < 0)
 		return (exec_clean(&path, pos, -2));
-	if (pos->flags & PIPED_OUT)
-		close(fd[2]);
-	if (pos->flags & PIPED_IN)
-		close(fd[0]);
 	if (!(pos->flags & PIPED_OUT))
 		waitpid(*child_pid, &status, 0) != *child_pid ? status = -1 : 0;
 	else
@@ -131,6 +127,10 @@ int		exec_core(t_ltree *pos, int ret)
 		!ret ? fork_and_exec(pos, path, &child_pid, fd) : 0;
 	else if (ft_builtins_check(pos, 1) == -1)
 		!ret ? fork_and_exec(pos, path, &child_pid, fd) : 0;
+	if (pos->flags & PIPED_OUT)
+		close(fd[2]);
+	if (pos->flags & PIPED_IN)
+		close(fd[0]);
 	fd_list_process(pos, 1);
 	return (exec_clean(&path, pos, (WIFEXITED(child_pid) && !ret) ?
 		WEXITSTATUS(child_pid) : ret));
