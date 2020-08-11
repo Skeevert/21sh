@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hshawand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:54:00 by hshawand          #+#    #+#             */
-/*   Updated: 2020/07/25 14:55:29 by hshawand         ###   ########.fr       */
+/*   Updated: 2020/08/07 21:36:14 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,15 +113,15 @@ char	*path_init(t_ltree *pos, char **ret)
 	else
 	{
 		if (access(*pos->ar_v, X_OK) == -1 || stat(*pos->ar_v, &stat_buf) != 0
-		|| (stat_buf.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)) == 0 ||
-		S_ISREG(stat_buf.st_mode) == 0)
-			pos->flags |= ERR_CMDEXEC;
-		if (pos->flags & ERR_CMDEXEC)
+			|| (stat_buf.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)) == 0 ||
+			S_ISREG(stat_buf.st_mode) == 0)
 		{
 			if (stat(*pos->ar_v, &stat_buf) == 0 && S_ISDIR(stat_buf.st_mode))
-				errno(ERR_CMDEXEC, ERR_ISDIR, *pos->ar_v);
+				pos->err_i = ERR_ISDIR;
+			else if (S_ISREG(stat_buf.st_mode))
+				pos->err_i = ERR_CMDEXEC;
 			else
-				errno(ERR_CMDEXEC, ERR_CMDEXEC, *pos->ar_v);
+				pos->err_i = ERR_NOFILEDIR;
 			return (NULL);
 		}
 		*ret = ft_strdup(*pos->ar_v);

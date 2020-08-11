@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_management.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:07:58 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/22 18:14:36 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/07 21:26:53 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ enum				e_exit
 	ERR_CMDEXEC = 126,
 	ERR_CMDNOTFOUND,
 	ERR_SYNTAX = 258,
-	ERR_ISDIR,
-	ERR_PIPE
+	ERR_ISDIR = 256,
+	ERR_PIPE = 384
 };
 
 enum				e_errtype

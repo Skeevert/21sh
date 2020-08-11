@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh21.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 15:46:47 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/27 01:11:52 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/07 21:34:31 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ void				signal_screen(int sig);
 */
 
 int					errno(int status, int errtype, char *str);
+int					errtypes_prefirst(int errtype, char *name);
 int					errtypes_first(int errtype, char *name);
 int					errtypes_second(int errtype, char *name);
 int					exit_status_variable(void);
