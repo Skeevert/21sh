@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:02:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/08/11 22:00:08 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/11 23:55:37 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ char	*ft_find_var_value(char **find)
 
 	res = ft_strdup(find_env_value(*find));
 	free(*find);
+	*find = NULL;
 	return (res);
 }
 
@@ -89,14 +90,18 @@ int		ft_param_empty(t_ltree *sub, char **find, int *i)
 	size_t	size;
 
 	size = ft_strlen(*find);
-	if ((tmp = ft_find_var_value(find)) != NULL)
+	if (size != 0 && (tmp = ft_find_var_value(find)) != NULL)
 	{
 		ft_reglue(i, size + 2, sub);
 		insert_str_in_loc_strs(sub, &tmp, i, TEXT);
 	}
+	else if (size == 0)
+	{
+		sub->err = ft_strjoin(*find, ": bad substitution\n");
+		return (sub->err_i = ERR_OUT);
+	}
 	else
 		ft_reglue(i, size + 3, sub);
-	return (0);
 }
 
 int		ft_error_vars(t_ltree *sub, int err, char *msg)
@@ -105,8 +110,11 @@ int		ft_error_vars(t_ltree *sub, int err, char *msg)
 	sub->err_i |= err;
 	if (msg)
 		sub->err = ft_strdup(msg);
-	if (!(sub->err_i & ERR_VAR_UNSET << 9 || sub->err_i & ERR_VAR_SET << 9))
+	if (((sub->err_i & 0x1ff) == ERR_VARIABLE) &&
+		!(sub->err_i & ERR_VAR_UNSET << 9 || sub->err_i & ERR_VAR_SET << 9))
 		sub->err_i |= ERR_VAR_RDONLY << 9;
+	else
+		sub->err_i |= ERR_VARIABLE;
 	errno(ERR_VARIABLE, 0xFF & sub->err_i >> 9, sub->err);
 	return (err);
 }
