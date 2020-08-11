@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:52:35 by hshawand          #+#    #+#             */
-/*   Updated: 2020/08/11 21:21:13 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/11 21:36:06 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		ft_builtins_check(t_ltree *pos, int flag)
 	int	exit;
 
 	i = 0;
-	while (g_builtins[i])
+	while (g_builtins[i] && pos->ar_v[0])
 	{
 		if (!ft_strcmp(pos->ar_v[0], g_builtins[i]))
 		{
