@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:02:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/08/12 20:54:14 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/12 21:01:39 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int		ft_param_empty(t_ltree *sub, char **find, int *i)
 	}
 	else
 		ft_reglue(i, size + 3, sub);
+	return (0);
 }
 
 void	ft_error_vars(t_ltree *sub, int err, char *msg)
