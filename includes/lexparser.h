@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/08/12 20:47:26 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/12 20:54:24 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ typedef struct			s_ltree
 	char				**envir;
 	char				**ar_v;
 	int					ar_c;
-	int					flags;
+	size_t				flags;
 	char				*token;
 	char				*err;
 	size_t				err_i;
