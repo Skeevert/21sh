@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexparser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbednar <rbednar@student.21school.ru>      +#+  +:+       +#+        */
+/*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 17:58:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/08/04 14:43:36 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/12 20:47:26 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -402,7 +402,7 @@ int						ft_find_var(t_ltree *sub);
 int						ft_find_curv_var(t_ltree *sub);
 char					*ft_find_var_value(char **find);
 int						ft_param_empty(t_ltree *sub, char **find, int *i);
-int						ft_error_vars(t_ltree *sub, int err, char *msg);
+void					ft_error_vars(t_ltree *sub, int err, char *msg);
 
 /*
 ** File ft_curv_var.c

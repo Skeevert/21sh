@@ -6,7 +6,7 @@
 /*   By: rbednar <rbednar@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:02:06 by rbednar           #+#    #+#             */
-/*   Updated: 2020/07/25 16:02:43 by rbednar          ###   ########.fr       */
+/*   Updated: 2020/08/12 20:49:28 by rbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int		ft_param_empty(t_ltree *sub, char **find, int *i)
 	return (0);
 }
 
-int		ft_error_vars(t_ltree *sub, int err, char *msg)
+void	ft_error_vars(t_ltree *sub, int err, char *msg)
 {
 	sub->flags |= ERR_OUT;
 	sub->err_i |= err;
@@ -106,5 +106,4 @@ int		ft_error_vars(t_ltree *sub, int err, char *msg)
 	if (!(sub->err_i & ERR_VAR_UNSET << 9 || sub->err_i & ERR_VAR_SET << 9))
 		sub->err_i |= ERR_VAR_RDONLY << 9;
 	errno(ERR_VARIABLE, 0xFF & sub->err_i >> 9, sub->err);
-	return (err);
 }
